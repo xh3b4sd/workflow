@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"io"
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
@@ -11,8 +10,6 @@ import (
 
 type runner struct {
 	logger logger.Interface
-	stdout io.Writer
-	stderr io.Writer
 }
 
 func (r *runner) Run(cmd *cobra.Command, args []string) error {
