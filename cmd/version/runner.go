@@ -3,7 +3,7 @@ package version
 import (
 	"context"
 	"fmt"
-	"io"
+	"os"
 	"runtime"
 
 	"github.com/spf13/cobra"
@@ -15,8 +15,6 @@ import (
 
 type runner struct {
 	logger logger.Interface
-	stdout io.Writer
-	stderr io.Writer
 }
 
 func (r *runner) Run(cmd *cobra.Command, args []string) error {
@@ -31,12 +29,12 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 }
 
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
-	fmt.Fprintf(r.stdout, "Git Commit    %s\n", project.GitSHA())
-	fmt.Fprintf(r.stdout, "Go Version    %s\n", runtime.Version())
-	fmt.Fprintf(r.stdout, "Go Arch       %s\n", runtime.GOARCH)
-	fmt.Fprintf(r.stdout, "Go OS         %s\n", runtime.GOOS)
-	fmt.Fprintf(r.stdout, "Source        %s\n", project.Source())
-	fmt.Fprintf(r.stdout, "Version       %s\n", project.Version())
+	fmt.Fprintf(os.Stdout, "Git Commit    %s\n", project.GitSHA())
+	fmt.Fprintf(os.Stdout, "Go Version    %s\n", runtime.Version())
+	fmt.Fprintf(os.Stdout, "Go Arch       %s\n", runtime.GOARCH)
+	fmt.Fprintf(os.Stdout, "Go OS         %s\n", runtime.GOOS)
+	fmt.Fprintf(os.Stdout, "Source        %s\n", project.Source())
+	fmt.Fprintf(os.Stdout, "Version       %s\n", project.Version())
 
 	return nil
 }

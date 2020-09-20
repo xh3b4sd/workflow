@@ -2,7 +2,6 @@ package completion
 
 import (
 	"context"
-	"io"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -12,8 +11,6 @@ import (
 
 type runner struct {
 	logger logger.Interface
-	stdout io.Writer
-	stderr io.Writer
 }
 
 func (r *runner) Run(cmd *cobra.Command, args []string) error {
