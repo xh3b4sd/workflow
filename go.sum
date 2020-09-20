@@ -89,6 +89,8 @@ github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1
 github.com/ugorji/go v1.1.4/go.mod h1:uQMGLiO92mf5W77hV/PUCpI3pbzQx3CRekS0kk+RGrc=
 github.com/xh3b4sd/logger v0.1.0 h1:DvVatSUzxR7HUp4lobiN1w9OsYm9zxWWU3qHtamAIeU=
 github.com/xh3b4sd/logger v0.1.0/go.mod h1:/N0hUMWFAc+R0CUtZSp+4yyfOGbhh4ivgffOFFut5bU=
+github.com/xh3b4sd/logger v0.1.1 h1:Cfv5ew2xZpEAbGsmv3ZlDZnBjvDi7l1UMR5Gk3oJfHU=
+github.com/xh3b4sd/logger v0.1.1/go.mod h1:W3PRbtLNBgtpRPOcVjIp+VfIQZdEppR4BeGvaJhI7sY=
 github.com/xh3b4sd/tracer v0.1.0 h1:xn4d9Obtlf9jelOpF4sB+Mzzeqq1IxR0DIZPGWJ9ztM=
 github.com/xh3b4sd/tracer v0.1.0/go.mod h1:Pgt+EIdfyhhFVYwJhDNKJGUhPTJTPWjc19xAyaKuTME=
 github.com/xh3b4sd/tracer v0.2.0 h1:0GJutLo6KsyxB6PEAMmPiVEG9S4yS6MExj+gnhbEikU=
