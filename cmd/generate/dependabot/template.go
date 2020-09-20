@@ -20,7 +20,8 @@ updates:
     interval: "daily"
     time: "04:00"
   target-branch: "master"
-{{- end }}`
+{{- end }}
+`
 
 const templateGoModTidy = `#
 # Do not edit. This file was generated via the workflow command line tool.
