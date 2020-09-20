@@ -9,17 +9,17 @@ const templateDependabot = `#
 version: 2
 updates:
 {{ range $e := . }}
-- package-ecosystem: "{{ $e.Name }}"
-  directory: "/"
-  open-pull-requests-limit: 10
-  reviewers:
+  - package-ecosystem: "{{ $e.Name }}"
+    directory: "/"
+    open-pull-requests-limit: 10
+    reviewers:
 {{- range $r := $e.Reviewers }}
-  - "{{ $r }}"
+      - "{{ $r }}"
 {{- end }}
-  schedule:
-    interval: "daily"
-    time: "04:00"
-  target-branch: "master"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+    target-branch: "master"
 {{ end }}`
 
 const templateGoModTidy = `#
@@ -39,6 +39,7 @@ jobs:
   fix:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout Git Project
         uses: actions/checkout@v2
 
