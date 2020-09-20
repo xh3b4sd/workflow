@@ -1,10 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
@@ -16,16 +17,14 @@ import (
 func main() {
 	err := mainE(context.Background())
 	if err != nil {
-		mErr, ok := tracer.Cause(err).(*tracer.Error)
-		if ok && mErr.Desc != "" {
-			fmt.Println(strings.Title(err.Error()))
-			fmt.Println()
-			fmt.Println("    " + mErr.Desc)
-			fmt.Println()
-			os.Exit(1)
-		} else {
-			panic(tracer.JSON(err))
+		b := &bytes.Buffer{}
+		err := json.Indent(b, []byte(tracer.JSON(tracer.Mask(err))), "", "    ")
+		if err != nil {
+			panic(err)
 		}
+		fmt.Println(b.String())
+
+		os.Exit(1)
 	}
 }
 

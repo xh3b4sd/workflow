@@ -2,6 +2,7 @@ package dependabot
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/xh3b4sd/tracer"
 )
 
 type flag struct {
@@ -13,5 +14,9 @@ func (f *flag) Init(cmd *cobra.Command) {
 }
 
 func (f *flag) Validate() error {
+	if len(f.Reviewers) == 0 {
+		return tracer.Maskf(invalidFlagError, "-r/--reviewers must not be empty")
+	}
+
 	return nil
 }
