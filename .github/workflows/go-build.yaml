@@ -22,7 +22,7 @@ jobs:
           go-version: '1.14.1'
 
       - name: Check Go Dependencies
-        run: test -z "$(go mod tidy 2>&1 >/dev/null)"
+        run: go mod tidy && git diff --exit-code
 
       - name: Check Go Tests
         run: go test ./...
