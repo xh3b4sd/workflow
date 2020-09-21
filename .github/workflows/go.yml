@@ -1,10 +1,9 @@
-name: build-go-project
+name: go
 
 on: push
 
 jobs:
-  build-go-project:
-    name: Build Go Project
+  build:
     runs-on: ubuntu-latest
     steps:
 
@@ -15,6 +14,15 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.14.1'
-
+        
+      - name: Check Code Formatting
+        run: test -z $(gofmt -l .) || gofmt -d .
+        
       - name: Run Go Tests
         run: go test ./...
+
+        
+      - name: Run Code Linters
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.31
