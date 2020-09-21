@@ -11,7 +11,7 @@ name: go-build
 on: push
 
 jobs:
-  run:
+  go-build:
     runs-on: ubuntu-latest
     steps:
 
@@ -24,7 +24,7 @@ jobs:
           go-version: '1.14.1'
 
       - name: Check Go Dependencies
-        run: test -z "$(go mod tidy 2>&1)"
+        run: go mod tidy && git diff --exit-code
 
       - name: Check Go Tests
         run: go test ./...
