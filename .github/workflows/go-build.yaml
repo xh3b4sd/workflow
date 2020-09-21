@@ -4,8 +4,6 @@
 #     workflow generate dependabot
 #
 
-name: go-build
-
 on: push
 
 jobs:

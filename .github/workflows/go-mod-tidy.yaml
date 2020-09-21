@@ -4,8 +4,6 @@
 #     workflow generate dependabot
 #
 
-name: go-mod-tidy
-
 on:
   push:
     branches:
