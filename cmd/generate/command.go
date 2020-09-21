@@ -6,6 +6,7 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
+	"github.com/xh3b4sd/workflow/cmd/generate/golang"
 )
 
 const (
@@ -36,6 +37,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var golangCmd *cobra.Command
+	{
+		c := golang.Config{
+			Logger: config.Logger,
+		}
+
+		golangCmd, err = golang.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var c *cobra.Command
 	{
 		r := &runner{
@@ -50,6 +63,7 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		c.AddCommand(dependabotCmd)
+		c.AddCommand(golangCmd)
 	}
 
 	return c, nil
