@@ -14,14 +14,17 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.14.1'
-        
-      - name: Check Code Formatting
-        run: test -z $(gofmt -l -s .)
-        
-      - name: Run Go Tests
+
+      - name: Check Go Dependencies
+        run: test -z "$(go mod tidy 2>&1)"
+
+      - name: Check Go Tests
         run: go test ./...
-        
-      - name: Run Code Linters
+
+      - name: Check Go Formatting
+        run: test -z $(gofmt -l -s .)
+
+      - name: Check Go Linters
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.31

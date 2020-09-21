@@ -36,7 +36,7 @@ on:
       - 'dependabot/**'
 
 jobs:
-  fix:
+  run:
     runs-on: ubuntu-latest
     steps:
 
