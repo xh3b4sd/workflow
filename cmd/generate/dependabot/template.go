@@ -36,7 +36,7 @@ on:
       - 'dependabot/**'
 
 jobs:
-  fix:
+  go-mod-tidy:
     runs-on: ubuntu-latest
     steps:
 

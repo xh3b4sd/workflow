@@ -1,4 +1,6 @@
-#
+package golang
+
+const templateGolang = `#
 # Do not edit. This file was generated via the workflow command line tool.
 #
 #     workflow generate dependabot
@@ -34,3 +36,4 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.31
+`
