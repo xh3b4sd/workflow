@@ -16,7 +16,7 @@ jobs:
           go-version: '1.14.1'
         
       - name: Check Code Formatting
-        run: test -z $(gofmt -l .) || gofmt -d .
+        run: test -z $(gofmt -l -s .) || gofmt -d .
         
       - name: Run Go Tests
         run: go test ./...
