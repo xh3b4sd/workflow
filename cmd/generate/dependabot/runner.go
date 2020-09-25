@@ -35,6 +35,39 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func (r *runner) data() interface{} {
+	type Ecosystem struct {
+		Name      string
+		Reviewers []string
+	}
+
+	var data []Ecosystem
+	{
+		if file.Exists("Dockerfile") {
+			data = append(data, Ecosystem{
+				Name:      "docker",
+				Reviewers: r.flag.Reviewers,
+			})
+		}
+
+		{
+			data = append(data, Ecosystem{
+				Name:      "github-actions",
+				Reviewers: r.flag.Reviewers,
+			})
+		}
+
+		if file.Exists("go.mod") && file.Exists("go.sum") {
+			data = append(data, Ecosystem{
+				Name:      "gomod",
+				Reviewers: r.flag.Reviewers,
+			})
+		}
+	}
+
+	return data
+}
+
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
 	{
 		p := ".github/workflows/"
@@ -75,37 +108,4 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	}
 
 	return nil
-}
-
-func (r *runner) data() interface{} {
-	type Ecosystem struct {
-		Name      string
-		Reviewers []string
-	}
-
-	var data []Ecosystem
-	{
-		if file.Exists("Dockerfile") {
-			data = append(data, Ecosystem{
-				Name:      "docker",
-				Reviewers: r.flag.Reviewers,
-			})
-		}
-
-		{
-			data = append(data, Ecosystem{
-				Name:      "github-actions",
-				Reviewers: r.flag.Reviewers,
-			})
-		}
-
-		if file.Exists("go.mod") && file.Exists("go.sum") {
-			data = append(data, Ecosystem{
-				Name:      "gomod",
-				Reviewers: r.flag.Reviewers,
-			})
-		}
-	}
-
-	return data
 }

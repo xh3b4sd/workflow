@@ -1,7 +1,7 @@
 package project
 
 var (
-	description = "command line tool for generating github workflows"
+	description = "Command line tool for generating github workflows."
 	gitSHA      = "n/a"
 	name        = "workflow"
 	source      = "https://github.com/xh3b4sd/workflow"
