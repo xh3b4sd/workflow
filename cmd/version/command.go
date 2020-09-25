@@ -8,7 +8,7 @@ import (
 
 const (
 	name        = "version"
-	description = "print version information"
+	description = "Print version information of this command line tool."
 )
 
 type Config struct {

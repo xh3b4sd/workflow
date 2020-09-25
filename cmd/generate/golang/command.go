@@ -8,7 +8,7 @@ import (
 
 const (
 	name        = "golang"
-	description = "generate a golang workflow for e.g. running tests and checking formatting"
+	description = "Generate a golang workflow for e.g. running tests and checking formatting."
 )
 
 type Config struct {
@@ -22,7 +22,10 @@ func New(config Config) (*cobra.Command, error) {
 
 	var c *cobra.Command
 	{
+		f := &flag{}
+
 		r := &runner{
+			flag:   f,
 			logger: config.Logger,
 		}
 
@@ -32,6 +35,8 @@ func New(config Config) (*cobra.Command, error) {
 			Long:  description,
 			RunE:  r.Run,
 		}
+
+		f.Init(c)
 	}
 
 	return c, nil

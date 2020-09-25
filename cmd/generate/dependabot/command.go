@@ -8,7 +8,7 @@ import (
 
 const (
 	name        = "dependabot"
-	description = "generate a dependabot workflow for e.g. golang and docker"
+	description = "Generate a dependabot workflow for e.g. golang and docker."
 )
 
 type Config struct {
