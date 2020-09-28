@@ -5,13 +5,14 @@ import (
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
 
+	"github.com/xh3b4sd/workflow/cmd/generate/credentials"
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
 )
 
 const (
 	name        = "generate"
-	description = "generate workflows and actions"
+	description = "Generate workflows and required assets."
 )
 
 type Config struct {
@@ -24,6 +25,18 @@ func New(config Config) (*cobra.Command, error) {
 	}
 
 	var err error
+
+	var credentialsCmd *cobra.Command
+	{
+		c := credentials.Config{
+			Logger: config.Logger,
+		}
+
+		credentialsCmd, err = credentials.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
 
 	var dependabotCmd *cobra.Command
 	{
@@ -62,6 +75,7 @@ func New(config Config) (*cobra.Command, error) {
 			RunE:  r.Run,
 		}
 
+		c.AddCommand(credentialsCmd)
 		c.AddCommand(dependabotCmd)
 		c.AddCommand(golangCmd)
 	}

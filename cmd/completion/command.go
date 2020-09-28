@@ -8,7 +8,7 @@ import (
 
 const (
 	name             = "completion"
-	shortDescription = "generate shell completions"
+	shortDescription = "Generate shell completions."
 	longDescription  = `Generating zsh completion for Oh My Zsh can be done by writing the
 generated completion to the custom plugin folder.
 
