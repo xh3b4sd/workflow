@@ -1,7 +1,8 @@
 package dependabot
 
 const templateDependabot = `#
-# Do not edit. This file was generated via the workflow command line tool.
+# Do not edit. This file was generated via the workflow command line tool. More
+# information the tool can be found at github.com/xh3b4sd/workflow.
 #
 #     workflow generate dependabot
 #
@@ -23,7 +24,8 @@ updates:
 {{ end }}`
 
 const templateGoModTidy = `#
-# Do not edit. This file was generated via the workflow command line tool.
+# Do not edit. This file was generated via the workflow command line tool. More
+# information the tool can be found at github.com/xh3b4sd/workflow.
 #
 #     workflow generate dependabot
 #

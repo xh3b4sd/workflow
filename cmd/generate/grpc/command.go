@@ -1,4 +1,4 @@
-package credentials
+package grpc
 
 import (
 	"github.com/spf13/cobra"
@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	name        = "credentials"
-	description = "Generate deploy keys for e.g. push access to repositories."
+	name        = "protobuf"
+	description = "Generate a grpc workflow for e.g. golang code generation."
 )
 
 type Config struct {

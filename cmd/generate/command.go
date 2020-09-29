@@ -5,9 +5,9 @@ import (
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
 
-	"github.com/xh3b4sd/workflow/cmd/generate/credentials"
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
+	"github.com/xh3b4sd/workflow/cmd/generate/grpc"
 )
 
 const (
@@ -25,18 +25,6 @@ func New(config Config) (*cobra.Command, error) {
 	}
 
 	var err error
-
-	var credentialsCmd *cobra.Command
-	{
-		c := credentials.Config{
-			Logger: config.Logger,
-		}
-
-		credentialsCmd, err = credentials.New(c)
-		if err != nil {
-			return nil, tracer.Mask(err)
-		}
-	}
 
 	var dependabotCmd *cobra.Command
 	{
@@ -62,6 +50,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var grpcCmd *cobra.Command
+	{
+		c := grpc.Config{
+			Logger: config.Logger,
+		}
+
+		grpcCmd, err = grpc.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var c *cobra.Command
 	{
 		r := &runner{
@@ -75,9 +75,9 @@ func New(config Config) (*cobra.Command, error) {
 			RunE:  r.Run,
 		}
 
-		c.AddCommand(credentialsCmd)
 		c.AddCommand(dependabotCmd)
 		c.AddCommand(golangCmd)
+		c.AddCommand(grpcCmd)
 	}
 
 	return c, nil
