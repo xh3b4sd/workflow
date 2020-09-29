@@ -7,11 +7,12 @@ import (
 
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
+	"github.com/xh3b4sd/workflow/cmd/generate/grpc"
 )
 
 const (
 	name        = "generate"
-	description = "generate workflows and actions"
+	description = "Generate workflows and required assets."
 )
 
 type Config struct {
@@ -49,6 +50,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var grpcCmd *cobra.Command
+	{
+		c := grpc.Config{
+			Logger: config.Logger,
+		}
+
+		grpcCmd, err = grpc.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var c *cobra.Command
 	{
 		r := &runner{
@@ -64,6 +77,7 @@ func New(config Config) (*cobra.Command, error) {
 
 		c.AddCommand(dependabotCmd)
 		c.AddCommand(golangCmd)
+		c.AddCommand(grpcCmd)
 	}
 
 	return c, nil

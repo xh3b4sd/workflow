@@ -1,11 +1,7 @@
 package main
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
-	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
@@ -17,14 +13,7 @@ import (
 func main() {
 	err := mainE(context.Background())
 	if err != nil {
-		b := &bytes.Buffer{}
-		err := json.Indent(b, []byte(tracer.JSON(tracer.Mask(err))), "", "    ")
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(b.String())
-
-		os.Exit(1)
+		tracer.Panic(err)
 	}
 }
 

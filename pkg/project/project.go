@@ -5,7 +5,7 @@ var (
 	gitSHA      = "n/a"
 	name        = "workflow"
 	source      = "https://github.com/xh3b4sd/workflow"
-	version     = "v0.1.0-dev"
+	version     = "n/a"
 )
 
 func Description() string {
