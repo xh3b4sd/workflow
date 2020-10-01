@@ -5,6 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/tracer"
+
+	"github.com/xh3b4sd/workflow/pkg/golang"
 )
 
 type flag struct {
@@ -12,7 +14,7 @@ type flag struct {
 }
 
 func (f *flag) Init(cmd *cobra.Command) {
-	cmd.Flags().StringVarP(&f.Version, "version", "v", "1.15.2", "Golang version to set in, e.g. go.mod.")
+	cmd.Flags().StringVarP(&f.Version, "version", "v", golang.Version, "Golang version to set in, e.g. go.mod.")
 }
 
 func (f *flag) Validate() error {

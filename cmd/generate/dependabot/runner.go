@@ -35,7 +35,7 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func (r *runner) data() interface{} {
+func (r *runner) dependabotData() interface{} {
 	type Ecosystem struct {
 		Name      string
 		Reviewers []string
@@ -68,20 +68,21 @@ func (r *runner) data() interface{} {
 	return data
 }
 
+func (r *runner) goModTidyData() interface{} {
+	type Data struct {
+		Version string
+	}
+
+	return Data{
+		Version: r.flag.Version,
+	}
+}
+
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
 	{
 		p := ".github/workflows/"
 
 		err := os.MkdirAll(p, os.ModePerm)
-		if err != nil {
-			return tracer.Mask(err)
-		}
-	}
-
-	{
-		p := ".github/workflows/go-mod-tidy.yaml"
-
-		err := ioutil.WriteFile(p, []byte(templateGoModTidy), 0600)
 		if err != nil {
 			return tracer.Mask(err)
 		}
@@ -96,7 +97,27 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		}
 
 		var b bytes.Buffer
-		err = t.ExecuteTemplate(&b, p, r.data())
+		err = t.ExecuteTemplate(&b, p, r.dependabotData())
+		if err != nil {
+			return tracer.Mask(err)
+		}
+
+		err = ioutil.WriteFile(p, b.Bytes(), 0600)
+		if err != nil {
+			return tracer.Mask(err)
+		}
+	}
+
+	{
+		p := ".github/workflows/go-mod-tidy.yaml"
+
+		t, err := template.New(p).Parse(templateGoModTidy)
+		if err != nil {
+			return tracer.Mask(err)
+		}
+
+		var b bytes.Buffer
+		err = t.ExecuteTemplate(&b, p, r.goModTidyData())
 		if err != nil {
 			return tracer.Mask(err)
 		}
