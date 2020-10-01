@@ -38,7 +38,6 @@ on:
       - 'dependabot/**'
     paths:
     - 'go.mod'
-    - 'go.sum'
 
 jobs:
   go-mod-tidy:
@@ -56,7 +55,7 @@ jobs:
       - name: Decrypt Private Key
         run: |
           go get github.com/xh3b4sd/red
-          red decrypt -i .github/asset/id_rsa.enc -o .github/asset/id_rsa -p '${{ secrets.RED_GPG_PASS }}'
+          red decrypt -i .github/asset/id_rsa.enc -o .github/asset/id_rsa -p '${{ "{{" }} secrets.RED_GPG_PASS {{ "}}" }}'
 
       - name: Setup SSH Agent
         env:
