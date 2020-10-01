@@ -1,5 +1,6 @@
 #
-# Do not edit. This file was generated via the workflow command line tool.
+# Do not edit. This file was generated via the "workflow" command line tool.
+# More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
 #     workflow generate dependabot
 #
@@ -10,6 +11,8 @@ on:
   push:
     branches:
       - 'dependabot/**'
+    paths:
+    - 'go.mod'
 
 jobs:
   go-mod-tidy:
@@ -18,6 +21,11 @@ jobs:
 
       - name: Checkout Git Project
         uses: actions/checkout@v2
+
+      - name: Setup Go Env
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.15.2'
 
       - name: Decrypt Private Key
         run: |
