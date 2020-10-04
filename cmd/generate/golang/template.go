@@ -22,7 +22,7 @@ jobs:
       - name: Setup Go Env
         uses: actions/setup-go@v2
         with:
-          go-version: '{{ .Version }}'
+          go-version: '{{ .Version.Golang }}'
 
       - name: Check Go Dependencies
         run: go mod tidy && git diff --exit-code

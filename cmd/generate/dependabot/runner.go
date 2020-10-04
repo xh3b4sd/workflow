@@ -69,12 +69,18 @@ func (r *runner) dependabotData() interface{} {
 }
 
 func (r *runner) goModTidyData() interface{} {
+	type Version struct {
+		Golang string
+	}
+
 	type Data struct {
-		Version string
+		Version Version
 	}
 
 	return Data{
-		Version: r.flag.Version,
+		Version: Version{
+			Golang: r.flag.Version.Golang,
+		},
 	}
 }
 

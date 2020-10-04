@@ -6,25 +6,29 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/tracer"
 
-	"github.com/xh3b4sd/workflow/pkg/golang"
+	"github.com/xh3b4sd/workflow/pkg/version"
 )
 
 type flag struct {
-	Version string
+	Version struct {
+		Golang string
+	}
 }
 
 func (f *flag) Init(cmd *cobra.Command) {
-	cmd.Flags().StringVarP(&f.Version, "version", "v", golang.Version, "Golang version to set in, e.g. go.mod.")
+	cmd.Flags().StringVarP(&f.Version.Golang, "version-golang", "g", version.Golang, "Golang version to set in, e.g. go.mod.")
 }
 
 func (f *flag) Validate() error {
-	if f.Version == "" {
-		return tracer.Maskf(invalidFlagError, "-v/--version must not be empty")
-	}
+	{
+		if f.Version.Golang == "" {
+			return tracer.Maskf(invalidFlagError, "-g/--version-golang must not be empty")
+		}
 
-	s := strings.Split(f.Version, ".")
-	if len(s) != 3 {
-		return tracer.Maskf(invalidFlagError, "-v/--version must have 3 parts like 1.15.2")
+		s := strings.Split(f.Version.Golang, ".")
+		if len(s) != 3 {
+			return tracer.Maskf(invalidFlagError, "-g/--version-golang must have 3 parts like 1.15.2")
+		}
 	}
 
 	return nil
