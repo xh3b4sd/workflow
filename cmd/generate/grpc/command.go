@@ -7,8 +7,11 @@ import (
 )
 
 const (
-	name        = "protobuf"
-	description = "Generate a grpc workflow for e.g. golang code generation."
+	name  = "grpc"
+	short = "Generate a grpc workflow for e.g. golang code generation."
+	long  = `Generate a grpc workflow for e.g. golang code generation. TODO
+
+`
 )
 
 type Config struct {
@@ -22,16 +25,21 @@ func New(config Config) (*cobra.Command, error) {
 
 	var c *cobra.Command
 	{
+		f := &flag{}
+
 		r := &runner{
+			flag:   f,
 			logger: config.Logger,
 		}
 
 		c = &cobra.Command{
 			Use:   name,
-			Short: description,
-			Long:  description,
+			Short: short,
+			Long:  long,
 			RunE:  r.Run,
 		}
+
+		f.Init(c)
 	}
 
 	return c, nil

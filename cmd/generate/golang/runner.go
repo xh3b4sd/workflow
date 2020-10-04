@@ -40,12 +40,18 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 }
 
 func (r *runner) data() interface{} {
+	type Version struct {
+		Golang string
+	}
+
 	type Data struct {
-		Version string
+		Version Version
 	}
 
 	return Data{
-		Version: r.flag.Version,
+		Version: Version{
+			Golang: r.flag.Version.Golang,
+		},
 	}
 }
 
@@ -87,7 +93,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 			return tracer.Mask(err)
 		}
 
-		c := strings.Replace(string(b), currentVersion(b), desiredVersion(r.flag.Version), -1)
+		c := strings.Replace(string(b), currentVersion(b), desiredVersion(r.flag.Version.Golang), -1)
 
 		err = ioutil.WriteFile(p, []byte(c), 0600)
 		if err != nil {
