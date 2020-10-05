@@ -1,16 +1,20 @@
 package grpc
 
 import (
-	"bytes"
 	"context"
-	"html/template"
 	"io/ioutil"
 	"os"
-	"strings"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
+
+	"github.com/xh3b4sd/workflow/pkg/generate/grpc"
+)
+
+const (
+	path = ".github/workflows/grpc-go.yaml"
 )
 
 type runner struct {
@@ -34,63 +38,40 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func (r *runner) data() interface{} {
-	type Github struct {
-		Organization string
-		Repository   string
-	}
-
-	type Version struct {
-		Golang string
-		Protoc string
-	}
-
-	type Data struct {
-		Github  Github
-		Version Version
-	}
-
-	return Data{
-		Github: Github{
-			Organization: r.flag.Github.Organization,
-			Repository:   r.flag.Github.Repository,
-		},
-		Version: Version{
-			Golang: r.flag.Version.Golang,
-			Protoc: r.flag.Version.Protoc,
-		},
-	}
-}
-
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
-	{
-		p := ".github/workflows/"
+	var err error
 
-		err := os.MkdirAll(p, os.ModePerm)
+	var g grpc.Interface
+	{
+		c := grpc.Config{
+			FilePath:           path,
+			GithubOrganization: r.flag.Github.Organization,
+			GithubRepository:   r.flag.Github.Repository,
+			VersionGolang:      r.flag.Version.Golang,
+			VersionProtoc:      r.flag.Version.Protoc,
+		}
+
+		g, err = grpc.New(c)
+		if err != nil {
+			return tracer.Mask(err)
+		}
+	}
+
+	var b []byte
+	{
+		b, err = g.Generate()
 		if err != nil {
 			return tracer.Mask(err)
 		}
 	}
 
 	{
-		p := ".github/workflows/grpc-go.yaml"
-
-		f := template.FuncMap{
-			"ToUpper": strings.ToUpper,
-		}
-
-		t, err := template.New(p).Funcs(f).Parse(templateGolang)
+		err := os.MkdirAll(filepath.Dir(path), os.ModePerm)
 		if err != nil {
 			return tracer.Mask(err)
 		}
 
-		var b bytes.Buffer
-		err = t.ExecuteTemplate(&b, p, r.data())
-		if err != nil {
-			return tracer.Mask(err)
-		}
-
-		err = ioutil.WriteFile(p, b.Bytes(), 0600)
+		err = ioutil.WriteFile(path, b, 0600)
 		if err != nil {
 			return tracer.Mask(err)
 		}
