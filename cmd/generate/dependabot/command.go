@@ -36,10 +36,10 @@ push changes during builds.
 
     .github/asset/id_rsa.pub
 
-For the decryption of the GPG encrypted private key during builds, a password
-is required. This password gets generated together with the RSA public and
-private key. The password must be set as secret to the configured repository.
-The secret name must be as follows.
+During builds, a password is required for the decryption of the GPG encrypted
+private key. This password gets generated together with the RSA public and
+private key as shown above. The password must be set as secret to the
+configured repository. The secret name must be as follows.
 
     RED_GPG_PASS
 `
