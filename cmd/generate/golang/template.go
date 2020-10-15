@@ -34,7 +34,7 @@ jobs:
         run: test -z $(gofmt -l -s .)
 
       - name: Check Go Linters
-        uses: golangci/golangci-lint-action@v2
+        uses: golangci/golangci-lint-action@v2.2.1
         with:
           version: v1.31
 `
