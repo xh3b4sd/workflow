@@ -38,6 +38,7 @@ on:
       - 'dependabot/**'
     paths:
     - 'go.mod'
+    - 'go.sum'
 
 jobs:
   go-mod-tidy:
@@ -82,9 +83,11 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          git add go.mod go.sum
-          git commit -m 'go mod tidy'
-          git push
+          if [[ $(git status --porcelain go.mod go.sum) ]]; then
+            git add go.mod go.sum
+            git commit -m 'go mod tidy'
+            git push
+          fi
 
       - name: Cleanup Build Container
         env:
