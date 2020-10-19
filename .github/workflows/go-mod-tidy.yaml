@@ -56,6 +56,7 @@ jobs:
       - name: Commit And Push
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        if: ${{ git status --porcelain }}
         run: |
           git add go.mod go.sum
           git commit -m 'go mod tidy'
