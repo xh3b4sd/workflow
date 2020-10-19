@@ -12,7 +12,6 @@ on:
     branches:
       - 'dependabot/**'
     paths:
-    - 'go.mod'
     - 'go.sum'
 
 jobs:
