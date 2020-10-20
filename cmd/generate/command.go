@@ -6,13 +6,14 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
+	"github.com/xh3b4sd/workflow/cmd/generate/docker"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
 	"github.com/xh3b4sd/workflow/cmd/generate/grpc"
 )
 
 const (
 	name        = "generate"
-	description = "Generate workflows and required assets."
+	description = "Generate github workflows and config files."
 )
 
 type Config struct {
@@ -33,6 +34,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		dependabotCmd, err = dependabot.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
+	var dockerCmd *cobra.Command
+	{
+		c := docker.Config{
+			Logger: config.Logger,
+		}
+
+		dockerCmd, err = docker.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -76,6 +89,7 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		c.AddCommand(dependabotCmd)
+		c.AddCommand(dockerCmd)
 		c.AddCommand(golangCmd)
 		c.AddCommand(grpcCmd)
 	}
