@@ -35,10 +35,10 @@ name: go-mod-tidy
 on:
   push:
     branches:
-      - 'dependabot/**'
+      - "dependabot/**"
     paths:
-    - 'go.mod'
-    - 'go.sum'
+    - "go.mod"
+    - "go.sum"
 
 jobs:
   go-mod-tidy:
@@ -51,7 +51,7 @@ jobs:
       - name: Setup Go Env
         uses: actions/setup-go@v2
         with:
-          go-version: '{{ .Version.Golang }}'
+          go-version: "{{ .Version.Golang }}"
 
       - name: Decrypt Private Key
         run: |
@@ -85,7 +85,7 @@ jobs:
         run: |
           if [[ $(git status --porcelain go.mod go.sum) ]]; then
             git add go.mod go.sum
-            git commit -m 'go mod tidy'
+            git commit -m "go mod tidy"
             git push
           fi
 

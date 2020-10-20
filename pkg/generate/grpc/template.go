@@ -12,10 +12,10 @@ name: gprc-go
 on:
   push:
     branches:
-      - main
-      - master
+      - "main"
+      - "master"
     paths:
-      - '**.proto'
+      - "**.proto"
 
 jobs:
   grpc-go:
@@ -28,7 +28,7 @@ jobs:
       - name: Setup Go Env
         uses: actions/setup-go@v2
         with:
-          go-version: '{{ .Version.Golang }}'
+          go-version: "{{ .Version.Golang }}"
 
       - name: Install Protoc Binary
         working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
