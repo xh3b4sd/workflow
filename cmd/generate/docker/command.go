@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	name        = "golang"
-	description = "Generate a golang workflow for e.g. running tests and checking formatting."
+	name        = "docker"
+	description = "Generate a docker workflow for e.g. building and pushing docker images."
 )
 
 type Config struct {
