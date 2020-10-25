@@ -1,4 +1,4 @@
-package grpc
+package grpcgo
 
 import (
 	"context"
@@ -10,7 +10,8 @@ import (
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
 
-	"github.com/xh3b4sd/workflow/pkg/generate/grpc"
+	"github.com/xh3b4sd/workflow/pkg/generate"
+	"github.com/xh3b4sd/workflow/pkg/generate/grpcgo"
 )
 
 const (
@@ -41,9 +42,9 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
 	var err error
 
-	var g grpc.Interface
+	var g generate.Interface
 	{
-		c := grpc.GolangConfig{
+		c := grpcgo.Config{
 			FilePath:           path,
 			GithubOrganization: r.flag.Github.Organization,
 			GithubRepository:   r.flag.Github.Repository,
@@ -51,7 +52,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 			VersionProtoc:      r.flag.Version.Protoc,
 		}
 
-		g, err = grpc.NewGolang(c)
+		g, err = grpcgo.New(c)
 		if err != nil {
 			return tracer.Mask(err)
 		}

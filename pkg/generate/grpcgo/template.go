@@ -1,8 +1,10 @@
-#
+package grpcgo
+
+const golangTemplate = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
-#     workflow generate grpc
+#     workflow generate grpcgo
 #
 
 name: gprc-go
@@ -26,14 +28,14 @@ jobs:
       - name: Setup Go Env
         uses: actions/setup-go@v2
         with:
-          go-version: "1.15.2"
+          go-version: "{{ .Version.Golang }}"
 
       - name: Install Protoc Binary
-        working-directory: ${{ runner.temp }}
+        working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
         run: |
-          curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v3.13.0/protoc-3.13.0-linux-x86_64.zip"
-          unzip protoc-3.13.0-linux-x86_64.zip
-          echo "${{ runner.temp }}/bin" >> $GITHUB_PATH
+          curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip"
+          unzip protoc-{{ .Version.Protoc }}-linux-x86_64.zip
+          echo "${{ "{{" }} runner.temp {{ "}}" }}/bin" >> $GITHUB_PATH
 
       - name: Install gRPC Dependencies
         run: |
@@ -45,7 +47,7 @@ jobs:
       - name: Decrypt Private Key
         run: |
           go get github.com/xh3b4sd/red
-          red decrypt -i .github/asset/xh3b4sd/gocode/id_rsa.enc -o .github/asset/xh3b4sd/gocode/id_rsa -p '${{ secrets.RED_GPG_PASS_XH3B4SD_GOCODE }}'
+          red decrypt -i .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa.enc -o .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa -p '${{ "{{" }} secrets.RED_GPG_PASS_{{ .Github.Organization | ToUpper }}_{{ .Github.Repository | ToUpper }} {{ "}}" }}'
 
       - name: Setup SSH Agent
         env:
@@ -54,31 +56,31 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           ssh-agent -a ${SSH_AUTH_SOCK} > /dev/null
-          chmod 0600 .github/asset/xh3b4sd/gocode/id_rsa
-          ssh-add .github/asset/xh3b4sd/gocode/id_rsa
+          chmod 0600 .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
+          ssh-add .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
 
       - name: Clone Go Code
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: git clone git@github.com:xh3b4sd/gocode.git "${{ runner.temp }}/xh3b4sd/gocode/"
+        run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
 
       - name: Setup Git Config
         run: |
-          cd "${{ runner.temp }}/xh3b4sd/gocode/"
+          cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git remote set-url origin git@github.com:xh3b4sd/gocode.git
+          git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
       - name: Generate Go Code
         run: |
           go get github.com/xh3b4sd/pag
-          pag generate golang -d "${{ runner.temp }}/xh3b4sd/gocode/pkg/"
+          pag generate golang -d "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/"
 
       - name: Commit And Push
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          cd "${{ runner.temp }}/xh3b4sd/gocode/"
+          cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git add .
           git commit -m 'update generated code'
           git push
@@ -89,3 +91,4 @@ jobs:
         run: |
           ssh-add -D
           rm -Rf *
+`

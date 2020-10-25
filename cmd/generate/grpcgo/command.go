@@ -1,4 +1,4 @@
-package grpc
+package grpcgo
 
 import (
 	"github.com/spf13/cobra"
@@ -7,14 +7,14 @@ import (
 )
 
 const (
-	name  = "grpc"
-	short = "Generate a grpc workflow for e.g. golang code generation."
-	long  = `Generate a grpc workflow for e.g. golang code generation. The workflow
-generated here works in a setup of two Github repositories. Call them
-apischema and gocode. The workflow generated with the following command is
-added to the apischema repository.
+	name  = "grpcgo"
+	short = "Generate a grpc workflow for golang code generation."
+	long  = `Generate a grpc workflow for golang code generation. The workflow generated
+here works in a setup of two Github repositories. Call them apischema and
+gocode. The workflow generated with the following command is added to the
+apischema repository.
 
-    workflow generate grpc -o xh3b4sd -r gocode
+    workflow generate grpcgo -o xh3b4sd -r gocode
 
 In order to make the workflow function correctly a deploy key is generated
 and distributed as follows. The public and private key files are added to the
