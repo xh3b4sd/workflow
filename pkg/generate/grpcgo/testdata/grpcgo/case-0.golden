@@ -63,18 +63,20 @@ jobs:
         run: git clone git@github.com:xh3b4sd/gocode.git "${{ runner.temp }}/xh3b4sd/gocode/"
 
       - name: Setup Git Config
+        working-directory: "${{ runner.temp }}/xh3b4sd/gocode/"
         run: |
-          cd "${{ runner.temp }}/xh3b4sd/gocode/"
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:xh3b4sd/gocode.git
 
       - name: Generate Go Code
+        working-directory: "${{ runner.temp }}/xh3b4sd/gocode/"
         run: |
           go get github.com/xh3b4sd/pag
-          pag generate golang -d "${{ runner.temp }}/xh3b4sd/gocode/pkg/"
+          pag generate golang -d ./pkg/
 
       - name: Go Mod Tidy
+        working-directory: "${{ runner.temp }}/xh3b4sd/gocode/"
         run: |
           rm -f go.sum
           go mod tidy
@@ -82,8 +84,8 @@ jobs:
       - name: Commit And Push
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        working-directory: "${{ runner.temp }}/xh3b4sd/gocode/"
         run: |
-          cd "${{ runner.temp }}/xh3b4sd/gocode/"
           git add .
           git commit -m 'update generated code'
           git push

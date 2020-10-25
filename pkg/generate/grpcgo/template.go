@@ -65,18 +65,20 @@ jobs:
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
 
       - name: Setup Git Config
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
-          cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
       - name: Generate Go Code
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
           go get github.com/xh3b4sd/pag
-          pag generate golang -d "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/"
+          pag generate golang -d ./pkg/
 
       - name: Go Mod Tidy
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
           rm -f go.sum
           go mod tidy
@@ -84,8 +86,8 @@ jobs:
       - name: Commit And Push
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
-          cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git add .
           git commit -m 'update generated code'
           git push
