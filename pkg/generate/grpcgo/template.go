@@ -72,10 +72,9 @@ jobs:
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
       - name: Generate Go Code
-        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
           go get github.com/xh3b4sd/pag
-          pag generate golang -d ./pkg/
+          pag generate golang -d ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/
 
       - name: Go Mod Tidy
         working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
