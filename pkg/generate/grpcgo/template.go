@@ -76,6 +76,11 @@ jobs:
           go get github.com/xh3b4sd/pag
           pag generate golang -d "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/"
 
+      - name: Go Mod Tidy
+        run: |
+          rm -f go.sum
+          go mod tidy
+
       - name: Commit And Push
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
