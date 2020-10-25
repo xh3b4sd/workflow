@@ -1,13 +1,13 @@
-package grpcgo
+package grpcts
 
 const workflowTemplate = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
-#     workflow generate grpcgo
+#     workflow generate grpcts
 #
 
-name: gprc-go
+name: gprc-ts
 
 on:
   push:
@@ -18,7 +18,7 @@ on:
       - "**.proto"
 
 jobs:
-  grpc-go:
+  grpc-ts:
     runs-on: ubuntu-latest
     steps:
 
@@ -35,14 +35,15 @@ jobs:
         run: |
           curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip"
           unzip protoc-{{ .Version.Protoc }}-linux-x86_64.zip
-          echo "${{ "{{" }} runner.temp {{ "}}" }}/bin" >> $GITHUB_PATH
+          echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
 
       - name: Install gRPC Dependencies
+        working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
         run: |
-          go get -u google.golang.org/protobuf/cmd/protoc-gen-go
-          go install google.golang.org/protobuf/cmd/protoc-gen-go
-          go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
-          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+          curl -LO https://github.com/grpc/grpc-web/releases/download/{{ .Version.GrpcWeb }}/protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
+          chmod +x protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
+          mv protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64 ${{ "{{" }} runner.temp {{ "}}" }}/bin/protoc-gen-grpc-web
+          echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
 
       - name: Decrypt Private Key
         run: |
@@ -59,7 +60,7 @@ jobs:
           chmod 0600 .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
           ssh-add .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
 
-      - name: Clone Go Code
+      - name: Clone Ts Code
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
@@ -71,10 +72,10 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
-      - name: Generate Go Code
+      - name: Generate Ts Code
         run: |
           go get github.com/xh3b4sd/pag
-          pag generate golang -d "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/"
+          pag generate typescript -d "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/"
 
       - name: Commit And Push
         env:

@@ -9,6 +9,7 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/generate/docker"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
 	"github.com/xh3b4sd/workflow/cmd/generate/grpcgo"
+	"github.com/xh3b4sd/workflow/cmd/generate/grpcts"
 )
 
 const (
@@ -75,6 +76,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var grpctsCmd *cobra.Command
+	{
+		c := grpcts.Config{
+			Logger: config.Logger,
+		}
+
+		grpctsCmd, err = grpcts.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var c *cobra.Command
 	{
 		r := &runner{
@@ -92,6 +105,7 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(dockerCmd)
 		c.AddCommand(golangCmd)
 		c.AddCommand(grpcgoCmd)
+		c.AddCommand(grpctsCmd)
 	}
 
 	return c, nil

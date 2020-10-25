@@ -1,0 +1,92 @@
+#
+# Do not edit. This file was generated via the "workflow" command line tool.
+# More information about the tool can be found at github.com/xh3b4sd/workflow.
+#
+#     workflow generate grpcts
+#
+
+name: gprc-ts
+
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+    paths:
+      - "**.proto"
+
+jobs:
+  grpc-ts:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Git Project
+        uses: actions/checkout@v2
+
+      - name: Setup Go Env
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.15.2"
+
+      - name: Install Protoc Binary
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v3.13.0/protoc-3.13.0-linux-x86_64.zip"
+          unzip protoc-3.13.0-linux-x86_64.zip
+          echo "${{ runner.temp }}/bin/" >> $GITHUB_PATH
+
+      - name: Install gRPC Dependencies
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -LO https://github.com/grpc/grpc-web/releases/download/1.2.1/protoc-gen-grpc-web-1.2.1-linux-x86_64
+          chmod +x protoc-gen-grpc-web-1.2.1-linux-x86_64
+          mv protoc-gen-grpc-web-1.2.1-linux-x86_64 ${{ runner.temp }}/bin/protoc-gen-grpc-web
+          echo "${{ runner.temp }}/bin/" >> $GITHUB_PATH
+
+      - name: Decrypt Private Key
+        run: |
+          go get github.com/xh3b4sd/red
+          red decrypt -i .github/asset/xh3b4sd/tscode/id_rsa.enc -o .github/asset/xh3b4sd/tscode/id_rsa -p '${{ secrets.RED_GPG_PASS_XH3B4SD_TSCODE }}'
+
+      - name: Setup SSH Agent
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent -a ${SSH_AUTH_SOCK} > /dev/null
+          chmod 0600 .github/asset/xh3b4sd/tscode/id_rsa
+          ssh-add .github/asset/xh3b4sd/tscode/id_rsa
+
+      - name: Clone Ts Code
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: git clone git@github.com:xh3b4sd/tscode.git "${{ runner.temp }}/xh3b4sd/tscode/"
+
+      - name: Setup Git Config
+        run: |
+          cd "${{ runner.temp }}/xh3b4sd/tscode/"
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote set-url origin git@github.com:xh3b4sd/tscode.git
+
+      - name: Generate Ts Code
+        run: |
+          go get github.com/xh3b4sd/pag
+          pag generate typescript -d "${{ runner.temp }}/xh3b4sd/tscode/pkg/"
+
+      - name: Commit And Push
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          cd "${{ runner.temp }}/xh3b4sd/tscode/"
+          git add .
+          git commit -m 'update generated code'
+          git push
+
+      - name: Cleanup Build Container
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh-add -D
+          rm -Rf *

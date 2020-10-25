@@ -1,4 +1,4 @@
-package grpcgo
+package grpcts
 
 import (
 	"bytes"
@@ -15,28 +15,30 @@ import (
 
 var update = flag.Bool("update", false, "update .golden files")
 
-// Test_GrpcGo_Generate tests workflow generation for the gRPC Golang code
+// Test_GrpcTs_Generate tests workflow generation for the gRPC Typescript code
 // generation workflow. The workflow template is quite complex and not easily
-// readable. Considering input parameter like Github organization and Golang
+// readable. Considering input parameter like Github organization and Typescript
 // version we need a way to reliable verify the integrity of the YAML file
 // rendering.
 //
-//     go test ./... -run Test_GrpcGo_Generate -update
+//     go test ./... -run Test_GrpcTs_Generate -update
 //
-func Test_GrpcGo_Generate(t *testing.T) {
+func Test_GrpcTs_Generate(t *testing.T) {
 	testCases := []struct {
 		organization string
 		repository   string
 		golang       string
 		protoc       string
+		grpcWeb      string
 	}{
 		// Case 0 ensures that a workflow file can be generated according to its
 		// configuration.
 		{
 			organization: "xh3b4sd",
-			repository:   "gocode",
+			repository:   "tscode",
 			golang:       "1.15.2",
 			protoc:       "3.13.0",
+			grpcWeb:      "1.2.1",
 		},
 		// Case 1 ensures that a workflow file can be generated according to its
 		// configuration.
@@ -45,6 +47,7 @@ func Test_GrpcGo_Generate(t *testing.T) {
 			repository:   "some-repo",
 			golang:       "1.14.0",
 			protoc:       "3.5.1",
+			grpcWeb:      "2.1.5",
 		},
 	}
 
@@ -60,6 +63,7 @@ func Test_GrpcGo_Generate(t *testing.T) {
 					GithubRepository:   tc.repository,
 					VersionGolang:      tc.golang,
 					VersionProtoc:      tc.protoc,
+					VersionGrpcWeb:     tc.grpcWeb,
 				}
 
 				g, err = New(c)
@@ -76,7 +80,7 @@ func Test_GrpcGo_Generate(t *testing.T) {
 				}
 			}
 
-			p := filepath.Join("testdata/grpcgo", fileName(i))
+			p := filepath.Join("testdata/grpcts", fileName(i))
 			if *update {
 				err := ioutil.WriteFile(p, []byte(actual), 0600)
 				if err != nil {
