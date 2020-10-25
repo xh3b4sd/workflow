@@ -8,7 +8,7 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
 	"github.com/xh3b4sd/workflow/cmd/generate/docker"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
-	"github.com/xh3b4sd/workflow/cmd/generate/grpc"
+	"github.com/xh3b4sd/workflow/cmd/generate/grpcgo"
 )
 
 const (
@@ -63,13 +63,13 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
-	var grpcCmd *cobra.Command
+	var grpcgoCmd *cobra.Command
 	{
-		c := grpc.Config{
+		c := grpcgo.Config{
 			Logger: config.Logger,
 		}
 
-		grpcCmd, err = grpc.New(c)
+		grpcgoCmd, err = grpcgo.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -91,7 +91,7 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(dependabotCmd)
 		c.AddCommand(dockerCmd)
 		c.AddCommand(golangCmd)
-		c.AddCommand(grpcCmd)
+		c.AddCommand(grpcgoCmd)
 	}
 
 	return c, nil

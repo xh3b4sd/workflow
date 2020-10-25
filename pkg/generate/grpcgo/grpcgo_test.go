@@ -1,23 +1,28 @@
-package grpc
+package grpcgo
 
 import (
 	"bytes"
+	"flag"
 	"io/ioutil"
 	"path/filepath"
 	"strconv"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/xh3b4sd/workflow/pkg/generate"
 )
 
-// Test_Generate_Golang tests workflow generation for the gRPC code generation
-// workflow. The workflow template is quite complex and not easily readable.
-// Considering input parameter like Github organization and Golang version we
-// need a way to reliable verify the integrity of the YAML file rendering.
+var update = flag.Bool("update", false, "update .golden files")
+
+// Test_GrpcGo_Generate tests workflow generation for the gRPC golang code
+// generation workflow. The workflow template is quite complex and not easily
+// readable. Considering input parameter like Github organization and Golang
+// version we need a way to reliable verify the integrity of the YAML file
+// rendering.
 //
-//     go test ./... -run Test_Generate_Golang -update
+//     go test ./... -run Test_GrpcGo_Generate -update
 //
-func Test_Generate_Golang(t *testing.T) {
+func Test_GrpcGo_Generate(t *testing.T) {
 	testCases := []struct {
 		organization string
 		repository   string
@@ -46,9 +51,9 @@ func Test_Generate_Golang(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			var err error
 
-			var g Interface
+			var g generate.Interface
 			{
-				c := GolangConfig{
+				c := Config{
 					FilePath:           "workflow.yaml",
 					GithubOrganization: tc.organization,
 					GithubRepository:   tc.repository,
@@ -56,7 +61,7 @@ func Test_Generate_Golang(t *testing.T) {
 					VersionProtoc:      tc.protoc,
 				}
 
-				g, err = NewGolang(c)
+				g, err = New(c)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -70,9 +75,9 @@ func Test_Generate_Golang(t *testing.T) {
 				}
 			}
 
-			p := filepath.Join("testdata/golang", fileName(i))
+			p := filepath.Join("testdata/grpcgo", fileName(i))
 			if *update {
-				err := ioutil.WriteFile(p, []byte(actual), 0644) // nolint:gosec
+				err := ioutil.WriteFile(p, []byte(actual), 0600)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -88,4 +93,8 @@ func Test_Generate_Golang(t *testing.T) {
 			}
 		})
 	}
+}
+
+func fileName(i int) string {
+	return "case-" + strconv.Itoa(i) + ".golden"
 }

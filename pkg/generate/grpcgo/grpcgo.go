@@ -1,4 +1,4 @@
-package grpc
+package grpcgo
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"github.com/xh3b4sd/tracer"
 )
 
-type GolangConfig struct {
+type Config struct {
 	FilePath           string
 	GithubOrganization string
 	GithubRepository   string
@@ -16,7 +16,7 @@ type GolangConfig struct {
 	VersionProtoc      string
 }
 
-type Golang struct {
+type GrpcGo struct {
 	filePath           string
 	githubOrganization string
 	githubRepository   string
@@ -24,7 +24,7 @@ type Golang struct {
 	versionProtoc      string
 }
 
-func NewGolang(config GolangConfig) (*Golang, error) {
+func New(config Config) (*GrpcGo, error) {
 	if config.FilePath == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.FilePath must not be empty", config)
 	}
@@ -41,7 +41,7 @@ func NewGolang(config GolangConfig) (*Golang, error) {
 		return nil, tracer.Maskf(invalidConfigError, "%T.VersionProtoc must not be empty", config)
 	}
 
-	g := &Golang{
+	g := &GrpcGo{
 		filePath:           config.FilePath,
 		githubOrganization: config.GithubOrganization,
 		githubRepository:   config.GithubRepository,
@@ -52,7 +52,7 @@ func NewGolang(config GolangConfig) (*Golang, error) {
 	return g, nil
 }
 
-func (g *Golang) Generate() ([]byte, error) {
+func (g *GrpcGo) Generate() ([]byte, error) {
 	f := template.FuncMap{
 		"ToUpper": strings.ToUpper,
 	}
@@ -71,7 +71,7 @@ func (g *Golang) Generate() ([]byte, error) {
 	return b.Bytes(), nil
 }
 
-func (g *Golang) data() interface{} {
+func (g *GrpcGo) data() interface{} {
 	type Github struct {
 		Organization string
 		Repository   string
