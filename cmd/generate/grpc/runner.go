@@ -43,7 +43,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 
 	var g grpc.Interface
 	{
-		c := grpc.Config{
+		c := grpc.GolangConfig{
 			FilePath:           path,
 			GithubOrganization: r.flag.Github.Organization,
 			GithubRepository:   r.flag.Github.Repository,
@@ -51,7 +51,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 			VersionProtoc:      r.flag.Version.Protoc,
 		}
 
-		g, err = grpc.New(c)
+		g, err = grpc.NewGolang(c)
 		if err != nil {
 			return tracer.Mask(err)
 		}
