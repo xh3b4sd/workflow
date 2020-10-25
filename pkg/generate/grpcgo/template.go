@@ -38,11 +38,11 @@ jobs:
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin" >> $GITHUB_PATH
 
       - name: Install gRPC Dependencies
+        env:
+          GO111MODULE: "on"
         run: |
-          go get -u google.golang.org/protobuf/cmd/protoc-gen-go
-          go install google.golang.org/protobuf/cmd/protoc-gen-go
-          go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
-          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+          go get -u google.golang.org/protobuf/cmd/protoc-gen-go@v1.25.0
+          go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.0.1
 
       - name: Decrypt Private Key
         run: |
@@ -65,8 +65,8 @@ jobs:
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
 
       - name: Setup Git Config
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
-          cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
@@ -74,13 +74,19 @@ jobs:
       - name: Generate Go Code
         run: |
           go get github.com/xh3b4sd/pag
-          pag generate golang -d "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/"
+          pag generate golang -d ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/
+
+      - name: Go Mod Tidy
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
+        run: |
+          rm -f go.sum
+          go mod tidy
 
       - name: Commit And Push
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
-          cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git add .
           git commit -m 'update generated code'
           git push
