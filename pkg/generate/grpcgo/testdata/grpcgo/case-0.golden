@@ -37,9 +37,9 @@ jobs:
 
       - name: Install gRPC Dependencies
         run: |
-          go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+          go get -u google.golang.org/protobuf/cmd/protoc-gen-go@v1.25.0
           go install google.golang.org/protobuf/cmd/protoc-gen-go
-          go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+          go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.0.1
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
       - name: Decrypt Private Key
