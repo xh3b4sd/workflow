@@ -89,15 +89,18 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		p := "go.mod"
 
 		b, err := ioutil.ReadFile(p)
-		if err != nil {
+		if os.IsNotExist(err) {
+			// Just fall through since it can happen that repositories do not
+			// always have a go.mod file.
+		} else if err != nil {
 			return tracer.Mask(err)
-		}
+		} else {
+			c := strings.Replace(string(b), currentVersion(b), desiredVersion(r.flag.Version.Golang), -1)
 
-		c := strings.Replace(string(b), currentVersion(b), desiredVersion(r.flag.Version.Golang), -1)
-
-		err = ioutil.WriteFile(p, []byte(c), 0600)
-		if err != nil {
-			return tracer.Mask(err)
+			err = ioutil.WriteFile(p, []byte(c), 0600)
+			if err != nil {
+				return tracer.Mask(err)
+			}
 		}
 	}
 
