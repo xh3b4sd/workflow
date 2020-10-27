@@ -79,8 +79,10 @@ jobs:
       - name: Go Mod Tidy
         working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
-          rm -f go.sum
-          go mod tidy
+          if [[ -e go.sum ]]; then
+            rm -f go.sum
+            go mod tidy
+          fi
 
       - name: Commit And Push
         env:
