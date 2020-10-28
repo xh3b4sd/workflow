@@ -2,6 +2,7 @@ package grpcts
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -61,7 +62,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 
 	var b []byte
 	{
-		b, err = g.Generate()
+		b, err = g.Workflow()
 		if err != nil {
 			return tracer.Mask(err)
 		}
@@ -77,6 +78,15 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		if err != nil {
 			return tracer.Mask(err)
 		}
+	}
+
+	{
+		b, err = g.Usage()
+		if err != nil {
+			return tracer.Mask(err)
+		}
+
+		fmt.Printf("%s", b)
 	}
 
 	return nil

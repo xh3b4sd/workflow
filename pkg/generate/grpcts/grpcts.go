@@ -6,6 +6,8 @@ import (
 	"text/template"
 
 	"github.com/xh3b4sd/tracer"
+
+	"github.com/xh3b4sd/workflow/pkg/repo"
 )
 
 type Config struct {
@@ -58,27 +60,27 @@ func New(config Config) (*GrpcTs, error) {
 	return g, nil
 }
 
-func (g *GrpcTs) Generate() ([]byte, error) {
-	f := template.FuncMap{
-		"ToUpper": strings.ToUpper,
-	}
-
-	t, err := template.New(g.filePath).Funcs(f).Parse(workflowTemplate)
+func (g *GrpcTs) Usage() ([]byte, error) {
+	b, err := g.render(usageTemplate)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
 
-	var b bytes.Buffer
-	err = t.ExecuteTemplate(&b, g.filePath, g.data())
+	return b, nil
+}
+
+func (g *GrpcTs) Workflow() ([]byte, error) {
+	b, err := g.render(workflowTemplate)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
 
-	return b.Bytes(), nil
+	return b, nil
 }
 
 func (g *GrpcTs) data() interface{} {
 	type Github struct {
+		Current      string
 		Organization string
 		Repository   string
 	}
@@ -96,6 +98,7 @@ func (g *GrpcTs) data() interface{} {
 
 	return Data{
 		Github: Github{
+			Current:      repo.Current(),
 			Organization: g.githubOrganization,
 			Repository:   g.githubRepository,
 		},
@@ -105,4 +108,30 @@ func (g *GrpcTs) data() interface{} {
 			Protoc:  g.versionProtoc,
 		},
 	}
+}
+
+func (g *GrpcTs) render(t string) ([]byte, error) {
+	f := template.FuncMap{
+		"ToUpper": func(s string) string {
+			n := s
+
+			n = strings.ToUpper(n)
+			n = strings.ReplaceAll(n, "-", "")
+
+			return n
+		},
+	}
+
+	s, err := template.New(g.filePath).Funcs(f).Parse(t)
+	if err != nil {
+		return nil, tracer.Mask(err)
+	}
+
+	var b bytes.Buffer
+	err = s.ExecuteTemplate(&b, g.filePath, g.data())
+	if err != nil {
+		return nil, tracer.Mask(err)
+	}
+
+	return b.Bytes(), nil
 }

@@ -1,5 +1,26 @@
 package grpcgo
 
+const usageTemplate = `Generated grpc workflow for golang code generation. Please make sure to
+generate the RSA deploy keys and the GPG password as follows. For more
+information see https://github.com/xh3b4sd/red.
+
+    red generate keys -d .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}
+
+Upon RSA deploy key generation as described above, make sure to add the
+generated public key as deploy key to the following github repository.
+
+    https://github.com/{{ .Github.Organization }}/{{ .Github.Repository }}
+
+Upon GPG password generation as described above, make sure to add a secret
+environment variable to the following github repository. Further use the
+following secret name.
+
+    repository:     https://{{ .Github.Current }}
+
+    secret:         RED_GPG_PASS_{{ .Github.Organization | ToUpper }}_{{ .Github.Repository | ToUpper }}
+
+`
+
 const workflowTemplate = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
