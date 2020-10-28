@@ -2,6 +2,7 @@ package grpcgo
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -12,6 +13,7 @@ import (
 
 	"github.com/xh3b4sd/workflow/pkg/generate"
 	"github.com/xh3b4sd/workflow/pkg/generate/grpcgo"
+	"github.com/xh3b4sd/workflow/pkg/repo"
 )
 
 const (
@@ -46,6 +48,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	{
 		c := grpcgo.Config{
 			FilePath:           path,
+			GithubCurrent:      repo.Current(),
 			GithubOrganization: r.flag.Github.Organization,
 			GithubRepository:   r.flag.Github.Repository,
 			VersionGolang:      r.flag.Version.Golang,
@@ -60,7 +63,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 
 	var b []byte
 	{
-		b, err = g.Generate()
+		b, err = g.Workflow()
 		if err != nil {
 			return tracer.Mask(err)
 		}
@@ -76,6 +79,15 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		if err != nil {
 			return tracer.Mask(err)
 		}
+	}
+
+	{
+		b, err = g.Usage()
+		if err != nil {
+			return tracer.Mask(err)
+		}
+
+		fmt.Printf("%s", b)
 	}
 
 	return nil

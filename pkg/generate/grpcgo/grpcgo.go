@@ -10,6 +10,7 @@ import (
 
 type Config struct {
 	FilePath           string
+	GithubCurrent      string
 	GithubOrganization string
 	GithubRepository   string
 	VersionGolang      string
@@ -18,6 +19,7 @@ type Config struct {
 
 type GrpcGo struct {
 	filePath           string
+	githubCurrent      string
 	githubOrganization string
 	githubRepository   string
 	versionGolang      string
@@ -27,6 +29,9 @@ type GrpcGo struct {
 func New(config Config) (*GrpcGo, error) {
 	if config.FilePath == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.FilePath must not be empty", config)
+	}
+	if config.GithubCurrent == "" {
+		return nil, tracer.Maskf(invalidConfigError, "%T.GithubCurrent must not be empty", config)
 	}
 	if config.GithubOrganization == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.GithubOrganization must not be empty", config)
@@ -43,6 +48,7 @@ func New(config Config) (*GrpcGo, error) {
 
 	g := &GrpcGo{
 		filePath:           config.FilePath,
+		githubCurrent:      config.GithubCurrent,
 		githubOrganization: config.GithubOrganization,
 		githubRepository:   config.GithubRepository,
 		versionGolang:      config.VersionGolang,
@@ -52,27 +58,27 @@ func New(config Config) (*GrpcGo, error) {
 	return g, nil
 }
 
-func (g *GrpcGo) Generate() ([]byte, error) {
-	f := template.FuncMap{
-		"ToUpper": strings.ToUpper,
-	}
-
-	t, err := template.New(g.filePath).Funcs(f).Parse(workflowTemplate)
+func (g *GrpcGo) Usage() ([]byte, error) {
+	b, err := g.render(usageTemplate)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
 
-	var b bytes.Buffer
-	err = t.ExecuteTemplate(&b, g.filePath, g.data())
+	return b, nil
+}
+
+func (g *GrpcGo) Workflow() ([]byte, error) {
+	b, err := g.render(workflowTemplate)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
 
-	return b.Bytes(), nil
+	return b, nil
 }
 
 func (g *GrpcGo) data() interface{} {
 	type Github struct {
+		Current      string
 		Organization string
 		Repository   string
 	}
@@ -89,6 +95,7 @@ func (g *GrpcGo) data() interface{} {
 
 	return Data{
 		Github: Github{
+			Current:      g.githubCurrent,
 			Organization: g.githubOrganization,
 			Repository:   g.githubRepository,
 		},
@@ -97,4 +104,30 @@ func (g *GrpcGo) data() interface{} {
 			Protoc: g.versionProtoc,
 		},
 	}
+}
+
+func (g *GrpcGo) render(t string) ([]byte, error) {
+	f := template.FuncMap{
+		"ToUpper": func(s string) string {
+			n := s
+
+			n = strings.ToUpper(n)
+			n = strings.ReplaceAll(n, "-", "")
+
+			return n
+		},
+	}
+
+	s, err := template.New(g.filePath).Funcs(f).Parse(t)
+	if err != nil {
+		return nil, tracer.Mask(err)
+	}
+
+	var b bytes.Buffer
+	err = s.ExecuteTemplate(&b, g.filePath, g.data())
+	if err != nil {
+		return nil, tracer.Mask(err)
+	}
+
+	return b.Bytes(), nil
 }

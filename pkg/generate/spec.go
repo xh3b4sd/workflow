@@ -1,5 +1,6 @@
 package generate
 
 type Interface interface {
-	Generate() ([]byte, error)
+	Usage() ([]byte, error)
+	Workflow() ([]byte, error)
 }
