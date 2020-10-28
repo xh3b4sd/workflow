@@ -13,7 +13,7 @@ Upon GPG password generation as described above, make sure to add a secret
 environment variable to the following github repository. Further use the
 following secret name.
 
-    repository:     https://github.com/xh3b4sd/workflow
+    repository:     https://github.com/some-org/some-repo
 
     secret:         RED_GPG_PASS_SOMEORG_SOMEREPO
 

@@ -25,18 +25,21 @@ var update = flag.Bool("update", false, "update .golden files")
 //
 func Test_GrpcGo_Usage(t *testing.T) {
 	testCases := []struct {
+		current      string
 		organization string
 		repository   string
 	}{
 		// Case 0 ensures that a command instruction can be generated according
 		// to its configuration.
 		{
+			current:      "github.com/xh3b4sd/workflow",
 			organization: "xh3b4sd",
 			repository:   "gocode",
 		},
 		// Case 1 ensures that a command instruction can be generated according
 		// to its configuration.
 		{
+			current:      "github.com/some-org/some-repo",
 			organization: "some-org",
 			repository:   "some-repo",
 		},
@@ -50,6 +53,7 @@ func Test_GrpcGo_Usage(t *testing.T) {
 			{
 				c := Config{
 					FilePath:           "workflow.yaml",
+					GithubCurrent:      tc.current,
 					GithubOrganization: tc.organization,
 					GithubRepository:   tc.repository,
 					VersionGolang:      "1.15.2",
@@ -131,6 +135,7 @@ func Test_GrpcGo_Workflow(t *testing.T) {
 			{
 				c := Config{
 					FilePath:           "workflow.yaml",
+					GithubCurrent:      "github.com/xh3b4sd/workflow",
 					GithubOrganization: tc.organization,
 					GithubRepository:   tc.repository,
 					VersionGolang:      tc.golang,

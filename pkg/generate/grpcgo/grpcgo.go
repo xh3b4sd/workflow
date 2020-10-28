@@ -6,12 +6,11 @@ import (
 	"text/template"
 
 	"github.com/xh3b4sd/tracer"
-
-	"github.com/xh3b4sd/workflow/pkg/repo"
 )
 
 type Config struct {
 	FilePath           string
+	GithubCurrent      string
 	GithubOrganization string
 	GithubRepository   string
 	VersionGolang      string
@@ -20,6 +19,7 @@ type Config struct {
 
 type GrpcGo struct {
 	filePath           string
+	githubCurrent      string
 	githubOrganization string
 	githubRepository   string
 	versionGolang      string
@@ -29,6 +29,9 @@ type GrpcGo struct {
 func New(config Config) (*GrpcGo, error) {
 	if config.FilePath == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.FilePath must not be empty", config)
+	}
+	if config.GithubCurrent == "" {
+		return nil, tracer.Maskf(invalidConfigError, "%T.GithubCurrent must not be empty", config)
 	}
 	if config.GithubOrganization == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.GithubOrganization must not be empty", config)
@@ -45,6 +48,7 @@ func New(config Config) (*GrpcGo, error) {
 
 	g := &GrpcGo{
 		filePath:           config.FilePath,
+		githubCurrent:      config.GithubCurrent,
 		githubOrganization: config.GithubOrganization,
 		githubRepository:   config.GithubRepository,
 		versionGolang:      config.VersionGolang,
@@ -91,7 +95,7 @@ func (g *GrpcGo) data() interface{} {
 
 	return Data{
 		Github: Github{
-			Current:      repo.Current(),
+			Current:      g.githubCurrent,
 			Organization: g.githubOrganization,
 			Repository:   g.githubRepository,
 		},
