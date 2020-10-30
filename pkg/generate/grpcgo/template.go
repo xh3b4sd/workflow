@@ -95,6 +95,7 @@ jobs:
       - name: Generate Go Code
         run: |
           go get github.com/xh3b4sd/pag
+          rm -rf ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/
           pag generate golang -d ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/
 
       - name: Go Mod Tidy
