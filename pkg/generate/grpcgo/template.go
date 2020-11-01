@@ -54,7 +54,7 @@ jobs:
       - name: Install Protoc Binary
         working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
         run: |
-          curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip"
+          curl -LOs https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           unzip protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin" >> $GITHUB_PATH
 

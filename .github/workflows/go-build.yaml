@@ -36,6 +36,9 @@ jobs:
           test -z $(gofmt -l -s .)
 
       - name: "Check Go Linters"
-        uses: "golangci/golangci-lint-action@v2.3.0"
-        with:
-          version: "v1.32.1"
+        env:
+          VERSION: "1.32.1"
+        run: |
+          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v${VERSION}/golangci-lint-${VERSION}-linux-amd64.tar.gz
+          tar -xzf golangci-lint-${VERSION}-linux-amd64.tar.gz
+          ./golangci-lint-${VERSION}-linux-amd64/golangci-lint run

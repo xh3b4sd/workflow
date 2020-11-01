@@ -54,14 +54,14 @@ jobs:
       - name: Install Protoc Binary
         working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
         run: |
-          curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip"
+          curl -LOs https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           unzip protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
 
       - name: Install gRPC Dependencies
         working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
         run: |
-          curl -LO https://github.com/grpc/grpc-web/releases/download/{{ .Version.GrpcWeb }}/protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
+          curl -LOs https://github.com/grpc/grpc-web/releases/download/{{ .Version.GrpcWeb }}/protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
           chmod +x protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
           mv protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64 ${{ "{{" }} runner.temp {{ "}}" }}/bin/protoc-gen-grpc-web
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
