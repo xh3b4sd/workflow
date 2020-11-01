@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	name             = "completion"
-	shortDescription = "Generate shell completions."
-	longDescription  = `Supported positional arguments and respective shell completions are
+	name  = "completion"
+	short = "Generate shell completions."
+	long  = `Supported positional arguments and respective shell completions are
 as follows.
 
     bash
@@ -42,8 +42,8 @@ func New(config Config) (*cobra.Command, error) {
 
 		c = &cobra.Command{
 			Use:                   name,
-			Short:                 shortDescription,
-			Long:                  longDescription,
+			Short:                 short,
+			Long:                  long,
 			DisableFlagsInUseLine: true,
 			ValidArgs:             []string{"bash", "fish", "powershell", "zsh"},
 			Args:                  cobra.ExactValidArgs(1),

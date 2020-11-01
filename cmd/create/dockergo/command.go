@@ -1,17 +1,15 @@
-package update
+package dockergo
 
 import (
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
-
-	"github.com/xh3b4sd/workflow/cmd/update/all"
 )
 
 const (
-	name  = "update"
-	short = "Update github workflows and config files."
-	long  = "Update github workflows and config files."
+	name  = "dockergo"
+	short = "Create a docker workflow for building and pushing docker images of golang apps."
+	long  = "Create a docker workflow for building and pushing docker images of golang apps."
 )
 
 type Config struct {
@@ -23,23 +21,12 @@ func New(config Config) (*cobra.Command, error) {
 		return nil, tracer.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}
 
-	var err error
-
-	var allCmd *cobra.Command
-	{
-		c := all.Config{
-			Logger: config.Logger,
-		}
-
-		allCmd, err = all.New(c)
-		if err != nil {
-			return nil, tracer.Mask(err)
-		}
-	}
-
 	var c *cobra.Command
 	{
+		f := &flag{}
+
 		r := &runner{
+			flag:   f,
 			logger: config.Logger,
 		}
 
@@ -50,7 +37,7 @@ func New(config Config) (*cobra.Command, error) {
 			RunE:  r.Run,
 		}
 
-		c.AddCommand(allCmd)
+		f.Init(c)
 	}
 
 	return c, nil
