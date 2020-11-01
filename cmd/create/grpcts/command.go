@@ -9,10 +9,10 @@ import (
 const (
 	name  = "grpcts"
 	short = "Create a grpc workflow for typescript code generation."
-	long  = `Create a grpc workflow for typescript code generation. The workflow
-generated here works in a setup of two Github repositories. Call them
-apischema and tscode. The workflow generated with the following command is
-added to the apischema repository.
+	long  = `Create a grpc workflow for typescript code generation. The workflow generated
+here works in a setup of two Github repositories. Call them apischema and
+tscode. The workflow generated with the following command is added to the
+apischema repository.
 
     workflow create grpcts -o xh3b4sd -r tscode
 
