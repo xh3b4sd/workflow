@@ -7,6 +7,7 @@ import (
 
 	"github.com/xh3b4sd/workflow/cmd/completion"
 	"github.com/xh3b4sd/workflow/cmd/generate"
+	"github.com/xh3b4sd/workflow/cmd/update"
 	"github.com/xh3b4sd/workflow/cmd/version"
 	"github.com/xh3b4sd/workflow/pkg/project"
 )
@@ -63,6 +64,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var updateCmd *cobra.Command
+	{
+		c := update.Config{
+			Logger: config.Logger,
+		}
+
+		updateCmd, err = update.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var c *cobra.Command
 	{
 		r := &runner{
@@ -84,6 +97,7 @@ func New(config Config) (*cobra.Command, error) {
 
 		c.AddCommand(completionCmd)
 		c.AddCommand(generateCmd)
+		c.AddCommand(updateCmd)
 		c.AddCommand(versionCmd)
 	}
 
