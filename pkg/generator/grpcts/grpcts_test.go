@@ -52,6 +52,7 @@ func Test_GrpcTs_Usage(t *testing.T) {
 			var g generator.Interface
 			{
 				c := Config{
+					Command:            "workflow create grpcts",
 					FilePath:           "workflow.yaml",
 					GithubCurrent:      tc.current,
 					GithubOrganization: tc.organization,
@@ -105,6 +106,7 @@ func Test_GrpcTs_Usage(t *testing.T) {
 //
 func Test_GrpcTs_Workflow(t *testing.T) {
 	testCases := []struct {
+		command      string
 		organization string
 		repository   string
 		golang       string
@@ -114,6 +116,7 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 		// Case 0 ensures that a workflow file can be generated according to its
 		// configuration.
 		{
+			command:      "workflow create grpcts",
 			organization: "xh3b4sd",
 			repository:   "tscode",
 			golang:       "1.15.2",
@@ -123,6 +126,7 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 		// Case 1 ensures that a workflow file can be generated according to its
 		// configuration.
 		{
+			command:      "workflow create grpcts --some argument",
 			organization: "some-org",
 			repository:   "some-repo",
 			golang:       "1.14.0",
@@ -138,6 +142,7 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 			var g generator.Interface
 			{
 				c := Config{
+					Command:            tc.command,
 					FilePath:           "workflow.yaml",
 					GithubCurrent:      "github.com/xh3b4sd/workflow",
 					GithubOrganization: tc.organization,

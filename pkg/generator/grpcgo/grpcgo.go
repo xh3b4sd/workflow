@@ -9,6 +9,7 @@ import (
 )
 
 type Config struct {
+	Command            string
 	FilePath           string
 	GithubCurrent      string
 	GithubOrganization string
@@ -18,6 +19,7 @@ type Config struct {
 }
 
 type GrpcGo struct {
+	command            string
 	filePath           string
 	githubCurrent      string
 	githubOrganization string
@@ -27,6 +29,9 @@ type GrpcGo struct {
 }
 
 func New(config Config) (*GrpcGo, error) {
+	if config.Command == "" {
+		return nil, tracer.Maskf(invalidConfigError, "%T.Command must not be empty", config)
+	}
 	if config.FilePath == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.FilePath must not be empty", config)
 	}
@@ -47,6 +52,7 @@ func New(config Config) (*GrpcGo, error) {
 	}
 
 	g := &GrpcGo{
+		command:            config.Command,
 		filePath:           config.FilePath,
 		githubCurrent:      config.GithubCurrent,
 		githubOrganization: config.GithubOrganization,
@@ -89,11 +95,13 @@ func (g *GrpcGo) data() interface{} {
 	}
 
 	type Data struct {
+		Command string
 		Github  Github
 		Version Version
 	}
 
 	return Data{
+		Command: g.command,
 		Github: Github{
 			Current:      g.githubCurrent,
 			Organization: g.githubOrganization,
