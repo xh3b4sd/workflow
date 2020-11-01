@@ -40,5 +40,5 @@ jobs:
       - name: "Check Go Linters"
         uses: "golangci/golangci-lint-action@v2.3.0"
         with:
-          version: "v1.32.x"
+          version: "v1.32.1"
 `
