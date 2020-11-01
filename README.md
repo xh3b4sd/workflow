@@ -21,7 +21,8 @@ Usage:
 
 Available Commands:
   dependabot  Generate a dependabot workflow for e.g. golang and docker.
-  docker      Generate a docker workflow for e.g. building and pushing docker images.
+  dockergo    Generate a docker workflow for building and pushing docker images of golang apps.
+  dockerts    Generate a docker workflow for building and pushing docker images of typescript apps.
   golang      Generate a golang workflow for e.g. running tests and checking formatting.
   grpcgo      Generate a grpc workflow for golang code generation.
   grpcts      Generate a grpc workflow for typescript code generation.
