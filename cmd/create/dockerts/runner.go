@@ -5,6 +5,7 @@ import (
 	"context"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
 
 	"github.com/spf13/cobra"
@@ -39,10 +40,12 @@ func (r *runner) data() interface{} {
 	}
 
 	type Data struct {
+		Command string
 		Version Version
 	}
 
 	return Data{
+		Command: strings.Join(os.Args, " "),
 		Version: Version{
 			Node: r.flag.Version.Node,
 		},

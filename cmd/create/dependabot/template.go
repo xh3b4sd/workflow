@@ -4,12 +4,12 @@ const templateDependabot = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
-#     workflow create dependabot
+#     {{ .Command }}
 #
 
 version: 2
 updates:
-{{ range $e := . }}
+{{ range $e := .Ecosystems }}
   - package-ecosystem: "{{ $e.Name }}"
     directory: "/"
     open-pull-requests-limit: 10
@@ -27,10 +27,10 @@ const templateGoModTidy = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
-#     workflow create dependabot
+#     {{ .Command }}
 #
 
-name: go-mod-tidy
+name: "go-mod-tidy"
 
 on:
   push:
@@ -42,25 +42,25 @@ on:
 
 jobs:
   go-mod-tidy:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
 
-      - name: Checkout Git Project
-        uses: actions/checkout@v2
+      - name: "Checkout Git Project"
+        uses: "actions/checkout@v2"
 
-      - name: Setup Go Env
-        uses: actions/setup-go@v2
+      - name: "Setup Go Env"
+        uses: "actions/setup-go@v2"
         with:
           go-version: "{{ .Version.Golang }}"
 
-      - name: Decrypt Private Key
+      - name: "Decrypt Private Key"
         run: |
           go get github.com/xh3b4sd/red
           red decrypt -i .github/asset/id_rsa.enc -o .github/asset/id_rsa -p '${{ "{{" }} secrets.RED_GPG_PASS {{ "}}" }}'
 
-      - name: Setup SSH Agent
+      - name: "Setup SSH Agent"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -68,20 +68,20 @@ jobs:
           chmod 0600 .github/asset/id_rsa
           ssh-add .github/asset/id_rsa
 
-      - name: Setup Git Config
+      - name: "Setup Git Config"
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
 
-      - name: Go Mod Tidy
+      - name: "Go Mod Tidy"
         run: |
           rm -f go.sum
           go mod tidy
 
-      - name: Commit And Push
+      - name: "Commit And Push"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           if [[ $(git status --porcelain go.mod go.sum) ]]; then
             git add go.mod go.sum
@@ -89,9 +89,9 @@ jobs:
             git push
           fi
 
-      - name: Cleanup Build Container
+      - name: "Cleanup Build Container"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           ssh-add -D
           rm -Rf *

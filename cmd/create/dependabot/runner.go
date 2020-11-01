@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
@@ -41,31 +42,39 @@ func (r *runner) dependabotData() interface{} {
 		Reviewers []string
 	}
 
-	var data []Ecosystem
+	type Data struct {
+		Command    string
+		Ecosystems []Ecosystem
+	}
+
+	var ecosystems []Ecosystem
 	{
 		if file.Exists("Dockerfile") {
-			data = append(data, Ecosystem{
+			ecosystems = append(ecosystems, Ecosystem{
 				Name:      "docker",
 				Reviewers: r.flag.Reviewers,
 			})
 		}
 
 		{
-			data = append(data, Ecosystem{
+			ecosystems = append(ecosystems, Ecosystem{
 				Name:      "github-actions",
 				Reviewers: r.flag.Reviewers,
 			})
 		}
 
 		if file.Exists("go.mod") && file.Exists("go.sum") {
-			data = append(data, Ecosystem{
+			ecosystems = append(ecosystems, Ecosystem{
 				Name:      "gomod",
 				Reviewers: r.flag.Reviewers,
 			})
 		}
 	}
 
-	return data
+	return Data{
+		Command:    strings.Join(os.Args, " "),
+		Ecosystems: ecosystems,
+	}
 }
 
 func (r *runner) goModTidyData() interface{} {
@@ -74,10 +83,12 @@ func (r *runner) goModTidyData() interface{} {
 	}
 
 	type Data struct {
+		Command string
 		Version Version
 	}
 
 	return Data{
+		Command: strings.Join(os.Args, " "),
 		Version: Version{
 			Golang: r.flag.Version.Golang,
 		},

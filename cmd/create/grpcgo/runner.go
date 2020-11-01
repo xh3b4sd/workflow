@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
@@ -47,6 +48,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	var g generator.Interface
 	{
 		c := grpcgo.Config{
+			Command:            strings.Join(os.Args, " "),
 			FilePath:           path,
 			GithubCurrent:      repo.Current(),
 			GithubOrganization: r.flag.Github.Organization,

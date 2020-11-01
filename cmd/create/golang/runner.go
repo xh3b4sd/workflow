@@ -45,10 +45,12 @@ func (r *runner) data() interface{} {
 	}
 
 	type Data struct {
+		Command string
 		Version Version
 	}
 
 	return Data{
+		Command: strings.Join(os.Args, " "),
 		Version: Version{
 			Golang: r.flag.Version.Golang,
 		},
