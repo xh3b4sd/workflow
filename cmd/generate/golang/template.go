@@ -38,7 +38,7 @@ jobs:
           test -z $(gofmt -l -s .)
 
       - name: "Check Go Linters"
-        uses: "golangci/golangci-lint-action@v2.2.1"
+        uses: "golangci/golangci-lint-action@v2.3.0"
         with:
-          version: "v1.31"
+          version: "v1.32.1"
 `
