@@ -41,4 +41,4 @@ jobs:
         run: |
           curl -LOs https://github.com/golangci/golangci-lint/releases/download/v${VERSION}/golangci-lint-${VERSION}-linux-amd64.tar.gz
           tar -xzf golangci-lint-${VERSION}-linux-amd64.tar.gz
-          ./golangci-lint-${VERSION}-linux-amd64/golangci-lint
+          ./golangci-lint-${VERSION}-linux-amd64/golangci-lint run
