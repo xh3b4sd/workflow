@@ -6,7 +6,8 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/workflow/cmd/generate/dependabot"
-	"github.com/xh3b4sd/workflow/cmd/generate/docker"
+	"github.com/xh3b4sd/workflow/cmd/generate/dockergo"
+	"github.com/xh3b4sd/workflow/cmd/generate/dockerts"
 	"github.com/xh3b4sd/workflow/cmd/generate/golang"
 	"github.com/xh3b4sd/workflow/cmd/generate/grpcgo"
 	"github.com/xh3b4sd/workflow/cmd/generate/grpcts"
@@ -40,13 +41,25 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
-	var dockerCmd *cobra.Command
+	var dockergoCmd *cobra.Command
 	{
-		c := docker.Config{
+		c := dockergo.Config{
 			Logger: config.Logger,
 		}
 
-		dockerCmd, err = docker.New(c)
+		dockergoCmd, err = dockergo.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
+	var dockertsCmd *cobra.Command
+	{
+		c := dockerts.Config{
+			Logger: config.Logger,
+		}
+
+		dockertsCmd, err = dockerts.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -102,7 +115,8 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		c.AddCommand(dependabotCmd)
-		c.AddCommand(dockerCmd)
+		c.AddCommand(dockergoCmd)
+		c.AddCommand(dockertsCmd)
 		c.AddCommand(golangCmd)
 		c.AddCommand(grpcgoCmd)
 		c.AddCommand(grpctsCmd)

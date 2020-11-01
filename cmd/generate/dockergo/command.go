@@ -1,4 +1,4 @@
-package docker
+package dockergo
 
 import (
 	"github.com/spf13/cobra"
@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	name        = "docker"
-	description = "Generate a docker workflow for e.g. building and pushing docker images."
+	name        = "dockergo"
+	description = "Generate a docker workflow for building and pushing docker images of golang apps."
 )
 
 type Config struct {

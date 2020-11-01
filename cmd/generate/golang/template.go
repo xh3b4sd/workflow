@@ -7,34 +7,38 @@ const templateGolang = `#
 #     workflow generate golang
 #
 
-name: go-build
+name: "go-build"
 
-on: push
+on: "push"
 
 jobs:
   go-build:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
 
-      - name: Checkout Git Project
-        uses: actions/checkout@v2
+      - name: "Checkout Git Project"
+        uses: "actions/checkout@v2"
 
-      - name: Setup Go Env
-        uses: actions/setup-go@v2
+      - name: "Setup Go Env"
+        uses: "actions/setup-go@v2"
         with:
           go-version: "{{ .Version.Golang }}"
 
-      - name: Check Go Dependencies
-        run: go mod tidy && git diff --exit-code
+      - name: "Check Go Dependencies"
+        run: |
+          go mod tidy
+          git diff --exit-code
 
-      - name: Check Go Tests
-        run: go test ./...
+      - name: "Check Go Tests"
+        run: |
+          go test ./...
 
-      - name: Check Go Formatting
-        run: test -z $(gofmt -l -s .)
+      - name: "Check Go Formatting"
+        run: |
+          test -z $(gofmt -l -s .)
 
-      - name: Check Go Linters
-        uses: golangci/golangci-lint-action@v2.2.1
+      - name: "Check Go Linters"
+        uses: "golangci/golangci-lint-action@v2.2.1"
         with:
-          version: v1.31
+          version: "v1.31"
 `

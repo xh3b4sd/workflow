@@ -1,4 +1,4 @@
-package docker
+package dockergo
 
 import (
 	"bytes"
@@ -60,7 +60,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	}
 
 	{
-		p := ".github/workflows/docker.yaml"
+		p := ".github/workflows/docker-go.yaml"
 
 		t, err := template.New(p).Parse(templateDocker)
 		if err != nil {
