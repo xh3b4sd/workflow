@@ -12,32 +12,32 @@ necessary. For more information see https://github.com/xh3b4sd/red.
 ### Workflow Generation
 
 ```
-$ workflow generate -h
-Generate github workflows and config files.
+$ workflow create -h
+Create github workflows and config files.
 
 Usage:
-  workflow generate [flags]
-  workflow generate [command]
+  workflow create [flags]
+  workflow create [command]
 
 Available Commands:
-  dependabot  Generate a dependabot workflow for e.g. golang and docker.
-  dockergo    Generate a docker workflow for building and pushing docker images of golang apps.
-  dockerts    Generate a docker workflow for building and pushing docker images of typescript apps.
-  golang      Generate a golang workflow for e.g. running tests and checking formatting.
-  grpcgo      Generate a grpc workflow for golang code generation.
-  grpcts      Generate a grpc workflow for typescript code generation.
+  dependabot  Create a dependabot workflow for e.g. golang and docker.
+  dockergo    Create a docker workflow for building and pushing docker images of golang apps.
+  dockerts    Create a docker workflow for building and pushing docker images of typescript apps.
+  golang      Create a golang workflow for e.g. running tests and checking formatting.
+  grpcgo      Create a grpc workflow for golang code generation.
+  grpcts      Create a grpc workflow for typescript code generation.
 
 Flags:
-  -h, --help   help for generate
+  -h, --help   help for create
 
-Use "workflow generate [command] --help" for more information about a command.
+Use "workflow create [command] --help" for more information about a command.
 ```
 
 
 
 ```
-$ workflow generate dependabot -h
-Generate a dependabot workflow for e.g. golang and docker. The dependabot
+$ workflow create dependabot -h
+Create a dependabot workflow for e.g. golang and docker. The dependabot
 workflow for golang includes a separate action of executing "go mod tidy" due
 to some dependabot limitations. This limitation requires automated fixing and
 therefore dedicated push access to the configured repository. The explicitly
@@ -72,7 +72,7 @@ configured repository. The secret name must be as follows.
     RED_GPG_PASS
 
 Usage:
-  workflow generate dependabot [flags]
+  workflow create dependabot [flags]
 
 Flags:
   -h, --help                    help for dependabot
@@ -83,13 +83,13 @@ Flags:
 
 
 ```
-$ workflow generate grpcgo -h
-Generate a grpc workflow for golang code generation. The workflow generated
+$ workflow create grpcgo -h
+Create a grpc workflow for golang code generation. The workflow generated
 here works in a setup of two Github repositories. Call them apischema and
 gocode. The workflow generated with the following command is added to the
 apischema repository.
 
-    workflow generate grpcgo -o xh3b4sd -r gocode
+    workflow create grpcgo -o xh3b4sd -r gocode
 
 In order to make the workflow function correctly a deploy key is generated
 and distributed as follows. The public and private key files are added to the
@@ -107,7 +107,7 @@ following name.
     RED_GPG_PASS_XH3B4SD_GOCODE
 
 Usage:
-  workflow generate grpcgo [flags]
+  workflow create grpcgo [flags]
 
 Flags:
   -o, --github-organization string   Github organization to generate code for.
@@ -120,13 +120,13 @@ Flags:
 
 
 ```
-$ workflow generate grpcts -h
-Generate a grpc workflow for typescript code generation. The workflow
-generated here works in a setup of two Github repositories. Call them
-apischema and tscode. The workflow generated with the following command is
-added to the apischema repository.
+$ workflow create grpcts -h
+Create a grpc workflow for typescript code generation. The workflow generated
+here works in a setup of two Github repositories. Call them apischema and
+tscode. The workflow generated with the following command is added to the
+apischema repository.
 
-    workflow generate grpcts -o xh3b4sd -r tscode
+    workflow create grpcts -o xh3b4sd -r tscode
 
 In order to make the workflow function correctly a deploy key is generated
 and distributed as follows. The public key and the encrypted private key
@@ -145,7 +145,7 @@ to the apischema Github repository secrets using the following secret name.
     RED_GPG_PASS_XH3B4SD_TSCODE
 
 Usage:
-  workflow generate grpcts [flags]
+  workflow create grpcts [flags]
 
 Flags:
   -o, --github-organization string   Github organization to generate code for.

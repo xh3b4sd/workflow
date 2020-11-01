@@ -6,15 +6,16 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/workflow/cmd/completion"
-	"github.com/xh3b4sd/workflow/cmd/generate"
+	"github.com/xh3b4sd/workflow/cmd/create"
 	"github.com/xh3b4sd/workflow/cmd/update"
 	"github.com/xh3b4sd/workflow/cmd/version"
 	"github.com/xh3b4sd/workflow/pkg/project"
 )
 
 var (
-	name        = project.Name()
-	description = project.Description()
+	name  = project.Name()
+	short = project.Description()
+	long  = project.Description()
 )
 
 type Config struct {
@@ -40,13 +41,13 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
-	var generateCmd *cobra.Command
+	var createCmd *cobra.Command
 	{
-		c := generate.Config{
+		c := create.Config{
 			Logger: config.Logger,
 		}
 
-		generateCmd, err = generate.New(c)
+		createCmd, err = create.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -84,8 +85,8 @@ func New(config Config) (*cobra.Command, error) {
 
 		c = &cobra.Command{
 			Use:   name,
-			Short: description,
-			Long:  description,
+			Short: short,
+			Long:  long,
 			RunE:  r.Run,
 			// We slience errors because we do not want to see spf13/cobra printing.
 			// The errors returned by the commands will be propagated to the main.go
@@ -96,7 +97,7 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		c.AddCommand(completionCmd)
-		c.AddCommand(generateCmd)
+		c.AddCommand(createCmd)
 		c.AddCommand(updateCmd)
 		c.AddCommand(versionCmd)
 	}

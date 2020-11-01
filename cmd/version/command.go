@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	name        = "version"
-	description = "Print version information of this command line tool."
+	name  = "version"
+	short = "Print version information of this command line tool."
+	long  = "Print version information of this command line tool."
 )
 
 type Config struct {
@@ -26,8 +27,8 @@ func New(config Config) (*cobra.Command, error) {
 
 	c := &cobra.Command{
 		Use:   name,
-		Short: description,
-		Long:  description,
+		Short: short,
+		Long:  long,
 		RunE:  r.Run,
 	}
 
