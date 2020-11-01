@@ -39,8 +39,9 @@ jobs:
 
       - name: "Check Go Linters"
         env:
-          GO111MODULE: "on"
+          VERSION: "1.32.1"
         run: |
-          go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.32.1
-          golangci-lint run
+          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v${VERSION}/golangci-lint-${VERSION}-linux-amd64.tar.gz
+          tar -xzf golangci-lint-${VERSION}-linux-amd64.tar.gz
+          ./golangci-lint-${VERSION}-linux-amd64/golangci-lint
 `
