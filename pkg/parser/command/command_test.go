@@ -18,8 +18,8 @@ var update = flag.Bool("update", false, "update .golden files")
 
 // Test_Command_Parse tests the parsing of the command instructions used to
 // generate workflows. Different workflows and their associated commands are
-// quite complex and parsing code is not easily comprehensible. Therefore we
-// need a way to reliable verify the integrity of the command parsing.
+// quite complex while the parsing code is not easily comprehensible. Therefore
+// we need a way to reliably verify the integrity of the command parsing.
 //
 //     go test ./... -run Test_Command_Parse -update
 //
@@ -99,7 +99,7 @@ func Test_Command_Parse(t *testing.T) {
 				}
 			}
 
-			var actual []byte
+			var actual string
 			{
 				l, err := p.Parse()
 				if err != nil {
@@ -111,7 +111,7 @@ func Test_Command_Parse(t *testing.T) {
 					s = append(s, strings.Join(a, " "))
 				}
 
-				actual = []byte(strings.Join(s, "\n"))
+				actual = strings.Join(s, "\n") + "\n"
 			}
 
 			var expected []byte

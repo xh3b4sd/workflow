@@ -12,7 +12,7 @@ import (
 
 var (
 	// header is the regular expression used to parse the common workflow header
-	// that tracks the command used for its own creation.
+	// that tracks the command used for the workflow creation.
 	header = regexp.MustCompile(`(?m)^[\s]*#[\s]+(workflow create .*)$`)
 )
 
@@ -95,8 +95,7 @@ func (c *Command) files(exts ...string) ([]string, error) {
 			}
 
 			// We do not want to track files with the wrong extension. We are
-			// interested in protocol buffer files having the ".proto"
-			// extension.
+			// interested in workflow files having the ".yaml" extension.
 			for _, e := range exts {
 				if filepath.Ext(i.Name()) != e {
 					return nil
