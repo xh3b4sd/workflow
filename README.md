@@ -9,7 +9,7 @@ necessary. For more information see https://github.com/xh3b4sd/red.
 
 
 
-### Workflow Generation
+### Create Workflows
 
 ```
 $ workflow create -h
@@ -154,4 +154,38 @@ Flags:
   -g, --version-golang string        Golang version to use in, e.g. workflow files. (default "1.15.2")
   -w, --version-grpc-web string      Grpc Web version to use in, e.g. workflow files. (default "1.2.1")
   -p, --version-protoc string        Protoc version to use in, e.g. workflow files. (default "3.13.0")
+```
+
+
+
+### Update Workflows
+
+
+```
+$ workflow update all -h
+Update all github workflows to the latest version. When creating a new
+workflow file the original command instruction in form of os.Args is written
+to the header of the workflow file. A typical workflow file header looks like
+the following.
+
+    #
+    # Do not edit. This file was generated via the "workflow" command line tool.
+    # More information about the tool can be found at github.com/xh3b4sd/workflow.
+    #
+    #     workflow create dependabot -r xh3b4sd
+    #
+
+This information of the executable command is used to make workflow updates
+reproducible. All workflow files within the github specific workflow
+directory are inspected when collecting command instructions. Once all
+commands are known they are executed dynamically while new behaviour is
+applied.
+
+    .github/workflows/
+
+Usage:
+  workflow update all [flags]
+
+Flags:
+  -h, --help   help for all
 ```
