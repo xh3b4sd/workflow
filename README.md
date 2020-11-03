@@ -113,6 +113,7 @@ Flags:
   -o, --github-organization string   Github organization to generate code for.
   -r, --github-repository string     Github repository to generate code for.
   -h, --help                         help for grpcgo
+  -s, --silent                       Silence the command output to not give feedback.
   -g, --version-golang string        Golang version to use in, e.g. workflow files. (default "1.15.2")
   -p, --version-protoc string        Protoc version to use in, e.g. workflow files. (default "3.13.0")
 ```
@@ -151,6 +152,7 @@ Flags:
   -o, --github-organization string   Github organization to generate code for.
   -r, --github-repository string     Github repository to generate code for.
   -h, --help                         help for grpcts
+  -s, --silent                       Silence the command output to not give feedback.
   -g, --version-golang string        Golang version to use in, e.g. workflow files. (default "1.15.2")
   -w, --version-grpc-web string      Grpc Web version to use in, e.g. workflow files. (default "1.2.1")
   -p, --version-protoc string        Protoc version to use in, e.g. workflow files. (default "3.13.0")
