@@ -45,10 +45,32 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
 	var err error
 
+	// We compute the command actually being used to create the gRPC workflow
+	// for typescript code generation. The command is written to the header of
+	// the workflow file. This enables us to re-generated workflows using the
+	// update command without detailed knowledge about the specific flags being
+	// used initially. Since the grpcts command is a little verbose to support
+	// the user in the first place, we do not want to print further usage
+	// information upon updating the workflow. Thus we add the silence flag if
+	// it is not already set.
+	//
+	//     -s/--silent
+	//
+	var command string
+	{
+		args := os.Args
+
+		if !r.flag.Silent {
+			args = append(args, "-s")
+		}
+
+		command = strings.Join(args, " ")
+	}
+
 	var g generator.Interface
 	{
 		c := grpcts.Config{
-			Command:            strings.Join(os.Args, " "),
+			Command:            command,
 			FilePath:           path,
 			GithubCurrent:      repo.Current(),
 			GithubOrganization: r.flag.Github.Organization,
@@ -84,7 +106,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		}
 	}
 
-	{
+	if !r.flag.Silent {
 		b, err = g.Usage()
 		if err != nil {
 			return tracer.Mask(err)
