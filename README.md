@@ -26,6 +26,7 @@ Available Commands:
   golang      Create a golang workflow for e.g. running tests and checking formatting.
   grpcgo      Create a grpc workflow for golang code generation.
   grpcts      Create a grpc workflow for typescript code generation.
+  typescript  Create a typescript workflow for e.g. building and publishing a npm package.
 
 Flags:
   -h, --help   help for create
