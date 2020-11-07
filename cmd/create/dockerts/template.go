@@ -31,7 +31,7 @@ jobs:
 
       - name: "Check Ts Formatting"
         run: |
-          prettier -l "**.ts" "**.tsx"
+          prettier -c "**.ts" "**.tsx"
 
       - name: "Build Ts Project"
         run: |
