@@ -40,7 +40,7 @@ jobs:
           username: "${{ "{{" }} github.repository_owner {{ "}}" }}"
           password: "${{ "{{" }} secrets.CONTAINER_REGISTRY_TOKEN {{ "}}" }}"
 
-      - name: "Build and push"
+      - name: "Build Docker Image"
         uses: "docker/build-push-action@v2"
         with:
           context: "."

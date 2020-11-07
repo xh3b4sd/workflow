@@ -27,8 +27,13 @@ jobs:
       - name: "Install Ts Dependencies"
         run: |
           npm install
+          npm install prettier --global
 
-      - name: "Build Ts App"
+      - name: "Check Ts Formatting"
+        run: |
+          prettier -l "**.ts" "**.tsx"
+
+      - name: "Build Ts Project"
         run: |
           npm run build
 
@@ -42,7 +47,7 @@ jobs:
           username: "${{ "{{" }} github.repository_owner {{ "}}" }}"
           password: "${{ "{{" }} secrets.CONTAINER_REGISTRY_TOKEN {{ "}}" }}"
 
-      - name: "Build and push"
+      - name: "Build Docker Image"
         uses: "docker/build-push-action@v2"
         with:
           context: "."

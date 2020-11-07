@@ -30,19 +30,24 @@ jobs:
     steps:
 
       - name: "Checkout Git Project"
-        uses: actions/checkout@v2
+        uses: "actions/checkout@v2"
 
-      - name: "Setup Node Env"
+      - name: "Setup Ts Env"
         uses: "actions/setup-node@v1"
         with:
           node-version: "{{ .Version.Node }}"
           registry-url: "https://npm.pkg.github.com"
 
-      - name: "Install NPM Dependencies"
+      - name: "Install Ts Dependencies"
         run: |
           npm install
+          npm install prettier --global
 
-      - name: "Build NPM Package"
+      - name: "Check Ts Formatting"
+        run: |
+          prettier -l "**.ts" "**.tsx"
+
+      - name: "Build Ts Project"
         run: |
           npm run build
 
