@@ -22,7 +22,7 @@ name: "typescript"
 on: "push"
 
 jobs:
-  npm-publish:
+  typescript:
     runs-on: "ubuntu-latest"
     steps:
 
