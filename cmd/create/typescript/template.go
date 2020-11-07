@@ -45,7 +45,7 @@ jobs:
 
       - name: "Check Ts Formatting"
         run: |
-          prettier -l "**.ts" "**.tsx"
+          prettier -l $(find -E ./src/ -regex '.*\.(ts|tsx)')
 
       - name: "Build Ts Project"
         run: |

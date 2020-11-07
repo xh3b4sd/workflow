@@ -16,6 +16,7 @@ type Config struct {
 	GithubRepository   string
 	VersionGolang      string
 	VersionGrpcWeb     string
+	VersionNode        string
 	VersionProtoc      string
 }
 
@@ -27,6 +28,7 @@ type GrpcTs struct {
 	githubRepository   string
 	versionGolang      string
 	versionGrpcWeb     string
+	versionNode        string
 	versionProtoc      string
 }
 
@@ -52,6 +54,9 @@ func New(config Config) (*GrpcTs, error) {
 	if config.VersionGrpcWeb == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.VersionGrpcWeb must not be empty", config)
 	}
+	if config.VersionNode == "" {
+		return nil, tracer.Maskf(invalidConfigError, "%T.VersionNode must not be empty", config)
+	}
 	if config.VersionProtoc == "" {
 		return nil, tracer.Maskf(invalidConfigError, "%T.VersionProtoc must not be empty", config)
 	}
@@ -64,6 +69,7 @@ func New(config Config) (*GrpcTs, error) {
 		githubRepository:   config.GithubRepository,
 		versionGolang:      config.VersionGolang,
 		versionGrpcWeb:     config.VersionGrpcWeb,
+		versionNode:        config.VersionNode,
 		versionProtoc:      config.VersionProtoc,
 	}
 
@@ -98,6 +104,7 @@ func (g *GrpcTs) data() interface{} {
 	type Version struct {
 		Golang  string
 		GrpcWeb string
+		Node    string
 		Protoc  string
 	}
 
@@ -117,6 +124,7 @@ func (g *GrpcTs) data() interface{} {
 		Version: Version{
 			Golang:  g.versionGolang,
 			GrpcWeb: g.versionGrpcWeb,
+			Node:    g.versionNode,
 			Protoc:  g.versionProtoc,
 		},
 	}

@@ -18,6 +18,7 @@ type flag struct {
 	Version struct {
 		Golang  string
 		GrpcWeb string
+		Node    string
 		Protoc  string
 	}
 }
@@ -28,6 +29,7 @@ func (f *flag) Init(cmd *cobra.Command) {
 	cmd.Flags().BoolVarP(&f.Silent, "silent", "s", false, "Silence the command output to not give feedback.")
 	cmd.Flags().StringVarP(&f.Version.Golang, "version-golang", "g", version.Golang, "Golang version to use in, e.g. workflow files.")
 	cmd.Flags().StringVarP(&f.Version.GrpcWeb, "version-grpc-web", "w", version.GrpcWeb, "Grpc Web version to use in, e.g. workflow files.")
+	cmd.Flags().StringVarP(&f.Version.Node, "version-node", "n", version.Node, "Node version to use in, e.g. workflow files.")
 	cmd.Flags().StringVarP(&f.Version.Protoc, "version-protoc", "p", version.Protoc, "Protoc version to use in, e.g. workflow files.")
 }
 
@@ -60,6 +62,17 @@ func (f *flag) Validate() error {
 		s := strings.Split(f.Version.GrpcWeb, ".")
 		if len(s) != 3 {
 			return tracer.Maskf(invalidFlagError, "-w/--version-grpc-web must have 3 parts like 1.2.1")
+		}
+	}
+
+	{
+		if f.Version.Node == "" {
+			return tracer.Maskf(invalidFlagError, "-n/--version-node must not be empty")
+		}
+
+		s := strings.Split(f.Version.Node, ".")
+		if len(s) != 3 {
+			return tracer.Maskf(invalidFlagError, "-n/--version-node must have 3 parts like 1.15.2")
 		}
 	}
 

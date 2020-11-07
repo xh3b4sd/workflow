@@ -28,6 +28,11 @@ jobs:
         with:
           go-version: "1.15.2"
 
+      - name: "Setup Ts Env"
+        uses: "actions/setup-node@v1"
+        with:
+          node-version: "15.x.x"
+
       - name: Install Protoc Binary
         working-directory: ${{ runner.temp }}
         run: |
@@ -42,6 +47,10 @@ jobs:
           chmod +x protoc-gen-grpc-web-1.2.1-linux-x86_64
           mv protoc-gen-grpc-web-1.2.1-linux-x86_64 ${{ runner.temp }}/bin/protoc-gen-grpc-web
           echo "${{ runner.temp }}/bin/" >> $GITHUB_PATH
+
+      - name: "Install Ts Dependencies"
+        run: |
+          npm install prettier --global
 
       - name: Decrypt Private Key
         run: |
@@ -75,6 +84,10 @@ jobs:
           go get github.com/xh3b4sd/pag
           rm -rf ${{ runner.temp }}/xh3b4sd/tscode/src/
           pag generate typescript -d ${{ runner.temp }}/xh3b4sd/tscode/src/
+
+      - name: "Format Ts Code"
+        run: |
+          prettier -w $(find -E ${{ runner.temp }}/xh3b4sd/tscode/src/ -regex '.*\.(ts|tsx)')
 
       - name: Commit And Push
         env:
