@@ -73,8 +73,8 @@ jobs:
       - name: Generate Ts Code
         run: |
           go get github.com/xh3b4sd/pag
-          rm -rf ${{ runner.temp }}/some-org/some-repo/pkg/
-          pag generate typescript -d ${{ runner.temp }}/some-org/some-repo/pkg/
+          rm -rf ${{ runner.temp }}/some-org/some-repo/src/
+          pag generate typescript -d ${{ runner.temp }}/some-org/some-repo/src/
 
       - name: Commit And Push
         env:
