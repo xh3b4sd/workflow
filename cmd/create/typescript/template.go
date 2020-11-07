@@ -7,8 +7,6 @@ const templateTypescript = `#
 #     {{ .Command }}
 #
 
-# to be up to date. Further
-
 name: "typescript"
 
 on: "push"
