@@ -31,7 +31,7 @@ jobs:
 
       - name: "Check Ts Formatting"
         run: |
-          prettier -c "**.ts" "**.tsx"
+          prettier -c $(find ./src/ -name "*.ts" -o -name "*.tsx")
 
       - name: "Build Ts Project"
         run: |
