@@ -6,14 +6,6 @@ const templateTypescript = `#
 #
 #     {{ .Command }}
 #
-# Note that this workflow has several requirements in order to function
-# correctly throughout the development process. See the desired sequence of
-# steps below.
-#
-#     1. A developer bumps the semver version within the package.json.
-#     2. A developer creates a new github release according to step 1.
-#     3. The workflow builds and publishes the new npm package.
-#
 
 # to be up to date. Further
 
