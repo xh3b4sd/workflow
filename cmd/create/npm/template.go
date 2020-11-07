@@ -15,8 +15,6 @@ const templateWorkflow = `#
 #     3. The workflow builds and publishes the new npm package.
 #
 
-# to be up to date. Further
-
 name: "npm-publish"
 
 on:
