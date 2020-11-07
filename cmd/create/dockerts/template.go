@@ -1,6 +1,6 @@
 package dockerts
 
-const templateDocker = `#
+const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
@@ -27,8 +27,13 @@ jobs:
       - name: "Install Ts Dependencies"
         run: |
           npm install
+          npm install prettier --global
 
-      - name: "Build Ts App"
+      - name: "Check Ts Formatting"
+        run: |
+          prettier -c $(find ./src/ -name "*.ts" -o -name "*.tsx")
+
+      - name: "Build Ts Project"
         run: |
           npm run build
 
@@ -42,7 +47,7 @@ jobs:
           username: "${{ "{{" }} github.repository_owner {{ "}}" }}"
           password: "${{ "{{" }} secrets.CONTAINER_REGISTRY_TOKEN {{ "}}" }}"
 
-      - name: "Build and push"
+      - name: "Build Docker Image"
         uses: "docker/build-push-action@v2"
         with:
           context: "."

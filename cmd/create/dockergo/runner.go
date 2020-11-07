@@ -65,7 +65,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	{
 		p := ".github/workflows/docker-go.yaml"
 
-		t, err := template.New(p).Parse(templateDocker)
+		t, err := template.New(p).Parse(templateWorkflow)
 		if err != nil {
 			return tracer.Mask(err)
 		}

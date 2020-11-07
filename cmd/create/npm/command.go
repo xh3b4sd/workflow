@@ -1,4 +1,4 @@
-package typescript
+package npm
 
 import (
 	"github.com/spf13/cobra"
@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	name  = "typescript"
-	short = "Create a typescript workflow for e.g. building and formatting typescript code."
-	long  = "Create a typescript workflow for e.g. building and formatting typescript code."
+	name  = "npm"
+	short = "Create a npm workflow for e.g. building and publishing npm packages."
+	long  = "Create a npm workflow for e.g. building and publishing npm packages."
 )
 
 type Config struct {

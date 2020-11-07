@@ -1,4 +1,4 @@
-package dockerts
+package npm
 
 import (
 	"bytes"
@@ -63,7 +63,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	}
 
 	{
-		p := ".github/workflows/docker-ts.yaml"
+		p := ".github/workflows/npm-publish.yaml"
 
 		t, err := template.New(p).Parse(templateWorkflow)
 		if err != nil {

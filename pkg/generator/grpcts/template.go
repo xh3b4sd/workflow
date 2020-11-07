@@ -1,6 +1,6 @@
 package grpcts
 
-const usageTemplate = `Generated grpc workflow for typescript code generation. Please make sure to
+const templateUsage = `Generated grpc workflow for typescript code generation. Please make sure to
 generate the RSA deploy keys and the GPG password as follows. For more
 information see https://github.com/xh3b4sd/red.
 
@@ -21,7 +21,7 @@ following secret name.
 
 `
 
-const workflowTemplate = `#
+const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
@@ -51,6 +51,11 @@ jobs:
         with:
           go-version: "{{ .Version.Golang }}"
 
+      - name: "Setup Ts Env"
+        uses: "actions/setup-node@v1"
+        with:
+          node-version: "{{ .Version.Node }}"
+
       - name: Install Protoc Binary
         working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
         run: |
@@ -65,6 +70,10 @@ jobs:
           chmod +x protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
           mv protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64 ${{ "{{" }} runner.temp {{ "}}" }}/bin/protoc-gen-grpc-web
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
+
+      - name: "Install Ts Dependencies"
+        run: |
+          npm install prettier --global
 
       - name: Decrypt Private Key
         run: |
@@ -98,6 +107,10 @@ jobs:
           go get github.com/xh3b4sd/pag
           rm -rf ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/
           pag generate typescript -d ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/
+
+      - name: "Format Ts Code"
+        run: |
+          prettier -w $(find ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/ -name "*.ts" -o -name "*.tsx")
 
       - name: Commit And Push
         env:

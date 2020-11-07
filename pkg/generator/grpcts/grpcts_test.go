@@ -58,8 +58,9 @@ func Test_GrpcTs_Usage(t *testing.T) {
 					GithubOrganization: tc.organization,
 					GithubRepository:   tc.repository,
 					VersionGolang:      "1.15.2",
-					VersionProtoc:      "3.13.0",
 					VersionGrpcWeb:     "1.2.1",
+					VersionNode:        "15.x.x",
+					VersionProtoc:      "3.13.0",
 				}
 
 				g, err = New(c)
@@ -110,8 +111,9 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 		organization string
 		repository   string
 		golang       string
-		protoc       string
 		grpcWeb      string
+		node         string
+		protoc       string
 	}{
 		// Case 0 ensures that a workflow file can be generated according to its
 		// configuration.
@@ -120,8 +122,9 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 			organization: "xh3b4sd",
 			repository:   "tscode",
 			golang:       "1.15.2",
-			protoc:       "3.13.0",
 			grpcWeb:      "1.2.1",
+			node:         "15.x.x",
+			protoc:       "3.13.0",
 		},
 		// Case 1 ensures that a workflow file can be generated according to its
 		// configuration.
@@ -130,8 +133,9 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 			organization: "some-org",
 			repository:   "some-repo",
 			golang:       "1.14.0",
-			protoc:       "3.5.1",
 			grpcWeb:      "2.1.5",
+			node:         "15.x.x",
+			protoc:       "3.5.1",
 		},
 	}
 
@@ -148,8 +152,9 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 					GithubOrganization: tc.organization,
 					GithubRepository:   tc.repository,
 					VersionGolang:      tc.golang,
-					VersionProtoc:      tc.protoc,
 					VersionGrpcWeb:     tc.grpcWeb,
+					VersionNode:        tc.node,
+					VersionProtoc:      tc.protoc,
 				}
 
 				g, err = New(c)

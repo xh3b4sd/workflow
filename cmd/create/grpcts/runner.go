@@ -77,6 +77,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 			GithubRepository:   r.flag.Github.Repository,
 			VersionGolang:      r.flag.Version.Golang,
 			VersionGrpcWeb:     r.flag.Version.GrpcWeb,
+			VersionNode:        r.flag.Version.Node,
 			VersionProtoc:      r.flag.Version.Protoc,
 		}
 
