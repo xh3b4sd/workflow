@@ -70,7 +70,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	{
 		p := ".github/workflows/go-build.yaml"
 
-		t, err := template.New(p).Parse(templateGolang)
+		t, err := template.New(p).Parse(templateWorkflow)
 		if err != nil {
 			return tracer.Mask(err)
 		}

@@ -1,6 +1,6 @@
 package grpcts
 
-const usageTemplate = `Generated grpc workflow for typescript code generation. Please make sure to
+const templateUsage = `Generated grpc workflow for typescript code generation. Please make sure to
 generate the RSA deploy keys and the GPG password as follows. For more
 information see https://github.com/xh3b4sd/red.
 
@@ -21,7 +21,7 @@ following secret name.
 
 `
 
-const workflowTemplate = `#
+const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #

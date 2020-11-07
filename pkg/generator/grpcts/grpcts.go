@@ -77,7 +77,7 @@ func New(config Config) (*GrpcTs, error) {
 }
 
 func (g *GrpcTs) Usage() ([]byte, error) {
-	b, err := g.render(usageTemplate)
+	b, err := g.render(templateUsage)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
@@ -86,7 +86,7 @@ func (g *GrpcTs) Usage() ([]byte, error) {
 }
 
 func (g *GrpcTs) Workflow() ([]byte, error) {
-	b, err := g.render(workflowTemplate)
+	b, err := g.render(templateWorkflow)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}

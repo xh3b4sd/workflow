@@ -1,6 +1,6 @@
-package typescript
+package npm
 
-const templateTypescript = `#
+const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
@@ -17,9 +17,12 @@ const templateTypescript = `#
 
 # to be up to date. Further
 
-name: "typescript"
+name: "npm-publish"
 
-on: "push"
+on:
+  release:
+    types:
+      - "created"
 
 jobs:
   npm-publish:
@@ -33,6 +36,7 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: "{{ .Version.Node }}"
+          registry-url: "https://npm.pkg.github.com"
 
       - name: "Install Ts Dependencies"
         run: |
@@ -46,4 +50,10 @@ jobs:
       - name: "Build Ts Project"
         run: |
           npm run build
+
+      - name: "Publish NPM Package"
+        env:
+          NODE_AUTH_TOKEN: "${{ "{{" }} secrets.GITHUB_TOKEN {{ "}}" }}"
+        run: |
+          npm publish
 `

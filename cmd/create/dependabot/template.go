@@ -23,7 +23,7 @@ updates:
     target-branch: "master"
 {{ end }}`
 
-const templateGoModTidy = `#
+const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #

@@ -128,7 +128,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	{
 		p := ".github/workflows/go-mod-tidy.yaml"
 
-		t, err := template.New(p).Parse(templateGoModTidy)
+		t, err := template.New(p).Parse(templateWorkflow)
 		if err != nil {
 			return tracer.Mask(err)
 		}

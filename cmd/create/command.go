@@ -11,6 +11,7 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/create/golang"
 	"github.com/xh3b4sd/workflow/cmd/create/grpcgo"
 	"github.com/xh3b4sd/workflow/cmd/create/grpcts"
+	"github.com/xh3b4sd/workflow/cmd/create/npm"
 	"github.com/xh3b4sd/workflow/cmd/create/typescript"
 )
 
@@ -103,6 +104,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var npmCmd *cobra.Command
+	{
+		c := npm.Config{
+			Logger: config.Logger,
+		}
+
+		npmCmd, err = npm.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var typescriptCmd *cobra.Command
 	{
 		c := typescript.Config{
@@ -134,6 +147,7 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(golangCmd)
 		c.AddCommand(grpcgoCmd)
 		c.AddCommand(grpctsCmd)
+		c.AddCommand(npmCmd)
 		c.AddCommand(typescriptCmd)
 	}
 

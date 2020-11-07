@@ -65,7 +65,7 @@ func New(config Config) (*GrpcGo, error) {
 }
 
 func (g *GrpcGo) Usage() ([]byte, error) {
-	b, err := g.render(usageTemplate)
+	b, err := g.render(templateUsage)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
@@ -74,7 +74,7 @@ func (g *GrpcGo) Usage() ([]byte, error) {
 }
 
 func (g *GrpcGo) Workflow() ([]byte, error) {
-	b, err := g.render(workflowTemplate)
+	b, err := g.render(templateWorkflow)
 	if err != nil {
 		return nil, tracer.Mask(err)
 	}
