@@ -110,7 +110,7 @@ jobs:
 
       - name: "Format Ts Code"
         run: |
-          prettier -w $(find -E ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/ -regex '.*\.(ts|tsx)')
+          prettier -w $(find ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/ -name "*.ts" -o -name "*.tsx")
 
       - name: Commit And Push
         env:

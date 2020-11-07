@@ -87,7 +87,7 @@ jobs:
 
       - name: "Format Ts Code"
         run: |
-          prettier -w $(find -E ${{ runner.temp }}/xh3b4sd/tscode/src/ -regex '.*\.(ts|tsx)')
+          prettier -w $(find ${{ runner.temp }}/xh3b4sd/tscode/src/ -name "*.ts" -o -name "*.tsx")
 
       - name: Commit And Push
         env:
