@@ -21,7 +21,7 @@ var update = flag.Bool("update", false, "update .golden files")
 // current repository we need a way to reliable verify the integrity of the YAML
 // file rendering.
 //
-//     go test ./... -run Test_GrpcGo_Usage -update
+//     go test ./pkg/generator/... -run Test_GrpcGo_Usage -update
 //
 func Test_GrpcGo_Usage(t *testing.T) {
 	testCases := []struct {

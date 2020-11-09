@@ -7,13 +7,13 @@ information see https://github.com/xh3b4sd/red.
 Upon RSA deploy key generation as described above, make sure to add the
 generated public key as deploy key to the following github repository.
 
-    https://github.com/xh3b4sd/tscode
+    github.com/xh3b4sd/tscode
 
 Upon GPG password generation as described above, make sure to add a secret
 environment variable to the following github repository. Further use the
 following secret name.
 
-    repository:     https://github.com/xh3b4sd/workflow
+    repository:     github.com/xh3b4sd/workflow
 
     secret:         RED_GPG_PASS_XH3B4SD_TSCODE
 

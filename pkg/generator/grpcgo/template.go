@@ -9,13 +9,13 @@ information see https://github.com/xh3b4sd/red.
 Upon RSA deploy key generation as described above, make sure to add the
 generated public key as deploy key to the following github repository.
 
-    https://github.com/{{ .Github.Organization }}/{{ .Github.Repository }}
+    github.com/{{ .Github.Organization }}/{{ .Github.Repository }}
 
 Upon GPG password generation as described above, make sure to add a secret
 environment variable to the following github repository. Further use the
 following secret name.
 
-    repository:     https://{{ .Github.Current }}
+    repository:     {{ .Github.Current }}
 
     secret:         RED_GPG_PASS_{{ .Github.Organization | ToUpper }}_{{ .Github.Repository | ToUpper }}
 
