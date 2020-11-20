@@ -31,7 +31,7 @@ jobs:
 
       - name: "Prevent Js Files"
         run: |
-          if [[ $(find ./src/ -name "*.js") ]]; then
+          if [[ $(find ./src -name "*.js" -not -name "*_pb.js") ]]; then
             echo "found .js files"
             exit 1
           fi
@@ -45,7 +45,7 @@ jobs:
 
       - name: "Check Ts Formatting"
         run: |
-          prettier -c $(find ./src/ -name "*.ts" -o -name "*.tsx")
+          prettier -c $(find ./src -name "*.ts" -o -name "*.tsx")
 
       - name: "Build Ts Project"
         run: |
