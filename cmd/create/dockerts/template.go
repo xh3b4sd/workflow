@@ -27,11 +27,6 @@ jobs:
       - name: "Install Ts Dependencies"
         run: |
           npm install
-          npm install prettier --global
-
-      - name: "Check Ts Formatting"
-        run: |
-          prettier -c $(find ./src/ -name "*.ts" -o -name "*.tsx")
 
       - name: "Build Ts Project"
         run: |
