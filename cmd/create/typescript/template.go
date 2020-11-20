@@ -32,14 +32,14 @@ jobs:
       - name: "Prevent Js Files"
         run: |
           if [[ $(find ./src/ -name "*.js") ]]; then
-            echo ".js files not allowed"
+            echo "found .js files"
             exit 1
           fi
 
       - name: "Check Git Project"
         run: |
           if [[ $(git status --porcelain) ]]; then
-            echo "dirty git project"
+            echo "found dirty files"
             exit 1
           fi
 
