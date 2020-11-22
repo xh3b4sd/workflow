@@ -47,6 +47,10 @@ jobs:
         run: |
           prettier -c $(find ./src -name "*.ts" -o -name "*.tsx")
 
+      - name: "Check Ts Tests"
+        run: |
+          npm run test --if-present
+
       - name: "Build Ts Project"
         run: |
           npm run build
