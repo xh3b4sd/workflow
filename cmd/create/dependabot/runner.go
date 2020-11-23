@@ -38,6 +38,7 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 
 func (r *runner) dependabotData() interface{} {
 	type Ecosystem struct {
+		Branch    string
 		Name      string
 		Reviewers []string
 	}
@@ -51,6 +52,7 @@ func (r *runner) dependabotData() interface{} {
 	{
 		if file.Exists("Dockerfile") {
 			ecosystems = append(ecosystems, Ecosystem{
+				Branch:    r.flag.Branch,
 				Name:      "docker",
 				Reviewers: r.flag.Reviewers,
 			})
@@ -58,6 +60,7 @@ func (r *runner) dependabotData() interface{} {
 
 		{
 			ecosystems = append(ecosystems, Ecosystem{
+				Branch:    r.flag.Branch,
 				Name:      "github-actions",
 				Reviewers: r.flag.Reviewers,
 			})
@@ -65,6 +68,7 @@ func (r *runner) dependabotData() interface{} {
 
 		if file.Exists("go.mod") && file.Exists("go.sum") {
 			ecosystems = append(ecosystems, Ecosystem{
+				Branch:    r.flag.Branch,
 				Name:      "gomod",
 				Reviewers: r.flag.Reviewers,
 			})
@@ -128,7 +132,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	{
 		p := ".github/workflows/go-mod-tidy.yaml"
 
-		t, err := template.New(p).Parse(templateWorkflow)
+		t, err := template.New(p).Parse(templateGoModTidy)
 		if err != nil {
 			return tracer.Mask(err)
 		}

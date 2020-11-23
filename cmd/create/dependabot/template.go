@@ -20,10 +20,10 @@ updates:
     schedule:
       interval: "daily"
       time: "04:00"
-    target-branch: "master"
+    target-branch: "{{ $e.Branch }}"
 {{ end }}`
 
-const templateWorkflow = `#
+const templateGoModTidy = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
