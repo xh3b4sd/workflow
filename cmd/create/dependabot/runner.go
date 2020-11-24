@@ -81,24 +81,6 @@ func (r *runner) dependabotData() interface{} {
 	}
 }
 
-func (r *runner) goModTidyData() interface{} {
-	type Version struct {
-		Golang string
-	}
-
-	type Data struct {
-		Command string
-		Version Version
-	}
-
-	return Data{
-		Command: strings.Join(os.Args, " "),
-		Version: Version{
-			Golang: r.flag.Version.Golang,
-		},
-	}
-}
-
 func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
 	{
 		p := ".github/workflows/"
@@ -112,33 +94,13 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	{
 		p := ".github/dependabot.yaml"
 
-		t, err := template.New(p).Parse(templateDependabot)
+		t, err := template.New(p).Parse(templateWorkflow)
 		if err != nil {
 			return tracer.Mask(err)
 		}
 
 		var b bytes.Buffer
 		err = t.ExecuteTemplate(&b, p, r.dependabotData())
-		if err != nil {
-			return tracer.Mask(err)
-		}
-
-		err = ioutil.WriteFile(p, b.Bytes(), 0600)
-		if err != nil {
-			return tracer.Mask(err)
-		}
-	}
-
-	{
-		p := ".github/workflows/go-mod-tidy.yaml"
-
-		t, err := template.New(p).Parse(templateGoModTidy)
-		if err != nil {
-			return tracer.Mask(err)
-		}
-
-		var b bytes.Buffer
-		err = t.ExecuteTemplate(&b, p, r.goModTidyData())
 		if err != nil {
 			return tracer.Mask(err)
 		}
