@@ -117,9 +117,11 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
-          git add .
-          git commit -m 'update generated code'
-          git push
+          if [[ $(git status --porcelain) ]]; then
+            git add .
+            git commit -m 'update generated code'
+            git push
+          fi
 
       - name: Cleanup Build Container
         env:
