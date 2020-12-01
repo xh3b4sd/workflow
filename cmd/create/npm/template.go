@@ -11,8 +11,9 @@ const templateWorkflow = `#
 # steps below.
 #
 #     1. A developer bumps the semver version within the package.json.
-#     2. A developer creates a new github release according to step 1.
-#     3. The workflow builds and publishes the new npm package.
+#     2. A developer runs "npm install" to update package-lock.json.
+#     3. A developer creates a new github release according to step 1.
+#     4. The workflow builds and publishes the new npm package.
 #
 
 name: "npm-publish"
