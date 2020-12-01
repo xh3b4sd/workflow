@@ -12,6 +12,7 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/create/grpcgo"
 	"github.com/xh3b4sd/workflow/cmd/create/grpcts"
 	"github.com/xh3b4sd/workflow/cmd/create/npm"
+	"github.com/xh3b4sd/workflow/cmd/create/redigo"
 	"github.com/xh3b4sd/workflow/cmd/create/typescript"
 )
 
@@ -116,6 +117,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var redigoCmd *cobra.Command
+	{
+		c := redigo.Config{
+			Logger: config.Logger,
+		}
+
+		redigoCmd, err = redigo.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var typescriptCmd *cobra.Command
 	{
 		c := typescript.Config{
@@ -148,6 +161,7 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(grpcgoCmd)
 		c.AddCommand(grpctsCmd)
 		c.AddCommand(npmCmd)
+		c.AddCommand(redigoCmd)
 		c.AddCommand(typescriptCmd)
 	}
 
