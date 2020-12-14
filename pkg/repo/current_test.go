@@ -30,8 +30,8 @@ func Test_Repo_current(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			cur := current(tc.abs)
 
-			if cur != tc.cur {
-				t.Fatalf("\n\n%s\n", cmp.Diff(cur, tc.cur))
+			if tc.cur != cur {
+				t.Fatalf("\n\n%s\n", cmp.Diff(tc.cur, cur))
 			}
 		})
 	}

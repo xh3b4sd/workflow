@@ -27,6 +27,7 @@ Available Commands:
   grpcgo      Create a grpc workflow for golang code generation.
   grpcts      Create a grpc workflow for typescript code generation.
   npm         Create a npm workflow for e.g. building and publishing npm packages.
+  redigo      Create a golang workflow for e.g. running redis conformance tests.
   typescript  Create a typescript workflow for e.g. building and formatting typescript code.
 
 Flags:
