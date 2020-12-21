@@ -20,7 +20,7 @@ jobs:
         uses: "actions/checkout@v2"
 
       - name: "Setup Ts Env"
-        uses: "actions/setup-node@v1"
+        uses: "actions/setup-node@v2"
         with:
           node-version: "{{ .Version.Node }}"
 
