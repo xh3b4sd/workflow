@@ -149,7 +149,7 @@ func mustCreateDir(fs afero.Fs, p string) {
 }
 
 func mustCreateFile(fs afero.Fs, p string, b string) {
-	err := afero.WriteFile(fs, p, []byte(b), 0644)
+	err := afero.WriteFile(fs, p, []byte(b), 0600)
 	if err != nil {
 		panic(err)
 	}
