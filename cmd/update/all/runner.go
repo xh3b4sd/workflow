@@ -36,7 +36,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		c := command.Config{
 			FileSystem: afero.NewOsFs(),
 
-			WorkflowPath: ".github/workflows/",
+			WorkflowPath: ".github/",
 		}
 
 		p, err = command.New(c)
