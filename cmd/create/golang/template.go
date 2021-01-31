@@ -31,7 +31,7 @@ jobs:
 
       - name: "Check Go Tests"
         run: |
-          go test ./...
+          go test ./... -race
 
       - name: "Check Go Formatting"
         run: |
