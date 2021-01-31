@@ -45,5 +45,4 @@ jobs:
           REDIS_SENTINEL_PORT: "26379"
         run: |
           go test ./... -race -tags single,sentinel
-
 `
