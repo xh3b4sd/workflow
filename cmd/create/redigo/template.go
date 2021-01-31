@@ -36,6 +36,11 @@ jobs:
       - name: "Checkout Git Project"
         uses: "actions/checkout@v2"
 
+      - name: "Install Race Dependency"
+        run: |
+          apk add gcc
+          apk add musl-dev
+
       - name: "Check Go Tests"
         env:
           CGO_ENABLED: "1"
