@@ -35,5 +35,5 @@ jobs:
           REDIS_HOST: "redis"
           REDIS_PORT: "6379"
         run: |
-          go test ./... --tags redis
+          go test ./... -race --tags redis
 `
