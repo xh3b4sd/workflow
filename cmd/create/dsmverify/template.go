@@ -36,7 +36,7 @@ jobs:
         run: |
           dsm verify -r HelmRelease -n apiworker -k spec.values.image.tag
 
-      - name: "Check Webclient Version"
+      - name: "Check WebClient Version"
         run: |
           dsm verify -r HelmRelease -n webclient -k spec.values.image.tag
 `
