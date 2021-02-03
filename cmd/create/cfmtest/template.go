@@ -29,6 +29,7 @@ jobs:
     steps:
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
+        with:
           path: "venturemark/flux"
           repository: "venturemark/flux"
 
