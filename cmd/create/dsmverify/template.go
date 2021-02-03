@@ -38,5 +38,5 @@ jobs:
 
       - name: "Check Webclient Version"
         run: |
-          dsm verify -r HelmRelease -n Webclient -k spec.values.image.tag
+          dsm verify -r HelmRelease -n webclient -k spec.values.image.tag
 `
