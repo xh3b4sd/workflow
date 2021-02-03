@@ -46,6 +46,15 @@ jobs:
 
       - name: "Install Test Dependency"
         run: |
+          sudo apt update
+          sudo apt install gcc -y
+
+      - name: "Install Test Dependency"
+        run: |
+          go get github.com/xh3b4sd/dsm
+
+      - name: "Install Test Dependency"
+        run: |
           go get github.com/venturemark/apiserver@$(dsm search -r HelmRelease -n apiserver -k spec.values.image.tag | head -n 1)
 
       - name: "Install Test Dependency"
@@ -55,11 +64,6 @@ jobs:
       - name: "Install Test Dependency"
         run: |
           go get github.com/venturemark/fmz
-
-      - name: "Install Test Dependency"
-        run: |
-          sudo apt update
-          sudo apt install gcc -y
 
       - name: "Check Conformance Tests"
         env:
