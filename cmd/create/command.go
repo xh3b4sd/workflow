@@ -5,9 +5,11 @@ import (
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
 
+	"github.com/xh3b4sd/workflow/cmd/create/cfmtest"
 	"github.com/xh3b4sd/workflow/cmd/create/dependabot"
 	"github.com/xh3b4sd/workflow/cmd/create/dockergo"
 	"github.com/xh3b4sd/workflow/cmd/create/dockerts"
+	"github.com/xh3b4sd/workflow/cmd/create/dsmverify"
 	"github.com/xh3b4sd/workflow/cmd/create/golang"
 	"github.com/xh3b4sd/workflow/cmd/create/grpcgo"
 	"github.com/xh3b4sd/workflow/cmd/create/grpcts"
@@ -32,6 +34,18 @@ func New(config Config) (*cobra.Command, error) {
 	}
 
 	var err error
+
+	var cfmTestCmd *cobra.Command
+	{
+		c := cfmtest.Config{
+			Logger: config.Logger,
+		}
+
+		cfmTestCmd, err = cfmtest.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
 
 	var dependabotCmd *cobra.Command
 	{
@@ -64,6 +78,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		dockertsCmd, err = dockerts.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
+	var dsmVerifyCmd *cobra.Command
+	{
+		c := dsmverify.Config{
+			Logger: config.Logger,
+		}
+
+		dsmVerifyCmd, err = dsmverify.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -154,9 +180,11 @@ func New(config Config) (*cobra.Command, error) {
 			RunE:  r.Run,
 		}
 
+		c.AddCommand(cfmTestCmd)
 		c.AddCommand(dependabotCmd)
 		c.AddCommand(dockergoCmd)
 		c.AddCommand(dockertsCmd)
+		c.AddCommand(dsmVerifyCmd)
 		c.AddCommand(golangCmd)
 		c.AddCommand(grpcgoCmd)
 		c.AddCommand(grpctsCmd)

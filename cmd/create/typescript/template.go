@@ -16,20 +16,20 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
 
-      - name: "Checkout Git Project"
+      - name: "Setup Git Project"
         uses: "actions/checkout@v2"
 
-      - name: "Setup Ts Env"
+      - name: "Setup Typescript Env"
         uses: "actions/setup-node@v2"
         with:
           node-version: "{{ .Version.Node }}"
 
-      - name: "Install Ts Dependencies"
+      - name: "Install Typescript Dependencies"
         run: |
           npm install
           npm install prettier --global
 
-      - name: "Prevent Js Files"
+      - name: "Check Javascript Files"
         run: |
           if [[ $(find ./src -name "*.js" -not -name "*_pb.js") ]]; then
             echo "found .js files"
@@ -43,15 +43,15 @@ jobs:
             exit 1
           fi
 
-      - name: "Check Ts Formatting"
+      - name: "Check Typescript Formatting"
         run: |
           prettier -c $(find ./src -name "*.ts" -o -name "*.tsx")
 
-      - name: "Check Ts Tests"
+      - name: "Check Typescript Tests"
         run: |
           npm run test --if-present
 
-      - name: "Build Ts Project"
+      - name: "Build Typescript Project"
         run: |
           npm run build
 `

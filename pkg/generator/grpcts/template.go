@@ -43,15 +43,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout Git Project
+      - name: Setup Git Project
         uses: actions/checkout@v2
 
-      - name: Setup Go Env
+      - name: "Setup Go Env"
         uses: actions/setup-go@v2
         with:
           go-version: "{{ .Version.Golang }}"
 
-      - name: "Setup Ts Env"
+      - name: "Setup Typescript Env"
         uses: "actions/setup-node@v2"
         with:
           node-version: "{{ .Version.Node }}"
@@ -71,7 +71,7 @@ jobs:
           mv protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64 ${{ "{{" }} runner.temp {{ "}}" }}/bin/protoc-gen-grpc-web
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
 
-      - name: "Install Ts Dependencies"
+      - name: "Install Typescript Dependencies"
         run: |
           npm install prettier --global
 
@@ -90,7 +90,7 @@ jobs:
           chmod 0600 .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
           ssh-add .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
 
-      - name: Clone Ts Code
+      - name: Clone Typescript Code
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
@@ -102,13 +102,13 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
-      - name: Generate Ts Code
+      - name: Generate Typescript Code
         run: |
           go get github.com/xh3b4sd/pag
           rm -rf ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/
           pag generate typescript -d ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/
 
-      - name: "Format Ts Code"
+      - name: "Format Typescript Code"
         run: |
           prettier -w $(find ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/ -name "*.ts" -o -name "*.tsx")
 

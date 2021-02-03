@@ -16,19 +16,19 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
 
-      - name: "Checkout Git Project"
+      - name: "Setup Git Project"
         uses: "actions/checkout@v2"
 
-      - name: "Setup Ts Env"
+      - name: "Setup Typescript Env"
         uses: "actions/setup-node@v2"
         with:
           node-version: "{{ .Version.Node }}"
 
-      - name: "Install Ts Dependencies"
+      - name: "Install Typescript Dependencies"
         run: |
           npm install
 
-      - name: "Build Ts Project"
+      - name: "Build Typescript Project"
         run: |
           npm run build
 

@@ -43,10 +43,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout Git Project
+      - name: Setup Git Project
         uses: actions/checkout@v2
 
-      - name: Setup Go Env
+      - name: "Setup Go Env"
         uses: actions/setup-go@v2
         with:
           go-version: "{{ .Version.Golang }}"
