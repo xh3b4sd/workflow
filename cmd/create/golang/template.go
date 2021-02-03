@@ -16,7 +16,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
 
-      - name: "Checkout Git Project"
+      - name: "Setup Git Project"
         uses: "actions/checkout@v2"
 
       - name: "Setup Go Env"

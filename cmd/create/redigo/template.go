@@ -33,7 +33,7 @@ jobs:
           REDIS_SENTINEL_QUORUM: "1"
 
     steps:
-      - name: "Checkout Git Project"
+      - name: "Setup Git Project"
         uses: "actions/checkout@v2"
 
       - name: "Install Race Dependency"
