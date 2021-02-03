@@ -54,10 +54,14 @@ jobs:
           go get github.com/xh3b4sd/dsm
 
       - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
         run: |
           go get github.com/venturemark/apiserver@$(dsm search -r HelmRelease -n apiserver -k spec.values.image.tag | head -n 1)
 
       - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
         run: |
           go get github.com/venturemark/apiworker@$(dsm search -r HelmRelease -n apiworker -k spec.values.image.tag | head -n 1)
 
