@@ -62,6 +62,22 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		}
 	}
 
+	var templateWorkflow string
+	{
+		if r.flag.Repository.Name == "apiserver" {
+			templateWorkflow = templateApiServer
+		}
+		if r.flag.Repository.Name == "apiworker" {
+			templateWorkflow = templateApiWorker
+		}
+		if r.flag.Repository.Name == "cfm" {
+			templateWorkflow = templateCfm
+		}
+		if r.flag.Repository.Name == "flux" {
+			templateWorkflow = templateFlux
+		}
+	}
+
 	{
 		p := ".github/workflows/cfm-test.yaml"
 
