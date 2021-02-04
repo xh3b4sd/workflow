@@ -1,6 +1,222 @@
 package cfmtest
 
-const templateWorkflow = `#
+const templateApiServer = `#
+# Do not edit. This file was generated via the "workflow" command line tool.
+# More information about the tool can be found at github.com/xh3b4sd/workflow.
+#
+#     {{ .Command }}
+#
+
+name: "cfm-test"
+
+on: "push"
+
+jobs:
+  cfm-test:
+    runs-on: "ubuntu-latest"
+
+    services:
+      redis:
+        image: "redis"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
+        with:
+          path: "venturemark/apiserver"
+          repository: "venturemark/apiserver"
+
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
+        with:
+          path: "venturemark/fmz"
+          repository: "venturemark/fmz"
+
+      - name: "Setup Go Env"
+        uses: actions/setup-go@v2
+        with:
+          go-version: "{{ .Version.Golang }}"
+
+      - name: "Install Test Dependency"
+        run: |
+          sudo apt update
+          sudo apt install gcc -y
+
+      - name: "Install Test Dependency"
+        run: |
+          cd ./venturemark/apiserver && go install .
+
+      - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
+        run: |
+          go get github.com/venturemark/apiworker
+
+      - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
+        run: |
+          go get github.com/venturemark/fmz
+
+      - name: "Check Conformance Tests"
+        env:
+          CGO_ENABLED: "1"
+        run: |
+          apiserver daemon &
+          apiworker daemon &
+          cd ./venturemark/fmz && go test ./... -race -tags conformance
+`
+
+const templateApiWorker = `#
+# Do not edit. This file was generated via the "workflow" command line tool.
+# More information about the tool can be found at github.com/xh3b4sd/workflow.
+#
+#     {{ .Command }}
+#
+
+name: "cfm-test"
+
+on: "push"
+
+jobs:
+  cfm-test:
+    runs-on: "ubuntu-latest"
+
+    services:
+      redis:
+        image: "redis"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
+        with:
+          path: "venturemark/apiworker"
+          repository: "venturemark/apiworker"
+
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
+        with:
+          path: "venturemark/fmz"
+          repository: "venturemark/fmz"
+
+      - name: "Setup Go Env"
+        uses: actions/setup-go@v2
+        with:
+          go-version: "{{ .Version.Golang }}"
+
+      - name: "Install Test Dependency"
+        run: |
+          sudo apt update
+          sudo apt install gcc -y
+
+      - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
+        run: |
+          go get github.com/venturemark/apiserver
+
+      - name: "Install Test Dependency"
+        run: |
+          cd ./venturemark/apiworker && go install .
+
+      - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
+        run: |
+          go get github.com/venturemark/fmz
+
+      - name: "Check Conformance Tests"
+        env:
+          CGO_ENABLED: "1"
+        run: |
+          apiserver daemon &
+          apiworker daemon &
+          cd ./venturemark/fmz && go test ./... -race -tags conformance
+`
+
+const templateCfm = `#
+# Do not edit. This file was generated via the "workflow" command line tool.
+# More information about the tool can be found at github.com/xh3b4sd/workflow.
+#
+#     {{ .Command }}
+#
+
+name: "cfm-test"
+
+on: "push"
+
+jobs:
+  cfm-test:
+    runs-on: "ubuntu-latest"
+
+    services:
+      redis:
+        image: "redis"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
+        with:
+          path: "venturemark/fmz"
+          repository: "venturemark/fmz"
+
+      - name: "Setup Go Env"
+        uses: actions/setup-go@v2
+        with:
+          go-version: "{{ .Version.Golang }}"
+
+      - name: "Install Test Dependency"
+        run: |
+          sudo apt update
+          sudo apt install gcc -y
+
+      - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
+        run: |
+          go get github.com/venturemark/apiserver
+
+      - name: "Install Test Dependency"
+        run: |
+          go get github.com/venturemark/apiworker
+
+      - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
+        run: |
+          cd ./venturemark/fmz && go install .
+
+      - name: "Check Conformance Tests"
+        env:
+          CGO_ENABLED: "1"
+        run: |
+          apiserver daemon &
+          apiworker daemon &
+          cd ./venturemark/fmz && go test ./... -race -tags conformance
+`
+
+const templateFlux = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
@@ -50,6 +266,8 @@ jobs:
           sudo apt install gcc -y
 
       - name: "Install Test Dependency"
+        env:
+          GO111MODULE: "on"
         run: |
           go get github.com/xh3b4sd/dsm
 
