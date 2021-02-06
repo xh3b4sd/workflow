@@ -28,7 +28,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: "gprc-go"
+name: "grpc-go"
 
 on:
   push:

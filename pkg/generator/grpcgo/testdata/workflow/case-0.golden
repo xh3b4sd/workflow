@@ -5,7 +5,7 @@
 #     workflow create grpcgo
 #
 
-name: "gprc-go"
+name: "grpc-go"
 
 on:
   push:

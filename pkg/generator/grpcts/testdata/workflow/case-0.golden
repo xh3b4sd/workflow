@@ -5,7 +5,7 @@
 #     workflow create grpcts
 #
 
-name: "gprc-ts"
+name: "grpc-ts"
 
 on:
   push:
