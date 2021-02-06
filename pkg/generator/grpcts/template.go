@@ -28,7 +28,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: gprc-ts
+name: "gprc-ts"
 
 on:
   push:
@@ -40,14 +40,14 @@ on:
 
 jobs:
   grpc-ts:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
 
-      - name: Setup Git Project
-        uses: actions/checkout@v2
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
 
       - name: "Setup Go Env"
-        uses: actions/setup-go@v2
+        uses: "actions/setup-go@v2"
         with:
           go-version: "{{ .Version.Golang }}"
 
@@ -56,15 +56,15 @@ jobs:
         with:
           node-version: "{{ .Version.Node }}"
 
-      - name: Install Protoc Binary
-        working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
+      - name: "Install Protoc Binary"
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}"
         run: |
           curl -LOs https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           unzip protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin/" >> $GITHUB_PATH
 
-      - name: Install gRPC Dependencies
-        working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
+      - name: "Install gRPC Dependencies"
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}"
         run: |
           curl -LOs https://github.com/grpc/grpc-web/releases/download/{{ .Version.GrpcWeb }}/protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
           chmod +x protoc-gen-grpc-web-{{ .Version.GrpcWeb }}-linux-x86_64
@@ -75,14 +75,14 @@ jobs:
         run: |
           npm install prettier --global
 
-      - name: Decrypt Private Key
+      - name: "Decrypt Private Key"
         run: |
           go get github.com/xh3b4sd/red
           red decrypt -i .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa.enc -o .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa -p '${{ "{{" }} secrets.RED_GPG_PASS_{{ .Github.Organization | ToUpper }}_{{ .Github.Repository | ToUpper }} {{ "}}" }}'
 
-      - name: Setup SSH Agent
+      - name: "Setup SSH Agent"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -90,19 +90,19 @@ jobs:
           chmod 0600 .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
           ssh-add .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
 
-      - name: Clone Typescript Code
+      - name: "Clone Typescript Code"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
 
-      - name: Setup Git Config
+      - name: "Setup Git Config"
         run: |
           cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
-      - name: Generate Typescript Code
+      - name: "Generate Typescript Code"
         run: |
           go get github.com/xh3b4sd/pag
           rm -rf ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/
@@ -112,9 +112,9 @@ jobs:
         run: |
           prettier -w $(find ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/ -name "*.ts" -o -name "*.tsx")
 
-      - name: Commit And Push
+      - name: "Commit And Push"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           cd "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
           if [[ $(git status --porcelain) ]]; then
@@ -123,9 +123,9 @@ jobs:
             git push
           fi
 
-      - name: Cleanup Build Container
+      - name: "Cleanup Build Container"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           ssh-add -D
           rm -Rf *
