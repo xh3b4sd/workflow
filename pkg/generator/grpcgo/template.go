@@ -72,7 +72,7 @@ jobs:
 
       - name: "Setup SSH Agent"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -82,7 +82,7 @@ jobs:
 
       - name: "Clone Go Code"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
 
       - name: "Setup Git Config"
@@ -108,7 +108,7 @@ jobs:
 
       - name: "Commit And Push"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
           if [[ $(git status --porcelain) ]]; then
@@ -119,7 +119,7 @@ jobs:
 
       - name: "Cleanup Build Container"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           ssh-add -D
           rm -Rf *

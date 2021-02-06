@@ -9,6 +9,7 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/create/dependabot"
 	"github.com/xh3b4sd/workflow/cmd/create/dockergo"
 	"github.com/xh3b4sd/workflow/cmd/create/dockerts"
+	"github.com/xh3b4sd/workflow/cmd/create/dsmupdate"
 	"github.com/xh3b4sd/workflow/cmd/create/dsmverify"
 	"github.com/xh3b4sd/workflow/cmd/create/golang"
 	"github.com/xh3b4sd/workflow/cmd/create/grpcgo"
@@ -78,6 +79,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		dockertsCmd, err = dockerts.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
+	var dsmUpdateCmd *cobra.Command
+	{
+		c := dsmupdate.Config{
+			Logger: config.Logger,
+		}
+
+		dsmUpdateCmd, err = dsmupdate.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -184,6 +197,7 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(dependabotCmd)
 		c.AddCommand(dockergoCmd)
 		c.AddCommand(dockertsCmd)
+		c.AddCommand(dsmUpdateCmd)
 		c.AddCommand(dsmVerifyCmd)
 		c.AddCommand(golangCmd)
 		c.AddCommand(grpcgoCmd)
