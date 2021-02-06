@@ -205,7 +205,9 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          cd ./venturemark/cfm && go install .
+          # TODO this needs to be "go install ." again once cfm can be compiled
+          # into an executable like apiserver and apiworker.
+          cd ./venturemark/cfm && go test ./...
 
       - name: "Check Conformance Tests"
         env:
