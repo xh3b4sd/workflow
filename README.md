@@ -20,9 +20,12 @@ Usage:
   workflow create [command]
 
 Available Commands:
+  cfmtest     Create a conformance workflow for e.g. running tests.
   dependabot  Create a dependabot workflow for e.g. golang and docker.
   dockergo    Create a docker workflow for building and pushing docker images of golang apps.
   dockerts    Create a docker workflow for building and pushing docker images of typescript apps.
+  dsmupdate   Create a mutating workflow for e.g. app versions.
+  dsmverify   Create a validation workflow for e.g. checking consistency.
   golang      Create a golang workflow for e.g. running tests and checking formatting.
   grpcgo      Create a grpc workflow for golang code generation.
   grpcts      Create a grpc workflow for typescript code generation.
