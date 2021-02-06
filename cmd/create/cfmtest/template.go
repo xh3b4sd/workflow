@@ -246,14 +246,14 @@ jobs:
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
         with:
-          path: "venturemark/flux"
-          repository: "venturemark/flux"
+          path: "venturemark/cfm"
+          repository: "venturemark/cfm"
 
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
         with:
-          path: "venturemark/cfm"
-          repository: "venturemark/cfm"
+          path: "venturemark/flux"
+          repository: "venturemark/flux"
 
       - name: "Setup Go Env"
         uses: actions/setup-go@v2
