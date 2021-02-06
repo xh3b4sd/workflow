@@ -36,8 +36,8 @@ jobs:
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
         with:
-          path: "venturemark/fmz"
-          repository: "venturemark/fmz"
+          path: "venturemark/cfm"
+          repository: "venturemark/cfm"
 
       - name: "Setup Go Env"
         uses: actions/setup-go@v2
@@ -63,7 +63,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go get github.com/venturemark/fmz
+          go get github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
         env:
@@ -71,7 +71,7 @@ jobs:
         run: |
           apiserver daemon &
           apiworker daemon &
-          cd ./venturemark/fmz && go test ./... -race -tags conformance
+          cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
 
 const templateApiWorker = `#
@@ -110,8 +110,8 @@ jobs:
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
         with:
-          path: "venturemark/fmz"
-          repository: "venturemark/fmz"
+          path: "venturemark/cfm"
+          repository: "venturemark/cfm"
 
       - name: "Setup Go Env"
         uses: actions/setup-go@v2
@@ -137,7 +137,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go get github.com/venturemark/fmz
+          go get github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
         env:
@@ -145,7 +145,7 @@ jobs:
         run: |
           apiserver daemon &
           apiworker daemon &
-          cd ./venturemark/fmz && go test ./... -race -tags conformance
+          cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
 
 const templateCfm = `#
@@ -178,8 +178,8 @@ jobs:
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
         with:
-          path: "venturemark/fmz"
-          repository: "venturemark/fmz"
+          path: "venturemark/cfm"
+          repository: "venturemark/cfm"
 
       - name: "Setup Go Env"
         uses: actions/setup-go@v2
@@ -205,7 +205,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          cd ./venturemark/fmz && go install .
+          cd ./venturemark/cfm && go install .
 
       - name: "Check Conformance Tests"
         env:
@@ -213,7 +213,7 @@ jobs:
         run: |
           apiserver daemon &
           apiworker daemon &
-          cd ./venturemark/fmz && go test ./... -race -tags conformance
+          cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
 
 const templateFlux = `#
@@ -252,8 +252,8 @@ jobs:
       - name: "Setup Git Project"
         uses: "actions/checkout@v2"
         with:
-          path: "venturemark/fmz"
-          repository: "venturemark/fmz"
+          path: "venturemark/cfm"
+          repository: "venturemark/cfm"
 
       - name: "Setup Go Env"
         uses: actions/setup-go@v2
@@ -287,7 +287,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go get github.com/venturemark/fmz
+          go get github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
         env:
@@ -295,5 +295,5 @@ jobs:
         run: |
           apiserver daemon &
           apiworker daemon &
-          cd ./venturemark/fmz && go test ./... -race -tags conformance
+          cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
