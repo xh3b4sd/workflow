@@ -28,7 +28,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: gprc-go
+name: "gprc-go"
 
 on:
   push:
@@ -40,37 +40,37 @@ on:
 
 jobs:
   grpc-go:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
 
-      - name: Setup Git Project
-        uses: actions/checkout@v2
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
 
       - name: "Setup Go Env"
-        uses: actions/setup-go@v2
+        uses: "actions/setup-go@v2"
         with:
           go-version: "{{ .Version.Golang }}"
 
-      - name: Install Protoc Binary
-        working-directory: ${{ "{{" }} runner.temp {{ "}}" }}
+      - name: "Install Protoc Binary"
+        working-directory: "${{ "{{" }} runner.temp {{ "}}" }}"
         run: |
           curl -LOs https://github.com/protocolbuffers/protobuf/releases/download/v{{ .Version.Protoc }}/protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           unzip protoc-{{ .Version.Protoc }}-linux-x86_64.zip
           echo "${{ "{{" }} runner.temp {{ "}}" }}/bin" >> $GITHUB_PATH
 
-      - name: Install gRPC Dependencies
+      - name: "Install gRPC Dependencies"
         env:
           GO111MODULE: "on"
         run: |
           go get -u google.golang.org/protobuf/cmd/protoc-gen-go@v1.25.0
           go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.0.1
 
-      - name: Decrypt Private Key
+      - name: "Decrypt Private Key"
         run: |
           go get github.com/xh3b4sd/red
           red decrypt -i .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa.enc -o .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa -p '${{ "{{" }} secrets.RED_GPG_PASS_{{ .Github.Organization | ToUpper }}_{{ .Github.Repository | ToUpper }} {{ "}}" }}'
 
-      - name: Setup SSH Agent
+      - name: "Setup SSH Agent"
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
@@ -80,25 +80,25 @@ jobs:
           chmod 0600 .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
           ssh-add .github/asset/{{ .Github.Organization }}/{{ .Github.Repository }}/id_rsa
 
-      - name: Clone Go Code
+      - name: "Clone Go Code"
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: git clone git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
 
-      - name: Setup Git Config
+      - name: "Setup Git Config"
         working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:{{ .Github.Organization }}/{{ .Github.Repository }}.git
 
-      - name: Generate Go Code
+      - name: "Generate Go Code"
         run: |
           go get github.com/xh3b4sd/pag
           rm -rf ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/
           pag generate golang -d ${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/pkg/
 
-      - name: Go Mod Tidy
+      - name: "Go Mod Tidy"
         working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
         run: |
           if [[ -e go.sum ]]; then
@@ -106,7 +106,7 @@ jobs:
             go mod tidy
           fi
 
-      - name: Commit And Push
+      - name: "Commit And Push"
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         working-directory: "${{ "{{" }} runner.temp {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/"
@@ -117,7 +117,7 @@ jobs:
             git push
           fi
 
-      - name: Cleanup Build Container
+      - name: "Cleanup Build Container"
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |

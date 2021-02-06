@@ -5,7 +5,7 @@
 #     workflow create grpcts
 #
 
-name: gprc-ts
+name: "gprc-ts"
 
 on:
   push:
@@ -17,14 +17,14 @@ on:
 
 jobs:
   grpc-ts:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
 
-      - name: Setup Git Project
-        uses: actions/checkout@v2
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v2"
 
       - name: "Setup Go Env"
-        uses: actions/setup-go@v2
+        uses: "actions/setup-go@v2"
         with:
           go-version: "1.15.2"
 
@@ -33,15 +33,15 @@ jobs:
         with:
           node-version: "15.x.x"
 
-      - name: Install Protoc Binary
-        working-directory: ${{ runner.temp }}
+      - name: "Install Protoc Binary"
+        working-directory: "${{ runner.temp }}"
         run: |
           curl -LOs https://github.com/protocolbuffers/protobuf/releases/download/v3.13.0/protoc-3.13.0-linux-x86_64.zip
           unzip protoc-3.13.0-linux-x86_64.zip
           echo "${{ runner.temp }}/bin/" >> $GITHUB_PATH
 
-      - name: Install gRPC Dependencies
-        working-directory: ${{ runner.temp }}
+      - name: "Install gRPC Dependencies"
+        working-directory: "${{ runner.temp }}"
         run: |
           curl -LOs https://github.com/grpc/grpc-web/releases/download/1.2.1/protoc-gen-grpc-web-1.2.1-linux-x86_64
           chmod +x protoc-gen-grpc-web-1.2.1-linux-x86_64
@@ -52,14 +52,14 @@ jobs:
         run: |
           npm install prettier --global
 
-      - name: Decrypt Private Key
+      - name: "Decrypt Private Key"
         run: |
           go get github.com/xh3b4sd/red
           red decrypt -i .github/asset/xh3b4sd/tscode/id_rsa.enc -o .github/asset/xh3b4sd/tscode/id_rsa -p '${{ secrets.RED_GPG_PASS_XH3B4SD_TSCODE }}'
 
-      - name: Setup SSH Agent
+      - name: "Setup SSH Agent"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -67,19 +67,19 @@ jobs:
           chmod 0600 .github/asset/xh3b4sd/tscode/id_rsa
           ssh-add .github/asset/xh3b4sd/tscode/id_rsa
 
-      - name: Clone Typescript Code
+      - name: "Clone Typescript Code"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: git clone git@github.com:xh3b4sd/tscode.git "${{ runner.temp }}/xh3b4sd/tscode/"
 
-      - name: Setup Git Config
+      - name: "Setup Git Config"
         run: |
           cd "${{ runner.temp }}/xh3b4sd/tscode/"
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin git@github.com:xh3b4sd/tscode.git
 
-      - name: Generate Typescript Code
+      - name: "Generate Typescript Code"
         run: |
           go get github.com/xh3b4sd/pag
           rm -rf ${{ runner.temp }}/xh3b4sd/tscode/src/
@@ -89,9 +89,9 @@ jobs:
         run: |
           prettier -w $(find ${{ runner.temp }}/xh3b4sd/tscode/src/ -name "*.ts" -o -name "*.tsx")
 
-      - name: Commit And Push
+      - name: "Commit And Push"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           cd "${{ runner.temp }}/xh3b4sd/tscode/"
           if [[ $(git status --porcelain) ]]; then
@@ -100,9 +100,9 @@ jobs:
             git push
           fi
 
-      - name: Cleanup Build Container
+      - name: "Cleanup Build Container"
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: |
           ssh-add -D
           rm -Rf *
