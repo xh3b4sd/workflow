@@ -57,12 +57,14 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
+          go clean -modcache
           go get github.com/venturemark/apiworker
 
       - name: "Install Test Dependency"
         env:
           GO111MODULE: "on"
         run: |
+          go clean -modcache
           go get github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
@@ -127,6 +129,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
+          go clean -modcache
           go get github.com/venturemark/apiserver
 
       - name: "Install Test Dependency"
@@ -137,6 +140,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
+          go clean -modcache
           go get github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
@@ -195,10 +199,12 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
+          go clean -modcache
           go get github.com/venturemark/apiserver
 
       - name: "Install Test Dependency"
         run: |
+          go clean -modcache
           go get github.com/venturemark/apiworker
 
       - name: "Install Test Dependency"
@@ -289,6 +295,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
+          go clean -modcache
           go get github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
