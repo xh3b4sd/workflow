@@ -57,15 +57,13 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/apiworker
+          go get -u github.com/venturemark/apiworker
 
       - name: "Install Test Dependency"
         env:
           GO111MODULE: "on"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/cfm
+          go get -u github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
         env:
@@ -129,8 +127,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/apiserver
+          go get -u github.com/venturemark/apiserver
 
       - name: "Install Test Dependency"
         run: |
@@ -140,8 +137,7 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/cfm
+          go get -u github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
         env:
@@ -199,13 +195,11 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/apiserver
+          go get -u github.com/venturemark/apiserver
 
       - name: "Install Test Dependency"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/apiworker
+          go get -u github.com/venturemark/apiworker
 
       - name: "Install Test Dependency"
         env:
@@ -277,26 +271,25 @@ jobs:
         env:
           GO111MODULE: "on"
         run: |
-          go get github.com/xh3b4sd/dsm
+          go get -u github.com/xh3b4sd/dsm
 
       - name: "Install Test Dependency"
         env:
           GO111MODULE: "on"
         run: |
-          go get github.com/venturemark/apiserver@$(dsm search -r HelmRelease -n apiserver -k spec.values.image.tag | head -n 1)
+          go get -u github.com/venturemark/apiserver@$(dsm search -r HelmRelease -n apiserver -k spec.values.image.tag | head -n 1)
 
       - name: "Install Test Dependency"
         env:
           GO111MODULE: "on"
         run: |
-          go get github.com/venturemark/apiworker@$(dsm search -r HelmRelease -n apiworker -k spec.values.image.tag | head -n 1)
+          go get -u github.com/venturemark/apiworker@$(dsm search -r HelmRelease -n apiworker -k spec.values.image.tag | head -n 1)
 
       - name: "Install Test Dependency"
         env:
           GO111MODULE: "on"
         run: |
-          go clean -modcache
-          go get github.com/venturemark/cfm
+          go get -u github.com/venturemark/cfm
 
       - name: "Check Conformance Tests"
         env:
