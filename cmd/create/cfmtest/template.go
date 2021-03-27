@@ -54,16 +54,12 @@ jobs:
           cd ./venturemark/apiserver && go install .
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
-          go get -u github.com/venturemark/apiworker
+          go get -u github.com/venturemark/apiworker@$(git ls-remote git://github.com/venturemark/apiworker.git HEAD | awk '{print $1;}')
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
-          go get -u github.com/venturemark/cfm
+          go get -u github.com/venturemark/cfm@$(git ls-remote git://github.com/venturemark/cfm.git HEAD | awk '{print $1;}')
 
       - name: "Check Conformance Tests"
         env:
@@ -124,20 +120,16 @@ jobs:
           sudo apt install gcc -y
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
-          go get -u github.com/venturemark/apiserver
+          go get -u github.com/venturemark/apiserver@$(git ls-remote git://github.com/venturemark/apiserver.git HEAD | awk '{print $1;}')
 
       - name: "Install Test Dependency"
         run: |
           cd ./venturemark/apiworker && go install .
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
-          go get -u github.com/venturemark/cfm
+          go get -u github.com/venturemark/cfm@$(git ls-remote git://github.com/venturemark/cfm.git HEAD | awk '{print $1;}')
 
       - name: "Check Conformance Tests"
         env:
@@ -192,14 +184,12 @@ jobs:
           sudo apt install gcc -y
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
-          go get -u github.com/venturemark/apiserver
+          go get -u github.com/venturemark/apiserver@$(git ls-remote git://github.com/venturemark/apiserver.git HEAD | awk '{print $1;}')
 
       - name: "Install Test Dependency"
         run: |
-          go get -u github.com/venturemark/apiworker
+          go get -u github.com/venturemark/apiworker@$(git ls-remote git://github.com/venturemark/apiworker.git HEAD | awk '{print $1;}')
 
       - name: "Install Test Dependency"
         env:
@@ -274,22 +264,16 @@ jobs:
           go get -u github.com/xh3b4sd/dsm
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
           go get -u github.com/venturemark/apiserver@$(dsm search -r HelmRelease -n apiserver -k spec.values.image.tag | head -n 1)
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
           go get -u github.com/venturemark/apiworker@$(dsm search -r HelmRelease -n apiworker -k spec.values.image.tag | head -n 1)
 
       - name: "Install Test Dependency"
-        env:
-          GO111MODULE: "on"
         run: |
-          go get -u github.com/venturemark/cfm
+          go get -u github.com/venturemark/cfm@$(git ls-remote git://github.com/venturemark/cfm.git HEAD | awk '{print $1;}')
 
       - name: "Check Conformance Tests"
         env:
