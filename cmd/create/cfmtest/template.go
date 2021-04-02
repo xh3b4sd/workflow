@@ -65,8 +65,8 @@ jobs:
         env:
           CGO_ENABLED: "1"
         run: |
-          apiserver daemon &
-          apiworker daemon &
+          apiserver daemon --metrics-port 8081 &
+          apiworker daemon --metrics-port 8082 &
           cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
 
@@ -135,8 +135,8 @@ jobs:
         env:
           CGO_ENABLED: "1"
         run: |
-          apiserver daemon &
-          apiworker daemon &
+          apiserver daemon --metrics-port 8081 &
+          apiworker daemon --metrics-port 8082 &
           cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
 
@@ -203,8 +203,8 @@ jobs:
         env:
           CGO_ENABLED: "1"
         run: |
-          apiserver daemon &
-          apiworker daemon &
+          apiserver daemon --metrics-port 8081 &
+          apiworker daemon --metrics-port 8082 &
           cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
 
@@ -279,7 +279,7 @@ jobs:
         env:
           CGO_ENABLED: "1"
         run: |
-          apiserver daemon &
-          apiworker daemon &
+          apiserver daemon --metrics-port 8081 &
+          apiworker daemon --metrics-port 8082 &
           cd ./venturemark/cfm && go test ./... -race -tags conformance
 `
