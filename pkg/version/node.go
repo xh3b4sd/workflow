@@ -1,5 +1,5 @@
 package version
 
 const (
-	Node = "14.x.x"
+	Node = "15.x.x"
 )
