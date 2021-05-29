@@ -17,7 +17,7 @@ jobs:
     steps:
 
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Setup Typescript Env"
         uses: "actions/setup-node@v2"
@@ -33,17 +33,17 @@ jobs:
           npm run build
 
       - name: "Setup Docker Buildx"
-        uses: "docker/setup-buildx-action@v1"
+        uses: "docker/setup-buildx-action@v1.3.0"
 
       - name: "Login Container Registry"
-        uses: "docker/login-action@v1"
+        uses: "docker/login-action@v1.9.0"
         with:
           registry: "ghcr.io"
           username: "${{ "{{" }} github.repository_owner {{ "}}" }}"
           password: "${{ "{{" }} secrets.CONTAINER_REGISTRY_TOKEN {{ "}}" }}"
 
       - name: "Build Docker Image"
-        uses: "docker/build-push-action@v2"
+        uses: "docker/build-push-action@v2.5.0"
         with:
           context: "."
           push: true

@@ -28,13 +28,13 @@ jobs:
 
     steps:
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/apiserver"
           repository: "venturemark/apiserver"
 
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/cfm"
           repository: "venturemark/cfm"
@@ -64,6 +64,8 @@ jobs:
       - name: "Check Conformance Tests"
         env:
           CGO_ENABLED: "1"
+          APIWORKER_POSTMARK_TOKEN_ACCOUNT: "foo"
+          APIWORKER_POSTMARK_TOKEN_SERVER: "foo"
         run: |
           apiserver daemon --metrics-port 8081 &
           apiworker daemon --metrics-port 8082 &
@@ -98,13 +100,13 @@ jobs:
 
     steps:
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/apiworker"
           repository: "venturemark/apiworker"
 
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/cfm"
           repository: "venturemark/cfm"
@@ -134,6 +136,8 @@ jobs:
       - name: "Check Conformance Tests"
         env:
           CGO_ENABLED: "1"
+          APIWORKER_POSTMARK_TOKEN_ACCOUNT: "foo"
+          APIWORKER_POSTMARK_TOKEN_SERVER: "foo"
         run: |
           apiserver daemon --metrics-port 8081 &
           apiworker daemon --metrics-port 8082 &
@@ -168,7 +172,7 @@ jobs:
 
     steps:
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/cfm"
           repository: "venturemark/cfm"
@@ -202,6 +206,8 @@ jobs:
       - name: "Check Conformance Tests"
         env:
           CGO_ENABLED: "1"
+          APIWORKER_POSTMARK_TOKEN_ACCOUNT: "foo"
+          APIWORKER_POSTMARK_TOKEN_SERVER: "foo"
         run: |
           apiserver daemon --metrics-port 8081 &
           apiworker daemon --metrics-port 8082 &
@@ -236,13 +242,13 @@ jobs:
 
     steps:
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/cfm"
           repository: "venturemark/cfm"
 
       - name: "Setup Git Project"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v2.3.4"
         with:
           path: "venturemark/flux"
           repository: "venturemark/flux"
@@ -278,6 +284,8 @@ jobs:
       - name: "Check Conformance Tests"
         env:
           CGO_ENABLED: "1"
+          APIWORKER_POSTMARK_TOKEN_ACCOUNT: "foo"
+          APIWORKER_POSTMARK_TOKEN_SERVER: "foo"
         run: |
           apiserver daemon --metrics-port 8081 &
           apiworker daemon --metrics-port 8082 &
