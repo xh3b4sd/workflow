@@ -46,7 +46,10 @@ Use "workflow create [command] --help" for more information about a command.
 ```
 
 ```
-$ workflow create dependabot -h
+workflow create dependabot -h
+```
+
+```
 Create a dependabot workflow for e.g. golang and docker.
 
 Usage:
