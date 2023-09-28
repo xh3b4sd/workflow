@@ -19,6 +19,7 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/create/redigo"
 	"github.com/xh3b4sd/workflow/cmd/create/releasego"
 	"github.com/xh3b4sd/workflow/cmd/create/releases3"
+	"github.com/xh3b4sd/workflow/cmd/create/rescue"
 	"github.com/xh3b4sd/workflow/cmd/create/typescript"
 )
 
@@ -207,6 +208,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var rescueCmd *cobra.Command
+	{
+		c := rescue.Config{
+			Logger: config.Logger,
+		}
+
+		rescueCmd, err = rescue.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var typescriptCmd *cobra.Command
 	{
 		c := typescript.Config{
@@ -246,6 +259,7 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(redigoCmd)
 		c.AddCommand(releasegoCmd)
 		c.AddCommand(releases3Cmd)
+		c.AddCommand(rescueCmd)
 		c.AddCommand(typescriptCmd)
 	}
 
