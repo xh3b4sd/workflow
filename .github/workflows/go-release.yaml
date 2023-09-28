@@ -1,0 +1,38 @@
+#
+# Do not edit. This file was generated via the "workflow" command line tool.
+# More information about the tool can be found at github.com/xh3b4sd/workflow.
+#
+#     workflow create releasego -n workflow -s gitSHA -t version
+#
+
+name: "go-release"
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Setup Git Project"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Go Env"
+        uses: "actions/setup-go@v4"
+        with:
+          cache: true
+          go-version: "1.21.1"
+
+      - name: "Cross Compile Binaries"
+        run: |
+          GOOS=darwin GOARCH=amd64 go build -o workflow-darwin-amd64 -ldflags="-X 'github.com/${{ github.repository_owner }}/workflow/pkg/project.gitSHA=${{ github.sha }}' -X 'github.com/${{ github.repository_owner }}/workflow/pkg/project.version=${{ github.ref_name }}'"
+          GOOS=linux GOARCH=amd64 go build -o workflow-linux-amd64 -ldflags="-X 'github.com/${{ github.repository_owner }}/workflow/pkg/project.gitSHA=${{ github.sha }}' -X 'github.com/${{ github.repository_owner }}/workflow/pkg/project.version=${{ github.ref_name }}'"
+
+      - name: "Upload To Github"
+        uses: "softprops/action-gh-release@v1"
+        with:
+          files: |
+            workflow-darwin-amd64
+            workflow-linux-amd64
