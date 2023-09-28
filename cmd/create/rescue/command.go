@@ -1,4 +1,4 @@
-package redigo
+package rescue
 
 import (
 	"github.com/spf13/cobra"
@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	name  = "redigo"
+	name  = "rescue"
 	short = "Create a redis workflow for e.g. running conformance tests."
 	long  = "Create a redis workflow for e.g. running conformance tests."
 )
@@ -16,9 +16,9 @@ type Config struct {
 	Logger logger.Interface
 }
 
-func New(config Config) (*cobra.Command, error) {
-	if config.Logger == nil {
-		return nil, tracer.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
+func New(con Config) (*cobra.Command, error) {
+	if con.Logger == nil {
+		return nil, tracer.Maskf(invalidConfigError, "%T.Logger must not be empty", con)
 	}
 
 	var c *cobra.Command
@@ -26,8 +26,8 @@ func New(config Config) (*cobra.Command, error) {
 		f := &flag{}
 
 		r := &runner{
-			flag:   f,
-			logger: config.Logger,
+			fla: f,
+			log: con.Logger,
 		}
 
 		c = &cobra.Command{

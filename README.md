@@ -11,7 +11,10 @@ generated for.
 ### Create Workflows
 
 ```
-$ workflow create -h
+workflow create -h
+```
+
+```
 Create github workflows and config files.
 
 Usage:
@@ -30,9 +33,10 @@ Available Commands:
   pbfgo       Create a protocol buffer workflow for golang code generation.
   pbflint     Create a protocol buffer workflow for schema validation.
   pbfts       Create a protocol buffer workflow for typescript code generation.
-  redigo      Create a golang workflow for e.g. running redis conformance tests.
+  redigo      Create a redis workflow for e.g. running conformance tests.
   releasego   Create a golang workflow for e.g. uploading cross compiled release assets.
   releases3   Create a golang workflow for e.g. uploading cross compiled release assets.
+  rescue      Create a redis workflow for e.g. running conformance tests.
   typescript  Create a typescript workflow for e.g. building and formatting typescript code.
 
 Flags:
@@ -61,7 +65,10 @@ Flags:
 
 
 ```
-$ workflow update all -h
+workflow update all -h
+```
+
+```
 Update all github workflows to the latest version. When creating a new
 workflow file the original command instruction in form of os.Args is written
 to the header of the workflow file. A typical workflow file header looks like
