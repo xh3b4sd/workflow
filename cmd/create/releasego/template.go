@@ -16,6 +16,9 @@ on:
 
 jobs:
   release:
+    permissions:
+      packages: write
+
     runs-on: "ubuntu-latest"
     steps:
       - name: "Setup Git Project"
