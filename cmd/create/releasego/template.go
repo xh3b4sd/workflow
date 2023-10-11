@@ -17,7 +17,7 @@ on:
 jobs:
   release:
     permissions:
-      packages: write
+      contents: write
 
     runs-on: "ubuntu-latest"
     steps:
