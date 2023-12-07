@@ -1,4 +1,4 @@
-package rescue
+package redis
 
 import (
 	"bytes"

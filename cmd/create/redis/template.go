@@ -1,4 +1,4 @@
-package rescue
+package redis
 
 const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
