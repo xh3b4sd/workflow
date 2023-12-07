@@ -22,12 +22,7 @@ func mainE(ctx context.Context) error {
 
 	var l logger.Interface
 	{
-		c := logger.Config{}
-
-		l, err = logger.New(c)
-		if err != nil {
-			return tracer.Mask(err)
-		}
+		l = logger.New(logger.Config{})
 	}
 
 	var r *cobra.Command
