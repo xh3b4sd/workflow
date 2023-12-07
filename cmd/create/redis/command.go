@@ -1,4 +1,4 @@
-package rescue
+package redis
 
 import (
 	"github.com/spf13/cobra"
@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	name  = "rescue"
+	name  = "redis"
 	short = "Create a redis workflow for e.g. running conformance tests."
 	long  = "Create a redis workflow for e.g. running conformance tests."
 )

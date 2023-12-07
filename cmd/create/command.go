@@ -17,9 +17,9 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/create/pbflint"
 	"github.com/xh3b4sd/workflow/cmd/create/pbfts"
 	"github.com/xh3b4sd/workflow/cmd/create/redigo"
+	"github.com/xh3b4sd/workflow/cmd/create/redis"
 	"github.com/xh3b4sd/workflow/cmd/create/releasego"
 	"github.com/xh3b4sd/workflow/cmd/create/releases3"
-	"github.com/xh3b4sd/workflow/cmd/create/rescue"
 	"github.com/xh3b4sd/workflow/cmd/create/typescript"
 )
 
@@ -184,6 +184,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 	}
 
+	var redisCmd *cobra.Command
+	{
+		c := redis.Config{
+			Logger: config.Logger,
+		}
+
+		redisCmd, err = redis.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
 	var releasegoCmd *cobra.Command
 	{
 		c := releasego.Config{
@@ -203,18 +215,6 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		releases3Cmd, err = releases3.New(c)
-		if err != nil {
-			return nil, tracer.Mask(err)
-		}
-	}
-
-	var rescueCmd *cobra.Command
-	{
-		c := rescue.Config{
-			Logger: config.Logger,
-		}
-
-		rescueCmd, err = rescue.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -257,9 +257,9 @@ func New(config Config) (*cobra.Command, error) {
 		c.AddCommand(pbflintCmd)
 		c.AddCommand(pbftsCmd)
 		c.AddCommand(redigoCmd)
+		c.AddCommand(redisCmd)
 		c.AddCommand(releasegoCmd)
 		c.AddCommand(releases3Cmd)
-		c.AddCommand(rescueCmd)
 		c.AddCommand(typescriptCmd)
 	}
 
