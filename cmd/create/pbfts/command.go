@@ -11,15 +11,21 @@ const (
 	short = "Create a protocol buffer workflow for typescript code generation."
 	long  = `Create a protocol buffer workflow for typescript code generation. The workflow
 generated here works in a setup of two Github repositories. Call them apischema
-and tscode. The workflow generated with the following command is added to the
+and apitscode. The workflow generated with the following command is added to the
 apischema repository.
 
-    workflow create pbfts -o xh3b4sd -r tscode
+    workflow create pbfts -o fancy-organization -r apitscode
 
 In order to make the workflow function correctly a deploy key must be generated
 and distributed. The public key is added as deploy key with write access to the
-gocode repository. The private key is added as Github Action Secret to the
-apischema repository. See the link below for more information.
+apitscode repository. The private key is added as Github Action Secret to the
+apischema repository, call it SSH_DEPLOY_KEY_APITSCODE. A new key pair can be
+generated like shown below.
+
+    ssh-keygen -t ed25519 -C your@email.com
+
+More information about the Github Action used to push changes from one
+repository to another can be found following the link below.
 
     https://github.com/cpina/github-action-push-to-another-repository
 `

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
@@ -11,13 +9,13 @@ import (
 )
 
 func main() {
-	err := mainE(context.Background())
+	err := mainE()
 	if err != nil {
 		tracer.Panic(err)
 	}
 }
 
-func mainE(ctx context.Context) error {
+func mainE() error {
 	var err error
 
 	var l logger.Interface
