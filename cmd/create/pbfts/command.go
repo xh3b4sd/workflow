@@ -19,7 +19,7 @@ apischema repository.
 In order to make the workflow function correctly a deploy key must be generated
 and distributed. The public key is added as deploy key with write access to the
 apitscode repository. The private key is added as Github Action Secret to the
-apischema repository, call it SSH_DEPLOY_KEY_APIGOCODE. A new key pair can be
+apischema repository, call it SSH_DEPLOY_KEY_APITSCODE. A new key pair can be
 generated like shown below.
 
     ssh-keygen -t ed25519 -C your@email.com
