@@ -37,7 +37,7 @@ jobs:
 {{- end }}
 
       - name: "Upload To Github"
-        uses: "softprops/action-gh-release@v1"
+        uses: "softprops/action-gh-release@v2"
         with:
           files: |
 {{- range $k, $v := .Release.Assets }}
