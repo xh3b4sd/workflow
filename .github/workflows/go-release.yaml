@@ -34,7 +34,7 @@ jobs:
           GOOS=linux GOARCH=amd64 go build -o workflow-linux-amd64 -ldflags="-X 'github.com/${{ github.repository_owner }}/workflow/pkg/project.gitSHA=${{ github.sha }}' -X 'github.com/${{ github.repository_owner }}/workflow/pkg/project.version=${{ github.ref_name }}'"
 
       - name: "Upload To Github"
-        uses: "softprops/action-gh-release@v1"
+        uses: "softprops/action-gh-release@v2"
         with:
           files: |
             workflow-darwin-amd64
