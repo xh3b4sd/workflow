@@ -36,7 +36,7 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 			command:      "workflow create pbfts",
 			organization: "xh3b4sd",
 			repository:   "tscode",
-			node:         "15.x.x",
+			node:         "20.x.x",
 			protoc:       "3.13.0",
 		},
 		// Case 1 ensures that a workflow file can be generated according to its
@@ -45,7 +45,7 @@ func Test_GrpcTs_Workflow(t *testing.T) {
 			command:      "workflow create pbfts --some argument",
 			organization: "some-org",
 			repository:   "some-repo",
-			node:         "15.x.x",
+			node:         "20.x.x",
 			protoc:       "3.5.1",
 		},
 	}
