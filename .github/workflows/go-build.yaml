@@ -38,6 +38,6 @@ jobs:
 
       - name: "Check Go Linters"
         run: |
-          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v1.54.2/golangci-lint-1.54.2-linux-amd64.tar.gz
-          tar -xzf golangci-lint-1.54.2-linux-amd64.tar.gz
-          ./golangci-lint-1.54.2-linux-amd64/golangci-lint run
+          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v1.63.4/golangci-lint-1.63.4-linux-amd64.tar.gz
+          tar -xzf golangci-lint-1.63.4-linux-amd64.tar.gz
+          ./golangci-lint-1.63.4-linux-amd64/golangci-lint run

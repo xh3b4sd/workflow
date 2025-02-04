@@ -113,5 +113,5 @@ func commandFor(action string, cmds []*cobra.Command) (*cobra.Command, error) {
 		}
 	}
 
-	return nil, tracer.Maskf(commandNotFoundError, action)
+	return nil, tracer.Maskf(commandNotFoundError, "%s", action)
 }
