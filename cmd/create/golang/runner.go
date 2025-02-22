@@ -2,7 +2,6 @@ package golang
 
 import (
 	"bytes"
-	"context"
 	"fmt"
 	"os"
 	"regexp"
@@ -18,7 +17,7 @@ import (
 )
 
 var (
-	versionExpression = regexp.MustCompile(`go ([0-9]+\.[0-9]+)`)
+	versionExpression = regexp.MustCompile(`go (\d+\.\d+(?:\.\d+)?)`)
 )
 
 type runner struct {
@@ -27,14 +26,12 @@ type runner struct {
 }
 
 func (r *runner) Run(cmd *cobra.Command, args []string) error {
-	ctx := context.Background()
-
 	err := r.flag.Validate()
 	if err != nil {
 		return tracer.Mask(err)
 	}
 
-	err = r.run(ctx, cmd, args)
+	err = r.run()
 	if err != nil {
 		return tracer.Mask(err)
 	}
@@ -42,7 +39,7 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
+func (r *runner) run() error {
 	{
 		p := ".github/workflows/"
 
@@ -94,22 +91,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	return nil
 }
 
-func currentVersion(b []byte) string {
-	r := versionExpression.FindSubmatch(b)
-	if len(r) != 2 {
-		// FindSubmatch returns the full match and the capturing group. As such
-		// we expect 2 results, of which the first is the current version string
-		// we are interested in.
-		//
-		//     ["go 1.15" "1.15"]
-		//
-		panic("must find two results")
-	}
-
-	return string(r[0])
-}
-
-func (r *runner) data() interface{} {
+func (r *runner) data() any {
 	type Data struct {
 		Command string
 		Env     map[string]string
@@ -130,6 +112,21 @@ func (r *runner) data() interface{} {
 			SetupGo:      version.SetupGo,
 		},
 	}
+}
+
+func currentVersion(b []byte) string {
+	r := versionExpression.FindSubmatch(b)
+	if len(r) != 2 {
+		// FindSubmatch returns the full match and the capturing group. As such
+		// we expect 2 results, of which the first is the current version string
+		// we are interested in.
+		//
+		//     ["go 1.15" "1.15"]
+		//
+		panic("must find two results")
+	}
+
+	return string(r[0])
 }
 
 func desiredVersion(v string) string {
