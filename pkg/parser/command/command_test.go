@@ -21,7 +21,7 @@ var update = flag.Bool("update", false, "update .golden files")
 // quite complex while the parsing code is not easily comprehensible. Therefore
 // we need a way to reliably verify the integrity of the command parsing.
 //
-//	go test ./... -run Test_Command_Parse -update
+//	go test ./pkg/parser/command -run Test_Command_Parse -update
 func Test_Command_Parse(t *testing.T) {
 	testCases := []struct {
 		fileSystem afero.Fs

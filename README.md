@@ -6,8 +6,6 @@ to the github ecosystem. All commands generating workflows must be executed
 within the root directory of the repository the desired workflows should be
 generated for.
 
-
-
 ### Create Workflows
 
 ```
@@ -62,10 +60,7 @@ Flags:
   -g, --version-golang string   Golang version to use in, e.g. workflow files. (default "1.15.2")
 ```
 
-
-
 ### Update Workflows
-
 
 ```
 workflow update all -h

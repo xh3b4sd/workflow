@@ -1,5 +1,5 @@
 package version
 
 const (
-	Protoc = "23.4"
+	Protoc = "31.1"
 )
