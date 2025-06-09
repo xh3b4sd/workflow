@@ -39,7 +39,7 @@ func (r *runner) Run(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
+func (r *runner) run(_ context.Context, _ *cobra.Command, _ []string) error {
 	var err error
 
 	var g generator.Interface
