@@ -6,7 +6,7 @@ require (
 	github.com/google/go-cmp v0.6.0
 	github.com/spf13/afero v1.14.0
 	github.com/spf13/cobra v1.8.0
-	github.com/xh3b4sd/logger v0.8.1
+	github.com/xh3b4sd/logger v0.10.0
 	github.com/xh3b4sd/tracer v0.11.1
 )
 
