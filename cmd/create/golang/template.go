@@ -48,7 +48,11 @@ jobs:
           {{ $k }}: "{{ $v }}"
 {{- end }}
         run: |
+{{- if .Binary }}
           go build .
+{{- else }}
+          go build ./...
+{{- end }}
 
       - name: "Check Go Tests"
 {{- if .Env }}
