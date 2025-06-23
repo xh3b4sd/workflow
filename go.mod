@@ -5,14 +5,14 @@ go 1.24
 require (
 	github.com/google/go-cmp v0.7.0
 	github.com/spf13/afero v1.14.0
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.9.1
 	github.com/xh3b4sd/logger v0.10.0
 	github.com/xh3b4sd/tracer v0.11.1
 )
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/pflag v1.0.6 // indirect
 	golang.org/x/text v0.23.0 // indirect
 )
 
