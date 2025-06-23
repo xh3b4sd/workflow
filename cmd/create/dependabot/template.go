@@ -8,8 +8,9 @@ const templateWorkflow = `#
 #
 
 version: 2
+
 updates:
-{{ range $e := .Ecosystems }}
+{{- range $e := .Ecosystems }}
   - package-ecosystem: "{{ $e.Name }}"
     directory: "/"
     ignore:
