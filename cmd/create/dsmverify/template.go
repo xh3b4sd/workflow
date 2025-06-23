@@ -14,7 +14,6 @@ on: "push"
 jobs:
   dsm-verify:
     runs-on: "ubuntu-latest"
-
     steps:
       - name: "Setup Git Project"
         uses: "actions/checkout@v{{ .Version.Checkout }}"

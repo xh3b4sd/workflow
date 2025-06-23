@@ -15,7 +15,6 @@ jobs:
   go-build:
     runs-on: "ubuntu-latest"
     steps:
-
       - name: "Setup Git Project"
         uses: "actions/checkout@v{{ .Version.Checkout }}"
 
@@ -40,6 +39,19 @@ jobs:
         run: |
           go mod tidy
           git diff --exit-code
+
+      - name: "Run Go Build"
+        env:
+          CGO_ENABLED: "0"
+{{- range $k, $v := .Env }}
+          {{ $k }}: "{{ $v }}"
+{{- end }}
+        run: |
+{{- if .Binary }}
+          go build .
+{{- else }}
+          go build ./...
+{{- end }}
 
       - name: "Check Go Tests"
 {{- if .Env }}

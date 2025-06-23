@@ -79,7 +79,7 @@ func (r *runner) run() error {
 		} else if err != nil {
 			return tracer.Mask(err)
 		} else {
-			c := strings.Replace(string(b), currentVersion(b), desiredVersion(r.flag.Version.Golang), -1)
+			c := strings.ReplaceAll(string(b), currentVersion(b), desiredVersion(r.flag.Version.Golang))
 
 			err = os.WriteFile(p, []byte(c), 0600)
 			if err != nil {
@@ -93,6 +93,7 @@ func (r *runner) run() error {
 
 func (r *runner) data() any {
 	type Data struct {
+		Binary  bool
 		Command string
 		Env     map[string]string
 		Private string
@@ -101,6 +102,7 @@ func (r *runner) data() any {
 	}
 
 	return Data{
+		Binary:  r.flag.Binary,
 		Command: strings.Join(os.Args, " "),
 		Env:     env.Env(),
 		Private: r.flag.Private,

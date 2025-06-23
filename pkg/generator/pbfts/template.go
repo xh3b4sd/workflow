@@ -22,7 +22,6 @@ jobs:
   pbf-ts:
     runs-on: "ubuntu-latest"
     steps:
-
       - name: "Setup Git Project"
         uses: "actions/checkout@v{{ .Version.Checkout }}"
 
