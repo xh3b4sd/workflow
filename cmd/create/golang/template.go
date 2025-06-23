@@ -41,6 +41,15 @@ jobs:
           go mod tidy
           git diff --exit-code
 
+      - name: "Build Go Binary"
+        env:
+          CGO_ENABLED: "0"
+{{- range $k, $v := .Env }}
+          {{ $k }}: "{{ $v }}"
+{{- end }}
+        run: |
+          go build .
+
       - name: "Check Go Tests"
 {{- if .Env }}
         env:
