@@ -17,10 +17,6 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 10
-    reviewers:
-{{- range $r := $e.Reviewers }}
-      - "{{ $r }}"
-{{- end }}
     schedule:
       interval: "daily"
       time: "04:00"

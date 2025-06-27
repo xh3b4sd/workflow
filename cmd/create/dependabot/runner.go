@@ -3,6 +3,7 @@ package dependabot
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"html/template"
 	"os"
 	"strings"
@@ -80,7 +81,27 @@ func (r *runner) dependabotData() interface{} {
 	}
 }
 
-func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
+func (r *runner) run(_ context.Context, _ *cobra.Command, _ []string) error {
+	{
+		p := ".github/CODEOWNERS"
+
+		if !file.Exists(p) {
+			var b bytes.Buffer
+			{
+				b.WriteString("*")
+				for _, r := range r.flag.Reviewers {
+					b.WriteString(fmt.Sprintf(" %s", r))
+				}
+				b.WriteString("\n")
+			}
+
+			err := os.WriteFile(p, b.Bytes(), 0600)
+			if err != nil {
+				return tracer.Mask(err)
+			}
+		}
+	}
+
 	{
 		p := ".github/workflows/"
 
