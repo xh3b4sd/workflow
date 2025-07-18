@@ -2,6 +2,7 @@ package pbfgo
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 	"text/template"
 
@@ -27,36 +28,34 @@ type PbfGo struct {
 	versionProtoc      string
 }
 
-func New(config Config) (*PbfGo, error) {
-	if config.Command == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.Command must not be empty", config)
+func New(c Config) *PbfGo {
+	if c.Command == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.Command must not be empty", c)))
 	}
-	if config.FilePath == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.FilePath must not be empty", config)
+	if c.FilePath == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.FilePath must not be empty", c)))
 	}
-	if config.GithubOrganization == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.GithubOrganization must not be empty", config)
+	if c.GithubOrganization == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.GithubOrganization must not be empty", c)))
 	}
-	if config.GithubRepository == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.GithubRepository must not be empty", config)
+	if c.GithubRepository == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.GithubRepository must not be empty", c)))
 	}
-	if config.VersionGolang == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.VersionGolang must not be empty", config)
+	if c.VersionGolang == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.VersionGolang must not be empty", c)))
 	}
-	if config.VersionProtoc == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.VersionProtoc must not be empty", config)
-	}
-
-	p := &PbfGo{
-		command:            config.Command,
-		filePath:           config.FilePath,
-		githubOrganization: config.GithubOrganization,
-		githubRepository:   config.GithubRepository,
-		versionGolang:      config.VersionGolang,
-		versionProtoc:      config.VersionProtoc,
+	if c.VersionProtoc == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.VersionProtoc must not be empty", c)))
 	}
 
-	return p, nil
+	return &PbfGo{
+		command:            c.Command,
+		filePath:           c.FilePath,
+		githubOrganization: c.GithubOrganization,
+		githubRepository:   c.GithubRepository,
+		versionGolang:      c.VersionGolang,
+		versionProtoc:      c.VersionProtoc,
+	}
 }
 
 func (p *PbfGo) Workflow() ([]byte, error) {

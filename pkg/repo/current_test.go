@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"strconv"
+	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -27,7 +27,7 @@ func Test_Repo_current(t *testing.T) {
 	}
 
 	for i, tc := range testCases {
-		t.Run(strconv.Itoa(i), func(t *testing.T) {
+		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			cur := current(tc.abs)
 
 			if tc.cur != cur {

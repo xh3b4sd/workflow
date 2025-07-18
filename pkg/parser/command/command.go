@@ -1,6 +1,7 @@
 package command
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -17,33 +18,27 @@ var (
 )
 
 type Config struct {
-	FileSystem afero.Fs
-
+	FileSystem   afero.Fs
 	WorkflowPath string
 }
 
 type Command struct {
-	fileSystem afero.Fs
-
+	fileSystem   afero.Fs
 	workflowPath string
 }
 
-func New(config Config) (*Command, error) {
-	if config.FileSystem == nil {
-		return nil, tracer.Maskf(invalidConfigError, "%T.FileSystem must not be empty", config)
+func New(c Config) *Command {
+	if c.FileSystem == nil {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.FileSystem must not be empty", c)))
+	}
+	if c.WorkflowPath == "" {
+		tracer.Panic(tracer.Mask(fmt.Errorf("%T.WorkflowPath must not be empty", c)))
 	}
 
-	if config.WorkflowPath == "" {
-		return nil, tracer.Maskf(invalidConfigError, "%T.WorkflowPath must not be empty", config)
+	return &Command{
+		fileSystem:   c.FileSystem,
+		workflowPath: c.WorkflowPath,
 	}
-
-	c := &Command{
-		fileSystem: config.FileSystem,
-
-		workflowPath: config.WorkflowPath,
-	}
-
-	return c, nil
 }
 
 func (c *Command) Parse() ([][]string, error) {

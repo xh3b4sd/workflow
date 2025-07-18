@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/tracer"
 
+	"github.com/xh3b4sd/workflow/pkg/runtime"
 	"github.com/xh3b4sd/workflow/pkg/version"
 )
 
@@ -38,37 +39,37 @@ func (f *flag) Init(cmd *cobra.Command) {
 func (f *flag) Validate() error {
 	{
 		if f.Release.Assets == "" {
-			return tracer.Maskf(invalidFlagError, "-a/--release-assets must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-a/--release-assets must not be empty"})
 		}
 	}
 
 	{
 		if f.Repository.Name == "" {
-			return tracer.Maskf(invalidFlagError, "-n/--repository-name must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-n/--repository-name must not be empty"})
 		}
 		if f.Repository.Path == "" {
-			return tracer.Maskf(invalidFlagError, "-p/--repository-path must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-p/--repository-path must not be empty"})
 		}
 	}
 
 	{
 		if f.Variable.GitSha == "" {
-			return tracer.Maskf(invalidFlagError, "-s/--variable-gitsha must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-s/--variable-gitsha must not be empty"})
 		}
 
 		if f.Variable.GitTag == "" {
-			return tracer.Maskf(invalidFlagError, "-t/--variable-gittag must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-t/--variable-gittag must not be empty"})
 		}
 	}
 
 	{
 		if f.Version.Golang == "" {
-			return tracer.Maskf(invalidFlagError, "-g/--version-golang must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-g/--version-golang must not be empty"})
 		}
 
 		s := strings.Split(f.Version.Golang, ".")
 		if len(s) != 3 {
-			return tracer.Maskf(invalidFlagError, "-g/--version-golang must have 3 parts like 1.15.2")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-g/--version-golang must have 3 parts like 1.15.2"})
 		}
 	}
 

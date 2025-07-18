@@ -20,12 +20,9 @@ Usage:
   workflow create [command]
 
 Available Commands:
-  cfmtest     Create a conformance workflow for e.g. running tests.
   dependabot  Create a dependabot workflow for e.g. golang and docker.
   dockergo    Create a docker workflow for building and pushing docker images of golang apps.
   dockerts    Create a docker workflow for building and pushing docker images of typescript apps.
-  dsmupdate   Create a mutating workflow for e.g. app versions.
-  dsmverify   Create a validation workflow for e.g. checking consistency.
   golang      Create a golang workflow for e.g. running tests and checking formatting.
   npm         Create a npm workflow for e.g. building and publishing npm packages.
   pbfgo       Create a protocol buffer workflow for golang code generation.
@@ -34,7 +31,6 @@ Available Commands:
   redigo      Create a redis workflow for e.g. running conformance tests.
   redis       Create a redis workflow for e.g. running conformance tests.
   releasego   Create a golang workflow for e.g. uploading cross compiled release assets.
-  releases3   Create a golang workflow for e.g. uploading cross compiled release assets.
   typescript  Create a typescript workflow for e.g. building and formatting typescript code.
 
 Flags:
@@ -56,8 +52,8 @@ Usage:
 Flags:
   -b, --branch string           Dependabort target branch to merge pull requests into. (default "main")
   -h, --help                    help for dependabot
-  -r, --reviewers strings       Reviewers assigned to dependabot PRs, e.g. xh3b4sd. Works with github usernames and teams.
-  -g, --version-golang string   Golang version to use in, e.g. workflow files. (default "1.15.2")
+  -r, --reviewers strings       Reviewers assigned to dependabot PRs, e.g. @xh3b4sd.
+  -g, --version-golang string   Golang version to use in, e.g. workflow files. (default "1.24.0")
 ```
 
 ### Update Workflows
@@ -76,7 +72,7 @@ the following.
     # Do not edit. This file was generated via the "workflow" command line tool.
     # More information about the tool can be found at github.com/xh3b4sd/workflow.
     #
-    #     workflow create dependabot -r xh3b4sd
+    #     workflow create dependabot -r @xh3b4sd
     #
 
 This information of the executable command is used to make workflow updates
