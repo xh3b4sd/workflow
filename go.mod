@@ -7,7 +7,7 @@ require (
 	github.com/spf13/afero v1.14.0
 	github.com/spf13/cobra v1.9.1
 	github.com/xh3b4sd/logger v0.10.0
-	github.com/xh3b4sd/tracer v0.11.1
+	github.com/xh3b4sd/tracer v1.0.0
 )
 
 require (
