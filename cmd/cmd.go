@@ -1,0 +1,50 @@
+package cmd
+
+import (
+	"github.com/spf13/cobra"
+
+	"github.com/xh3b4sd/workflow/cmd/completion"
+	"github.com/xh3b4sd/workflow/cmd/create"
+	"github.com/xh3b4sd/workflow/cmd/update"
+	"github.com/xh3b4sd/workflow/cmd/version"
+)
+
+var (
+	use = "workflow"
+	sho = "Command line tool for generating github workflows."
+	lon = "Command line tool for generating github workflows."
+)
+
+func New() *cobra.Command {
+	var cmd *cobra.Command
+	{
+		cmd = &cobra.Command{
+			Use:   use,
+			Short: sho,
+			Long:  lon,
+			Run:   (&run{}).run,
+			CompletionOptions: cobra.CompletionOptions{
+				DisableDefaultCmd: true,
+			},
+			// We slience errors because we do not want to see spf13/cobra printing.
+			// The errors returned by the commands will be propagated to the main.go
+			// anyway, where we have custom error printing for the command line
+			// tool.
+			SilenceErrors: true,
+			SilenceUsage:  true,
+		}
+	}
+
+	{
+		cmd.SetHelpCommand(&cobra.Command{Hidden: true})
+	}
+
+	{
+		cmd.AddCommand(completion.New())
+		cmd.AddCommand(create.New())
+		cmd.AddCommand(update.New())
+		cmd.AddCommand(version.New())
+	}
+
+	return cmd
+}

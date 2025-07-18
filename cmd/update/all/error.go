@@ -7,17 +7,9 @@ import (
 )
 
 var commandNotFoundError = &tracer.Error{
-	Kind: "commandNotFoundError",
+	Description: "The desired command was not found in the list of available commands.",
 }
 
 func IsCommandNotFound(err error) bool {
 	return errors.Is(err, commandNotFoundError)
-}
-
-var invalidConfigError = &tracer.Error{
-	Kind: "invalidConfigError",
-}
-
-func IsInvalidConfig(err error) bool {
-	return errors.Is(err, invalidConfigError)
 }

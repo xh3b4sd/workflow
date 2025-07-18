@@ -3,9 +3,9 @@ package command
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"testing"
 
@@ -59,7 +59,7 @@ func Test_Command_Parse(t *testing.T) {
 
 				mustCreateFile(fs, ".github/workflows/dependabot.yaml", `
 				#
-				#     workflow create dependabot -r xh3b4sd
+				#     workflow create dependabot -r @xh3b4sd
 				#
 				`)
 
@@ -81,21 +81,16 @@ func Test_Command_Parse(t *testing.T) {
 	}
 
 	for i, tc := range testCases {
-		t.Run(strconv.Itoa(i), func(t *testing.T) {
+		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var err error
 
 			var p parser.Interface
 			{
-				c := Config{
+				p = New(Config{
 					FileSystem: tc.fileSystem,
 
 					WorkflowPath: ".github/workflows/",
-				}
-
-				p, err = New(c)
-				if err != nil {
-					t.Fatal(err)
-				}
+				})
 			}
 
 			var actual string
@@ -115,7 +110,7 @@ func Test_Command_Parse(t *testing.T) {
 
 			var expected []byte
 			{
-				p := filepath.Join("testdata/parse", fileName(i))
+				p := filepath.Join("testdata/parse", fmt.Sprintf("case.%03d.golden", i))
 				if *update {
 					err := os.WriteFile(p, []byte(actual), 0600)
 					if err != nil {
@@ -134,10 +129,6 @@ func Test_Command_Parse(t *testing.T) {
 			}
 		})
 	}
-}
-
-func fileName(i int) string {
-	return "case-" + strconv.Itoa(i) + ".golden"
 }
 
 func mustCreateDir(fs afero.Fs, p string) {

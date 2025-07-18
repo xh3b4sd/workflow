@@ -3,6 +3,7 @@ package pbflint
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -42,22 +43,17 @@ func Test_PbfLint_Workflow(t *testing.T) {
 	}
 
 	for i, tc := range testCases {
-		t.Run(strconv.Itoa(i), func(t *testing.T) {
+		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var err error
 
 			var g generator.Interface
 			{
-				c := Config{
+				g = New(Config{
 					Command:       tc.command,
 					FilePath:      "workflow.yaml",
 					VersionGolang: tc.golang,
 					VersionProtoc: tc.protoc,
-				}
-
-				g, err = New(c)
-				if err != nil {
-					t.Fatal(err)
-				}
+				})
 			}
 
 			var actual []byte

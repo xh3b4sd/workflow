@@ -2,55 +2,28 @@ package redis
 
 import (
 	"bytes"
-	"context"
 	"os"
 	"strings"
 	"text/template"
 
 	"github.com/spf13/cobra"
-	"github.com/xh3b4sd/logger"
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/workflow/pkg/version"
 )
 
-type runner struct {
-	fla *flag
-	log logger.Interface
+type run struct {
+	flag *flag
 }
 
-func (r *runner) Run(cmd *cobra.Command, args []string) error {
-	ctx := context.Background()
-
-	err := r.fla.Validate()
-	if err != nil {
-		return tracer.Mask(err)
+func (r *run) run(_ *cobra.Command, _ []string) error {
+	{
+		err := r.flag.Validate()
+		if err != nil {
+			return tracer.Mask(err)
+		}
 	}
 
-	err = r.run(ctx, cmd, args)
-	if err != nil {
-		return tracer.Mask(err)
-	}
-
-	return nil
-}
-
-func (r *runner) data() interface{} {
-	type Data struct {
-		Command string
-		Version version.Version
-	}
-
-	return Data{
-		Command: strings.Join(os.Args, " "),
-		Version: version.Version{
-			Checkout: version.Checkout,
-			Golang:   desiredVersion(r.fla.Version.Golang),
-		},
-	}
-}
-
-func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) error {
 	{
 		p := ".github/workflows/"
 
@@ -81,6 +54,21 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	}
 
 	return nil
+}
+
+func (r *run) data() interface{} {
+	type Data struct {
+		Command string
+		Version version.Version
+	}
+
+	return Data{
+		Command: strings.Join(os.Args, " "),
+		Version: version.Version{
+			Checkout: version.Checkout,
+			Golang:   desiredVersion(r.flag.Version.Golang),
+		},
+	}
 }
 
 func desiredVersion(v string) string {

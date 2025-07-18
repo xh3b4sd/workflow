@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/xh3b4sd/tracer"
-
+	"github.com/xh3b4sd/workflow/pkg/runtime"
 	"github.com/xh3b4sd/workflow/pkg/version"
 )
 
@@ -28,21 +28,21 @@ func (f *flag) Init(cmd *cobra.Command) {
 func (f *flag) Validate() error {
 	{
 		if f.Private != "" && f.User == "" {
-			return tracer.Maskf(invalidFlagError, "-p/--private and -u/--user must be given together")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-p/--private and -u/--user must be given together"})
 		}
 		if f.Private == "" && f.User != "" {
-			return tracer.Maskf(invalidFlagError, "-p/--private and -u/--user must be given together")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-p/--private and -u/--user must be given together"})
 		}
 	}
 
 	{
 		if f.Version.Golang == "" {
-			return tracer.Maskf(invalidFlagError, "-g/--version-golang must not be empty")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-g/--version-golang must not be empty"})
 		}
 
 		s := strings.Split(f.Version.Golang, ".")
 		if len(s) != 3 {
-			return tracer.Maskf(invalidFlagError, "-g/--version-golang must have 3 parts like 1.15.2")
+			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-g/--version-golang must have 3 parts like 1.15.2"})
 		}
 	}
 
