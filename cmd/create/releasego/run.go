@@ -55,41 +55,37 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 	return nil
 }
 
-func (r *run) data() interface{} {
+func (r *run) data() any {
+	type Git struct {
+		Sha string
+		Tag string
+	}
+	type Linker struct {
+		Path string
+		Git  Git
+	}
 	type Release struct {
 		Assets map[string]string
 	}
 
-	type Repository struct {
-		Name string
-		Path string
-	}
-
-	type Variable struct {
-		GitSha string
-		GitTag string
-	}
-
 	type Data struct {
-		Command    string
-		Release    Release
-		Repository Repository
-		Variable   Variable
-		Version    version.Version
+		Command string
+		Linker  Linker
+		Release Release
+		Version version.Version
 	}
 
 	return Data{
 		Command: strings.Join(os.Args, " "),
+		Linker: Linker{
+			Path: r.flag.Linker.Path,
+			Git: Git{
+				Sha: r.flag.Linker.Git.Sha,
+				Tag: r.flag.Linker.Git.Tag,
+			},
+		},
 		Release: Release{
 			Assets: assets(r.flag.Release.Assets),
-		},
-		Repository: Repository{
-			Name: r.flag.Repository.Name,
-			Path: r.flag.Repository.Path,
-		},
-		Variable: Variable{
-			GitSha: r.flag.Variable.GitSha,
-			GitTag: r.flag.Variable.GitTag,
 		},
 		Version: version.Version{
 			Checkout: version.Checkout,
@@ -102,7 +98,7 @@ func (r *run) data() interface{} {
 func assets(str string) map[string]string {
 	ass := map[string]string{}
 
-	for _, s := range strings.Split(str, ",") {
+	for s := range strings.SplitSeq(str, ",") {
 		spl := strings.Split(s, "/")
 		ass[spl[0]] = spl[1]
 	}

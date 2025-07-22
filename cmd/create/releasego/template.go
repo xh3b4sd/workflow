@@ -33,7 +33,7 @@ jobs:
       - name: "Cross Compile Binaries"
         run: |
 {{- range $k, $v := .Release.Assets }}
-          GOOS={{ $k }} GOARCH={{ $v }} go build -o {{ $.Repository.Name }}-{{ $k }}-{{ $v }} -ldflags="-X 'github.com/${{ "{{" }} github.repository_owner {{ "}}" }}/{{ $.Repository.Name }}/{{ $.Repository.Path }}.{{ $.Variable.GitSha }}=${{ "{{" }} github.sha {{ "}}" }}' -X 'github.com/${{ "{{" }} github.repository_owner {{ "}}" }}/{{ $.Repository.Name }}/{{ $.Repository.Path }}.{{ $.Variable.GitTag }}=${{ "{{" }} github.ref_name {{ "}}" }}'"
+          GOOS={{ $k }} GOARCH={{ $v }} go build -o ${{ "{{" }} github.event.repository.name {{ "}}" }}-{{ $k }}-{{ $v }} -ldflags="-X 'github.com/${{ "{{" }} github.repository_owner {{ "}}" }}/${{ "{{" }} github.event.repository.name {{ "}}" }}/{{ $.Linker.Path }}.{{ $.Linker.Git.Sha }}=${{ "{{" }} github.sha {{ "}}" }}' -X 'github.com/${{ "{{" }} github.repository_owner {{ "}}" }}/${{ "{{" }} github.event.repository.name {{ "}}" }}/{{ $.Linker.Path }}.{{ $.Linker.Git.Tag }}=${{ "{{" }} github.ref_name {{ "}}" }}'"
 {{- end }}
 
       - name: "Upload To Github"
@@ -41,6 +41,6 @@ jobs:
         with:
           files: |
 {{- range $k, $v := .Release.Assets }}
-            {{ $.Repository.Name }}-{{ $k }}-{{ $v }}
+            ${{ "{{" }} github.event.repository.name {{ "}}" }}-{{ $k }}-{{ $v }}
 {{- end }}
 `
