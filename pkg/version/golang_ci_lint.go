@@ -1,5 +1,5 @@
 package version
 
 const (
-	GolangCiLint = "1.64.5"
+	GolangCiLint = "8"
 )

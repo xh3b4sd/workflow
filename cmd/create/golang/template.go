@@ -11,6 +11,9 @@ name: "go-build"
 
 on: "push"
 
+permissions:
+  contents: read
+
 jobs:
   go-build:
     runs-on: "ubuntu-latest"
@@ -40,18 +43,14 @@ jobs:
           go mod tidy
           git diff --exit-code
 
-      - name: "Run Go Build"
-        env:
-          CGO_ENABLED: "0"
-{{- range $k, $v := .Env }}
-          {{ $k }}: "{{ $v }}"
-{{- end }}
+      - name: "Check Go Linters"
+        uses: "golangci/golangci-lint-action@v{{ .Version.GolangCiLint }}"
+        with:
+          version: "latest"
+
+      - name: "Check Go Formatting"
         run: |
-{{- if .Binary }}
-          go build .
-{{- else }}
-          go build ./...
-{{- end }}
+          test -z $(gofmt -l -s .)
 
       - name: "Check Go Tests"
 {{- if .Env }}
@@ -62,14 +61,4 @@ jobs:
 {{- end }}
         run: |
           go test ./... -race
-
-      - name: "Check Go Formatting"
-        run: |
-          test -z $(gofmt -l -s .)
-
-      - name: "Check Go Linters"
-        run: |
-          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v{{ .Version.GolangCiLint }}/golangci-lint-{{ .Version.GolangCiLint }}-linux-amd64.tar.gz
-          tar -xzf golangci-lint-{{ .Version.GolangCiLint }}-linux-amd64.tar.gz
-          ./golangci-lint-{{ .Version.GolangCiLint }}-linux-amd64/golangci-lint run
 `
