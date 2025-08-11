@@ -83,7 +83,6 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 
 func (r *run) data() any {
 	type Data struct {
-		Binary  bool
 		Command string
 		Env     map[string]string
 		Private string
@@ -92,7 +91,6 @@ func (r *run) data() any {
 	}
 
 	return Data{
-		Binary:  r.flag.Binary,
 		Command: strings.Join(os.Args, " "),
 		Env:     env.Env(),
 		Private: r.flag.Private,
