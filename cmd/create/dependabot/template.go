@@ -20,5 +20,4 @@ updates:
     schedule:
       interval: "daily"
       time: "04:00"
-    target-branch: "{{ $e.Branch }}"
 {{ end }}`

@@ -78,9 +78,7 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 
 func (r *run) dependabotData() any {
 	type Ecosystem struct {
-		Branch    string
-		Name      string
-		Reviewers []string
+		Name string
 	}
 
 	type Data struct {
@@ -92,25 +90,25 @@ func (r *run) dependabotData() any {
 	{
 		if file.Exists("Dockerfile") {
 			ecosystems = append(ecosystems, Ecosystem{
-				Branch:    r.flag.Branch,
-				Name:      "docker",
-				Reviewers: r.flag.Reviewers,
+				Name: "docker",
 			})
 		}
 
 		{
 			ecosystems = append(ecosystems, Ecosystem{
-				Branch:    r.flag.Branch,
-				Name:      "github-actions",
-				Reviewers: r.flag.Reviewers,
+				Name: "github-actions",
 			})
 		}
 
 		if file.Exists("go.mod") && file.Exists("go.sum") {
 			ecosystems = append(ecosystems, Ecosystem{
-				Branch:    r.flag.Branch,
-				Name:      "gomod",
-				Reviewers: r.flag.Reviewers,
+				Name: "gomod",
+			})
+		}
+
+		if file.Exists("package.json") {
+			ecosystems = append(ecosystems, Ecosystem{
+				Name: "npm",
 			})
 		}
 	}
