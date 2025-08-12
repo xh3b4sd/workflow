@@ -12,6 +12,7 @@ import (
 
 type flag struct {
 	Branch    string
+	Combine   []string
 	Reviewers []string
 	Version   struct {
 		Golang string
@@ -20,6 +21,7 @@ type flag struct {
 
 func (f *flag) Init(cmd *cobra.Command) {
 	cmd.Flags().StringVarP(&f.Branch, "branch", "b", "main", "Dependabort target branch to merge pull requests into.")
+	cmd.Flags().StringSliceVarP(&f.Combine, "combine", "c", []string{}, "Combine dependency updates of a kind, e.g. gomod:github.com/aws/aws-sdk-go-v2.")
 	cmd.Flags().StringSliceVarP(&f.Reviewers, "reviewers", "r", []string{}, "Reviewers assigned to dependabot PRs, e.g. @xh3b4sd.")
 	cmd.Flags().StringVarP(&f.Version.Golang, "version-golang", "g", version.Golang, "Golang version to use in, e.g. workflow files.")
 }
@@ -35,9 +37,17 @@ func (f *flag) Validate() error {
 		if len(f.Reviewers) == 0 {
 			return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-r/--reviewers must not be empty"})
 		}
-		for _, r := range f.Reviewers {
-			if !strings.HasPrefix(r, "@") {
+		for _, x := range f.Reviewers {
+			if !strings.HasPrefix(x, "@") {
 				return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-r/--reviewers must start with @"})
+			}
+		}
+	}
+
+	{
+		for _, x := range f.Combine {
+			if !strings.HasPrefix(x, "gomod:") {
+				return tracer.Mask(runtime.InvalidFlagError, tracer.Context{Key: "reason", Value: "-c/--combine must start with gomod:"})
 			}
 		}
 	}
