@@ -13,11 +13,16 @@ updates:
 {{- range $e := .Ecosystems }}
   - package-ecosystem: "{{ $e.Name }}"
     directory: "/"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 10
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: "04:00"
-{{ end }}`
+{{- if $e.Group.Aws }}
+    groups:
+      aws-sdk-go-v2:
+        patterns:
+          - "github.com/aws/aws-sdk-go-v2"
+          - "github.com/aws/aws-sdk-go-v2/*"
+{{- end }}
+{{- end }}
+`

@@ -10,20 +10,13 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 10
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: "04:00"
-
   - package-ecosystem: "gomod"
     directory: "/"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 10
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: "04:00"

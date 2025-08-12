@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -77,8 +78,13 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 }
 
 func (r *run) dependabotData() any {
+	type Group struct {
+		Aws bool
+	}
+
 	type Ecosystem struct {
-		Name string
+		Group Group
+		Name  string
 	}
 
 	type Data struct {
@@ -102,6 +108,9 @@ func (r *run) dependabotData() any {
 
 		if file.Exists("go.mod") && file.Exists("go.sum") {
 			ecosystems = append(ecosystems, Ecosystem{
+				Group: Group{
+					Aws: slices.Contains(r.flag.Combine, "gomod:github.com/aws/aws-sdk-go-v2"),
+				},
 				Name: "gomod",
 			})
 		}
