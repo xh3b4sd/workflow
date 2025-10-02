@@ -7,7 +7,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: "pbf-go"
+name: "Pbf Go"
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
 
       - name: "Install Go Dependencies"
         run: |
-          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.10
           go install github.com/twitchtv/twirp/protoc-gen-twirp@v8.1.3
 
       - name: "Clone Go Code"

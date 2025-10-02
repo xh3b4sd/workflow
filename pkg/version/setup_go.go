@@ -1,5 +1,5 @@
 package version
 
 const (
-	SetupGo = "5"
+	SetupGo = "6"
 )

@@ -7,7 +7,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: "go-build"
+name: "Go Build"
 
 on: "push"
 

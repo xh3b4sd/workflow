@@ -5,7 +5,7 @@
 #     workflow create pbfts --some argument
 #
 
-name: "pbf-ts"
+name: "Pbf Ts"
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
       - name: "Install Typescript Dependencies"
         run: |
           npm install prettier --global
-          npm install @protobuf-ts/plugin@v2.11.0 --global
+          npm install @protobuf-ts/plugin@v2.11.1 --global
 
       - name: "Clone Typescript Code"
         run: |
