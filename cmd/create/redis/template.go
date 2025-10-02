@@ -7,7 +7,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: "go-redis"
+name: "Go Redis"
 
 on: "push"
 

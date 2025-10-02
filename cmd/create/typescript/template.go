@@ -7,7 +7,7 @@ const templateTypescript = `#
 #     {{ .Command }}
 #
 
-name: "typescript"
+name: "Typescript"
 
 on: "push"
 

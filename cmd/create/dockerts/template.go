@@ -7,7 +7,7 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: "docker-ts"
+name: "Docker Ts"
 
 on: "push"
 
