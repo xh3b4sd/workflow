@@ -77,7 +77,7 @@ jobs:
           prettier -w $(find ${{ "{{" }} github.sha {{ "}}" }}/{{ .Github.Organization }}/{{ .Github.Repository }}/src/ -name "*.ts" -o -name "*.tsx")
 
       - name: "Commit And Push"
-        uses: "cpina/github-action-push-to-another-repository@v1.7.2"
+        uses: "cpina/github-action-push-to-another-repository@v1.7.3"
         env:
           SSH_DEPLOY_KEY: "${{ "{{" }} secrets.SSH_DEPLOY_KEY_{{ .Github.Repository | ToUpper }} {{ "}}" }}"
         with:
