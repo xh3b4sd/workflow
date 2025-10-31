@@ -15,6 +15,7 @@ on:
       - "**"
       - "!main"
       - "!master"
+      - "!dependabot/**"
     paths:
       - "**.proto"
   workflow_dispatch:

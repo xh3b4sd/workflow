@@ -24,7 +24,7 @@ jobs:
         uses: "actions/checkout@v5"
 
       - name: "Setup Typescript Env"
-        uses: "actions/setup-node@v4"
+        uses: "actions/setup-node@v6"
         with:
           node-version: "20.x.x"
 
@@ -75,7 +75,7 @@ jobs:
           prettier -w $(find ${{ github.sha }}/some-org/some-repo/src/ -name "*.ts" -o -name "*.tsx")
 
       - name: "Commit And Push"
-        uses: "cpina/github-action-push-to-another-repository@v1.7.2"
+        uses: "cpina/github-action-push-to-another-repository@v1.7.3"
         env:
           SSH_DEPLOY_KEY: "${{ secrets.SSH_DEPLOY_KEY_SOMEREPO }}"
         with:

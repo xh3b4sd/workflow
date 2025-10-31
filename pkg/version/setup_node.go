@@ -1,5 +1,5 @@
 package version
 
 const (
-	SetupNode = "4"
+	SetupNode = "6"
 )
