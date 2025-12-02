@@ -1,5 +1,5 @@
 package version
 
 const (
-	Checkout = "5"
+	Checkout = "6"
 )
