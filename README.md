@@ -29,9 +29,9 @@ Available Commands:
   pbflint     Create a protocol buffer workflow for schema validation.
   pbfts       Create a protocol buffer workflow for typescript code generation.
   redigo      Create a redis workflow for e.g. running conformance tests.
-  redis       Create a redis workflow for e.g. running conformance tests.
   releasego   Create a golang workflow for e.g. uploading cross compiled release assets.
   typescript  Create a typescript workflow for e.g. building and formatting typescript code.
+  valkey      Create a valkey workflow for e.g. running integration tests.
 
 Flags:
   -h, --help   help for create
