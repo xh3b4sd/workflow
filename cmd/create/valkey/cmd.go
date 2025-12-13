@@ -1,13 +1,13 @@
-package redis
+package valkey
 
 import (
 	"github.com/spf13/cobra"
 )
 
 const (
-	use = "redis"
-	sho = "Create a redis workflow for e.g. running conformance tests."
-	lon = "Create a redis workflow for e.g. running conformance tests."
+	use = "valkey"
+	sho = "Create a valkey workflow for e.g. running integration tests."
+	lon = "Create a valkey workflow for e.g. running integration tests."
 )
 
 func New() *cobra.Command {

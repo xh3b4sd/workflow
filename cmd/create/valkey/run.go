@@ -1,4 +1,4 @@
-package redis
+package valkey
 
 import (
 	"bytes"
@@ -34,7 +34,7 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 	}
 
 	{
-		p := ".github/workflows/go-redis.yaml"
+		p := ".github/workflows/go-valkey.yaml"
 
 		t, err := template.New(p).Parse(templateWorkflow)
 		if err != nil {
@@ -56,7 +56,7 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 	return nil
 }
 
-func (r *run) data() interface{} {
+func (r *run) data() any {
 	type Data struct {
 		Command string
 		Version version.Version

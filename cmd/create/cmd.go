@@ -11,9 +11,9 @@ import (
 	"github.com/xh3b4sd/workflow/cmd/create/pbflint"
 	"github.com/xh3b4sd/workflow/cmd/create/pbfts"
 	"github.com/xh3b4sd/workflow/cmd/create/redigo"
-	"github.com/xh3b4sd/workflow/cmd/create/redis"
 	"github.com/xh3b4sd/workflow/cmd/create/releasego"
 	"github.com/xh3b4sd/workflow/cmd/create/typescript"
+	"github.com/xh3b4sd/workflow/cmd/create/valkey"
 )
 
 const (
@@ -56,9 +56,9 @@ func New() *cobra.Command {
 		cmd.AddCommand(pbflint.New())
 		cmd.AddCommand(pbfts.New())
 		cmd.AddCommand(redigo.New())
-		cmd.AddCommand(redis.New())
 		cmd.AddCommand(releasego.New())
 		cmd.AddCommand(typescript.New())
+		cmd.AddCommand(valkey.New())
 	}
 
 	return cmd

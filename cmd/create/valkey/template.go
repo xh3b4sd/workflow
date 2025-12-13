@@ -1,4 +1,4 @@
-package redis
+package valkey
 
 const templateWorkflow = `#
 # Do not edit. This file was generated via the "workflow" command line tool.
@@ -7,20 +7,20 @@ const templateWorkflow = `#
 #     {{ .Command }}
 #
 
-name: "Go Redis"
+name: "Go Valkey"
 
 on: "push"
 
 jobs:
-  go-redis:
+  go-valkey:
     runs-on: "ubuntu-latest"
     container: "golang:{{ .Version.Golang }}-alpine"
 
     services:
-      redis:
-        image: "redis"
+      valkey:
+        image: "valkey/valkey:8.1"
         options: >-
-          --health-cmd "redis-cli ping"
+          --health-cmd "valkey-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -31,14 +31,13 @@ jobs:
 
       - name: "Install Race Dependency"
         run: |
-          apk add gcc
-          apk add musl-dev
+          apk add --no-cache gcc musl-dev
 
       - name: "Check Go Tests"
         env:
           CGO_ENABLED: "1"
-          REDIS_HOST: "redis"
-          REDIS_PORT: "6379"
+          VALKEY_HOST: "valkey"
+          VALKEY_PORT: "6379"
         run: |
-          go test ./... -race -tags redis
+          go test ./... -race -tags valkey
 `
