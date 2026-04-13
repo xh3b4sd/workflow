@@ -33,7 +33,7 @@ func (r *run) run(_ *cobra.Command, _ []string) error {
 			{
 				b.WriteString("*")
 				for _, r := range r.flag.Reviewers {
-					b.WriteString(fmt.Sprintf(" %s", r))
+					fmt.Fprintf(&b, " %s", r)
 				}
 				b.WriteString("\n")
 			}
