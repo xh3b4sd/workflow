@@ -34,7 +34,7 @@ jobs:
           GOOS=linux GOARCH=amd64 go build -o ${{ github.event.repository.name }}-linux-amd64 -ldflags="-X 'github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/pkg/runtime.sha=${{ github.sha }}' -X 'github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/pkg/runtime.tag=${{ github.ref_name }}'"
 
       - name: "Upload To Github"
-        uses: "softprops/action-gh-release@v2"
+        uses: "softprops/action-gh-release@v3"
         with:
           files: |
             ${{ github.event.repository.name }}-darwin-amd64
